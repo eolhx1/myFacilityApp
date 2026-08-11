@@ -1,0 +1,30 @@
+
+{
+  "categories": {
+    "styr": "Styr",
+    "ventilation": "Ventilation",
+    "vs": "VS",
+    "el": "El",
+    "gas": "Gas",
+    "tele": "Tele",
+    "bygg": "Bygg",
+    "energi": "Energi"
+  }
+}
+
+
+{
+  "calc.scaling420": {
+    "description": "Omvandlar en uppmätt 4-20mA-signal till motsvarande fysiskt värde utifrån givarens mätområde.",
+    "details": "4-20mA är en vanlig signalstandard inom fastighetsautomation och industri.",
+    "formulaName": "Skalning av 4-20mA-signal",
+    "formulaDescription": "Värde = Min + ((mA - 4) / 16) × (Max - Min)"
+  },
+
+  "calc.pband": {
+    "description": "Beräknar regulatorns P-band (Xp) utifrån regleravvikelse och utsignal.",
+    "details": "P-bandet beskriver regulatorns känslighet och används vid injustering och optimering av regulatorer.",
+    "formulaName": "Proportionellt band",
+    "formulaDescription": "Xp = % Utsignal / Δ Ärvärde"
+  }
+}
