@@ -3,27 +3,40 @@
 //
 
 // =================================================================
-// 1. IMPORTER
+// IMPORTS
 // =================================================================
-import { valid, formatResult, UNIT_MAP, KATEGORIER } from './kalkyler/hjalpmedel.js';
-import { styrKalkyler } from './kalkyler/styr.js';
-import { ventKalkyler } from './kalkyler/ventilation.js';
-import { vsKalkyler } from './kalkyler/vs.js';
-import { elKalkyler } from './kalkyler/el.js';
-import { gasKalkyler } from './kalkyler/gas.js';
-import { byggKalkyler } from './kalkyler/bygg.js';
-import { energiKalkyler } from './kalkyler/energi.js';
-import { teleKalkyler } from './kalkyler/tele.js';
 
-export const ALLA_KALKYLER = [
-    ...styrKalkyler,
-    ...ventKalkyler,
-    ...vsKalkyler,
-    ...elKalkyler,
-    ...gasKalkyler,
-    ...teleKalkyler,
-    ...byggKalkyler,
-    ...energiKalkyler
+import {
+    UNIT_MAP,
+    CATEGORIES
+} from './calculations/helpers.js';
+
+import { controlsCalculations } from './calculations/controls.js';
+import { ventilationCalculations } from './calculations/ventilation.js';
+import { plumbingCalculations } from './calculations/plumbing.js';
+import { electricalCalculations } from './calculations/electrical.js';
+import { gasCalculations } from './calculations/gas.js';
+import { buildingCalculations } from './calculations/building.js';
+import { energyCalculations } from './calculations/energy.js';
+import { telecomCalculations } from './calculations/telecom.js';
+
+// =================================================================
+// ALL CALCULATIONS
+// =================================================================
+
+export const ALL_CALCULATIONS = [
+    ...controlsCalculations,
+    ...ventilationCalculations,
+    ...plumbingCalculations,
+    ...electricalCalculations,
+    ...gasCalculations,
+    ...telecomCalculations,
+    ...buildingCalculations,
+    ...energyCalculations
 ];
 
-export { UNIT_MAP, KATEGORIER };
+// =================================================================
+// EXPORTS
+// =================================================================
+
+export { UNIT_MAP, CATEGORIES };
