@@ -1,7 +1,7 @@
 // =================================================================
 // BYGG KALKYLER
 // =================================================================
-import { valid } from './hjalpmedel.js';
+import { valid } from './utility.js';
 
 const beraknaTrappa = (v) => {
     if (!valid(v.totalhojd, v.stegdjup)) return "Fel";
