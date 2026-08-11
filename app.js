@@ -2,11 +2,14 @@
 * APP.JS - Drift Teknik
 * Huvudlogik för applikationen.
 */
+
+import { loadLanguage } from './locales.js';
+
 import {
     ALLA_KALKYLER,
     KATEGORIER,
     UNIT_MAP
-} from './kalkyler.js';
+} from './calculations.js';
 
 // ==========================================================================
 // 1. GLOBAL STATE & DOM-REFERENSER
@@ -21,7 +24,10 @@ const state = {
 // ==========================================================================
 // 2. INITIALISERING & Händelselyssnare vid start
 // ==========================================================================
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
+
+    await loadLanguage("sv");
+	
     const debouncedRunCalc = debounce((calcId) => {
         runCalc(null, calcId);
     }, 250);
