@@ -1,3 +1,7 @@
+//
+// filenamne: controls.js
+//
+
 // =================================================================
 // STYR & REGLER KALKYLER
 // =================================================================
@@ -19,6 +23,30 @@ const getTeoretisktNoll = (inMin, inMax, fysMin, fysMax) => {
 
 export const styrKalkyler = [
     {
+        id: "skalning_4_20ma",
+        namn: "Givarskalning 4-20mA",
+        kategorier: ["styr"],
+        decimaler: 2,
+        inputs: [
+            { id: "ma", label: "mA" },
+            { id: "min", label: "Min" },
+            { id: "max", label: "Max" }
+        ],
+        calc: (v) => !valid(v.ma, v.min, v.max) ? "Fyll i alla fält" : beraknaSkalning420mA(v),
+        info: {
+            beskrivning: "Omvandlar en analog strömsignal (4-20mA) till ett motsvarande fysiskt processvärde.",
+            detaljer: "Oumbärligt verktyg vid idrifttagning, injustering och felsökning i fält. Verifierar att givarens strömutgång korrelerar korrekt mot det uppmätta värdet i styrsystemet.",
+            formel: {
+                namn: "Linjär 4-20mA omvandling",
+                beskrivning: "Värde = ((mA - 4) / (20 - 4)) × (Max - Min) + Min"
+            }
+        }
+    },
+
+
+
+
+    {
         id: "styr_givar_skalning_0_10v",
         namn: "Givarskalning 0-10V",
         kategorier: ["styr"],
@@ -39,27 +67,10 @@ export const styrKalkyler = [
                 beskrivning: "Värde = (Volt / 10) * (Max - Min) + Min"
             }
         }
-    }, // <-- Kommatecken tillagt här
-    {
-        id: "skalning_4_20ma",
-        namn: "Givarskalning 4-20mA",
-        kategorier: ["styr"],
-        decimaler: 2,
-        inputs: [
-            { id: "ma", label: "mA" },
-            { id: "min", label: "Min" },
-            { id: "max", label: "Max" }
-        ],
-        calc: (v) => !valid(v.ma, v.min, v.max) ? "Fyll i alla fält" : beraknaSkalning420mA(v),
-        info: {
-            beskrivning: "Omvandlar en analog strömsignal (4-20mA) till ett motsvarande fysiskt processvärde.",
-            detaljer: "Oumbärligt verktyg vid idrifttagning, injustering och felsökning i fält. Verifierar att givarens strömutgång korrelerar korrekt mot det uppmätta värdet i styrsystemet.",
-            formel: {
-                namn: "Linjär 4-20mA omvandling",
-                beskrivning: "Värde = ((mA - 4) / (20 - 4)) × (Max - Min) + Min"
-            }
-        }
     },
+	
+
+	
     {
         id: "p_band",
         namn: "P-bandsberäkning (Xp)",
