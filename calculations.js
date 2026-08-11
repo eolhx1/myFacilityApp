@@ -9,16 +9,16 @@
 import {
     UNIT_MAP,
     CATEGORIES
-} from './calculations/helpers.js';
+} from './calculations/utility.js';
 
 import { controlsCalculations } from './calculations/controls.js';
 import { ventilationCalculations } from './calculations/ventilation.js';
 import { plumbingCalculations } from './calculations/plumbing.js';
 import { electricalCalculations } from './calculations/electrical.js';
 import { gasCalculations } from './calculations/gas.js';
+import { telecomCalculations } from './calculations/telecom.js';
 import { buildingCalculations } from './calculations/building.js';
 import { energyCalculations } from './calculations/energy.js';
-import { telecomCalculations } from './calculations/telecom.js';
 
 // =================================================================
 // ALL CALCULATIONS
