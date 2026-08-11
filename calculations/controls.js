@@ -1,0 +1,123 @@
+// =================================================================
+// STYR & REGLER KALKYLER
+// =================================================================
+import {
+    valid
+} from './hjalpmedel.js';
+
+const beraknaSkalning010V = (v) => (v.volt / 10) * (v.max - v.min) + v.min;
+
+const beraknaSkalning420mA = (v) => `Värde: ${(((v.ma - 4) / 16) * (v.max - v.min) + v.min).toFixed(2)}`;
+
+const beraknaPband = (v) => `P-band (Xp): ${(v.utgang / v.fel).toFixed(2)}`;
+
+const beraknaTidskonstant = (v) => `Tidskonstant: ${((v.volym / v.flode) * 60).toFixed(1)} minuter`;
+
+const getTeoretisktNoll = (inMin, inMax, fysMin, fysMax) => {
+    return ((0 - inMin) / (inMax - inMin)) * (fysMax - fysMin) + fysMin;
+};
+
+export const styrKalkyler = [
+    {
+        id: "styr_givar_skalning_0_10v",
+        namn: "Givarskalning 0-10V",
+        kategorier: ["styr"],
+        label: "Resultat",
+        unit: "",
+        decimaler: 2,
+        inputs: [
+            { id: "volt", label: "Uppmätt spänning (V)" },
+            { id: "min", label: "Minvärde" },
+            { id: "max", label: "Maxvärde" }
+        ],
+        calc: (v) => !valid(v.volt, v.min, v.max) ? "Fel" : beraknaSkalning010V(v),
+        info: {
+            beskrivning: "Skalar om en 0-10V styrsignal till fysiskt mätvärde.",
+            detaljer: "Används vid felsökning och injustering av styr- och reglersystem för att översätta insignaler från givare till korrekta fysiska storheter.",
+            formel: {
+                namn: "Linjär skalning",
+                beskrivning: "Värde = (Volt / 10) * (Max - Min) + Min"
+            }
+        }
+    }, // <-- Kommatecken tillagt här
+    {
+        id: "skalning_4_20ma",
+        namn: "Givarskalning 4-20mA",
+        kategorier: ["styr"],
+        decimaler: 2,
+        inputs: [
+            { id: "ma", label: "mA" },
+            { id: "min", label: "Min" },
+            { id: "max", label: "Max" }
+        ],
+        calc: (v) => !valid(v.ma, v.min, v.max) ? "Fyll i alla fält" : beraknaSkalning420mA(v),
+        info: {
+            beskrivning: "Omvandlar en analog strömsignal (4-20mA) till ett motsvarande fysiskt processvärde.",
+            detaljer: "Oumbärligt verktyg vid idrifttagning, injustering och felsökning i fält. Verifierar att givarens strömutgång korrelerar korrekt mot det uppmätta värdet i styrsystemet.",
+            formel: {
+                namn: "Linjär 4-20mA omvandling",
+                beskrivning: "Värde = ((mA - 4) / (20 - 4)) × (Max - Min) + Min"
+            }
+        }
+    },
+    {
+        id: "p_band",
+        namn: "P-bandsberäkning (Xp)",
+        kategorier: ["styr"],
+        decimaler: 2,
+        inputs: [
+            { id: "utgang", label: "% Utsignal" },
+            { id: "fel", label: "Δ Ärvärde" }
+        ],
+        calc: (v) => !valid(v.utgang, v.fel) || v.fel === 0 ? "Felaktiga värden" : beraknaPband(v),
+        info: {
+            beskrivning: "Beräknar regulatorns proportionella band (Xp) baserat på aktuell utsignal och styrfel.",
+            detaljer: "Används för att analysera eller ställa in P- och PID-regulatorers förstärkning. P-bandet definierar det avvikelseområde där styrsystemets utsignal färdas från 0% till 100%.",
+            formel: {
+                namn: "Proportionellt band",
+                beskrivning: "Xp = (% Utsignal / Δ Ärvärde)"
+            }
+        }
+    },
+    {
+        id: "tidskonstant",
+        namn: "Tidskonstant (Värme)",
+        kategorier: ["styr"],
+        decimaler: 1,
+        inputs: [
+            { id: "volym", label: "Volym (m³)" },
+            { id: "flode", label: "Flöde (m³/h)" }
+        ],
+        calc: (v) => !valid(v.volym, v.flode) || v.flode === 0 ? "Fel" : beraknaTidskonstant(v),
+        info: {
+            beskrivning: "Beräknar ett VVS-systems teoretiska tidskonstant (uppehållstid) som mått på tröghet.",
+            detaljer: "Används som en snabb tumregel inom styr och regler för att uppskatta hur snabbt ett system (t.ex. en värmeväxlare eller akkumulatortank) reagerar på förändringar.",
+            formel: {
+                namn: "Tidskonstant",
+                beskrivning: "Tid = (Volym / Flöde) × 60 [minuter]"
+            }
+        }
+    },
+    {
+        id: "plc_skalning_proffs",
+        namn: "PLC Skalningsverktyg",
+        kategorier: ["styr"],
+        decimaler: 2,
+        inputs: [
+            { id: "givar_min_ma", label: "In Min (mA)" },
+            { id: "givar_max_ma", label: "In Max (mA)" },
+            { id: "fys_min", label: "Fys Min" },
+            { id: "fys_max", label: "Fys Max" }
+        ],
+        calc: (v) => !valid(v.givar_min_ma, v.givar_max_ma, v.fys_min, v.fys_max) ? "Fyll i fält" :
+        `PLC KONFIGURATION:\nIn: ${v.givar_min_ma}-${v.givar_max_ma}mA\nUt: ${v.fys_min}-${v.fys_max}\n\nDIAGNOS VID 0mA:\nPLC visar: ${getTeoretisktNoll(v.givar_min_ma, v.givar_max_ma, v.fys_min, v.fys_max).toFixed(2)}`,
+        info: {
+            beskrivning: "Avancerat konfigurations- och beräkningsverktyg för PLC-arkitekter och automationsingenjörer.",
+            detaljer: "Mappar givarens konfigurerade mätområde mot fysiska enheter samt förbereder larmdiagnos. Beräknar direkt vilket teoretiskt värde styrsystemet läser av vid ett eventuellt kabelbrott (0mA).",
+            formel: {
+                namn: "Teoretiskt nollvärde (vid 0mA)",
+                beskrivning: "Värde = ((0 - In_Min) / (In_Max - In_Min)) × (Fys_Max - Fys_Min) + Fys_Min"
+            }
+        }
+    }
+];
