@@ -1,9 +1,13 @@
+//
+// filenamne: ./calculations/energy.js
+//
+
 // =================================================================
 // ENERGI KALKYLER
 // =================================================================
 import { valid } from './config.js';
 
-const beraknaTransmissionsforlust = (v) => {
+const calculateTransmissionHeatLoss = (v) => {
     if (!valid(v.u_varde, v.area, v.inne_temp, v.ute_temp)) return "Fel";
     const deltaT = v.inne_temp - v.ute_temp;
     const effekt_W = v.u_varde * v.area * deltaT;
@@ -13,14 +17,14 @@ const beraknaTransmissionsforlust = (v) => {
            `Vilket motsvarar: ${effekt_kW.toFixed(2)} kW`;
 };
 
-const beraknaCOP = (v) => {
+const calculateCOP = (v) => {
     if (!valid(v.avgiven_effekt, v.tillford_eleffekt) || v.tillford_eleffekt === 0) return "Fel";
     const cop = v.avgiven_effekt / v.tillford_eleffekt;
     return `Värmefaktor (COP): ${cop.toFixed(2)}\n` +
            `Snabbkoll: För varje kW el får du ut ${cop.toFixed(1)} kW värme.`;
 };
 
-const beraknaEER = (v) => {
+const calculateEER = (v) => {
     if (!valid(v.kyleffekt, v.tillford_eleffekt) || v.tillford_eleffekt === 0) return "Fel";
     const eer = v.kyleffekt / v.tillford_eleffekt;
     return `Kylfaktor (EER): ${eer.toFixed(2)}\n` +
@@ -29,7 +33,7 @@ const beraknaEER = (v) => {
 
 export const energyCalculations = [
     {
-        id: "energi_transmission",
+        id: "transmission_heat_loss",
         name: "Värmeförlust (Transmissionsförlust)",
         categories: ["energi"],
         decimaler: 0,
@@ -39,15 +43,15 @@ export const energyCalculations = [
             { id: "inne_temp", label: "Innetemperatur [°C]" },
             { id: "ute_temp", label: "Utetemperatur (t.ex. DUT) [°C]" }
         ],
-        calc: beraknaTransmissionsforlust,
+        calc: calculateTransmissionHeatLoss,
         info: {
             description: "Beräknar värmeeffekt som läcker ut genom byggnadsdelar.",
             details: "Används för att uppskatta transmissionsförluster genom väggar, tak och fönster baserat på materialets U-värde, ytarea och temperaturskillnad.",
-            formula: { name: "Transmissionsförlust", beskrivning: "P = U × A × ΔT" }
+            formula: { name: "Transmissionsförlust", description: "P = U × A × ΔT" }
         }
     },
     {
-        id: "energi_cop",
+        id: "heat_pump_cop",
         name: "Värmepumpens Verkningsgrad (COP)",
         categories: ["energi"],
         decimaler: 2,
@@ -55,15 +59,15 @@ export const energyCalculations = [
             { id: "avgiven_effekt", label: "Avgiven värmeeffekt [kW]" },
             { id: "tillford_eleffekt", label: "Tillförd eleffekt [kW]" }
         ],
-        calc: beraknaCOP,
+        calc: calculateCOP,
         info: {
             description: "Beräknar värmepumpens aktuella verkningsgrad (COP).",
             details: "Visar förhållandet mellan producerad värmeenergi och tillförd elektrisk energi under driftförhållanden.",
-            formula: { name: "COP", beskrivning: "COP = Avgiven värmeeffekt / Tillförd eleffekt" }
+            formula: { name: "COP", description: "COP = Avgiven värmeeffekt / Tillförd eleffekt" }
         }
     },
     {
-        id: "energi_eer",
+        id: "cooling_eer",
         name: "Kylmaskinens Verkningsgrad (EER)",
         categories: ["energi"],
         decimaler: 2,
@@ -71,11 +75,11 @@ export const energyCalculations = [
             { id: "kyleffekt", label: "Avgiven kyleffekt [kW]" },
             { id: "tillford_eleffekt", label: "Tillförd eleffekt [kW]" }
         ],
-        calc: beraknaEER,
+        calc: calculateEER,
         info: {
             description: "Beräknar kylmaskinens aktuella verkningsgrad (EER).",
             details: "Visar effektiviteten för kylanläggningar genom att ställa levererad kyleffekt i relation till tillförd driftel.",
-            formula: { name: "EER", beskrivning: "EER = Avgiven kyleffekt / Tillförd eleffekt" }
+            formula: { name: "EER", description: "EER = Avgiven kyleffekt / Tillförd eleffekt" }
         }
     }
 ];
