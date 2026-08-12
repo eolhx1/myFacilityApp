@@ -2,7 +2,7 @@
 // Fil: kalkyler/vs.js
 // =================================================================
 
-import { valid, formatResult } from './utility.js';
+import { valid, formatResult } from './config.js';
 
 // --- Beräkningsfunktioner (VS & Värme) ---
 const beraknaVsFlode = (v) => {

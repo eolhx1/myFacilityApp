@@ -1,7 +1,7 @@
 // =================================================================
 // TELE & DATA KALKYLER
 // =================================================================
-import { valid } from './utility.js';
+import { valid } from './config.js';
 
 const beraknaFiberDampning = (v) => {
     if (!valid(v.langd_km, v.antal_svetsar, v.antal_kontakter)) return "Fel";

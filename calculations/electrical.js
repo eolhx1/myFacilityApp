@@ -1,7 +1,7 @@
 // =================================================================
 // EL KALKYLER
 // =================================================================
-import { valid } from './utility.js';
+import { valid } from './config.js';
 
 const beraknaOhmsLag = (v) => {
     if (!valid(v.varde1, v.varde2)) return "Fel";

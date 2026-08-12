@@ -1,7 +1,7 @@
 // =================================================================
 // ENERGI KALKYLER
 // =================================================================
-import { valid } from './utility.js';
+import { valid } from './config.js';
 
 const beraknaTransmissionsforlust = (v) => {
     if (!valid(v.u_varde, v.area, v.inne_temp, v.ute_temp)) return "Fel";

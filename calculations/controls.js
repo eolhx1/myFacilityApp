@@ -7,7 +7,7 @@
 // =================================================================
 import {
     valid
-} from './utility.js';
+} from './config.js';
 
 const beraknaSkalning010V = (v) => (v.volt / 10) * (v.max - v.min) + v.min;
 

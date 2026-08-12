@@ -1,7 +1,7 @@
 // =================================================================
 // GAS KALKYLER
 // =================================================================
-import { valid } from './utility.js';
+import { valid } from './config.js';
 
 const beraknaAnvandningstidGas = (v) => {
     if (!valid(v.volym, v.tryck, v.flode) || v.flode === 0) return "Fel";
