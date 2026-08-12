@@ -1,4 +1,6 @@
-// Fil: js/utils.js
+//
+// Fil: ./calculations/utils.js
+//
 
 export const valid = (...values) => values.every(v => v !== undefined && v !== null && !isNaN(v) && v !== '');
 export const toM3h = (val, unit) => (unit === "ls" ? val * 3.6 : val);
