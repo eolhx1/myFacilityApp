@@ -10,23 +10,37 @@ let translations = {
 
 export async function loadLanguage(lang = "sv") {
     try {
-        const [common, calculations, info] = await Promise.all([
-            fetch(`./locales/${lang}/common.json`).then(r => r.json()),
-            fetch(`./locales/${lang}/calculations.json`).then(r => r.json()),
-            fetch(`./locales/${lang}/info.json`).then(r => r.json())
-        ]);
 
-        translations.common = common;
-        translations.calculations = calculations;
-        translations.info = info;
+        const commonResponse =
+            await fetch(`./locales/${lang}/common.json`);
+
+        const calculationsResponse =
+            await fetch(`./locales/${lang}/calculations.json`);
+
+        const infoResponse =
+            await fetch(`./locales/${lang}/info.json`);
+
+        const commonText = await commonResponse.text();
+        const calculationsText = await calculationsResponse.text();
+        const infoText = await infoResponse.text();
+
+        console.log("COMMON:");
+        console.log(commonText);
+
+        console.log("CALCULATIONS:");
+        console.log(calculationsText);
+
+        console.log("INFO:");
+        console.log(infoText);
+
+        translations.common = JSON.parse(commonText);
+        translations.calculations = JSON.parse(calculationsText);
+        translations.info = JSON.parse(infoText);
 
         return true;
+
     } catch (error) {
-        console.error("Kunde inte ladda språkfiler:", error);
+        console.error(error);
         return false;
     }
-}
-
-export function getTranslations() {
-    return translations;
 }
