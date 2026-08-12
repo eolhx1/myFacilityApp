@@ -1,13 +1,14 @@
-/**
-* APP.JS - Drift Teknik
-* Huvudlogik för applikationen.
-*/
+//
+// filename: ./app.js
+//
+// Huvudlogik för applikationen.
+//
 
 import { loadLanguage } from './locales.js';
 
 import {
-    ALLA_KALKYLER,
-    KATEGORIER,
+    ALL_CALCULATIONS,
+    CATEGORIES,
     UNIT_MAP
 } from './calculations.js';
 
@@ -93,7 +94,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         if (id === "backBtn") {
             const targetCategory = event.target.dataset.category;
-            if (targetCategory && targetCategory !== "undefined" && KATEGORIER[targetCategory]) {
+            if (targetCategory && targetCategory !== "undefined" && CATEGORIES[targetCategory]) {
                 state.container.innerHTML = "";
                 state.mainNav.classList.add("hidden");
                 state.subNav.classList.remove("hidden");
@@ -248,7 +249,7 @@ function showMainMenu() {
     state.subNav.classList.remove("hidden");
     state.mainNav.innerHTML = "";
 
-    Object.entries(KATEGORIER).forEach(([key, cat]) => {
+    Object.entries(CATEGORIES).forEach(([key, cat]) => {
         const isObject = typeof cat === 'object';
         const displayName = isObject ? `${cat.ikon} ${cat.namn}` : cat;
         const btn = createButton(displayName, "nav-btn", () => showSubMenu(key));
@@ -282,8 +283,8 @@ function showSubMenu(categoryKey) {
         return;
     }
 
-    const catData = KATEGORIER[categoryKey] || {};
-    const categoryName = catData.namn || (categoryKey === "recent" ? "Senaste" : "Kategorier");
+    const catData = CATEGORIES[categoryKey] || {};
+    const categoryName = catData.namn || (categoryKey === "recent" ? "Senaste" : "CATEGORIES");
     const categoryIcon = catData.ikon || "";
 
     // 1. Bygg header med sökfält och rubrik
@@ -315,7 +316,7 @@ function showSubMenu(categoryKey) {
     if (list) {
         kalkylerAttVisa = list.map(calcId => findCalc(calcId)).filter(Boolean);
     } else {
-        kalkylerAttVisa = ALLA_KALKYLER.filter(c => c.kategorier.includes(categoryKey));
+        kalkylerAttVisa = ALL_CALCULATIONS.filter(c => c.CATEGORIES.includes(categoryKey));
     }
 
     // Container för själva kalkylkorten
@@ -617,7 +618,7 @@ function renderCalc(category, calcId) {
     const calc = findCalc(calcId);
     if (!calc) return;
 
-    const catData = KATEGORIER[category];
+    const catData = CATEGORIES[category];
     const categoryName = (typeof catData === 'object') ? catData.namn : (catData || "Kalkyl");
     const savedData = JSON.parse(localStorage.getItem(`calc_${calcId}`) || "{}");
 
@@ -776,7 +777,7 @@ function createButton(text, className, onClick) {
     return btn;
 }
 
-function findCalc(calcId) { return ALLA_KALKYLER.find(c => c.id === calcId); }
+function findCalc(calcId) { return ALL_CALCULATIONS.find(c => c.id === calcId); }
 function getFavorites() { return [...new Set(JSON.parse(localStorage.getItem("favorites") || "[]"))]; }
 function isFavorite(calcId) { return getFavorites().includes(calcId); }
 
@@ -891,7 +892,7 @@ function showSearchModal() {
         if (!query) return;
 
         const searchWords = query.split(/\s+/);
-        const matches = ALLA_KALKYLER.filter(calc => {
+        const matches = ALL_CALCULATIONS.filter(calc => {
             let searchableText = calc.namn.toLowerCase();
             if (calc.info && typeof calc.info === 'object') {
                 if (calc.info.beskrivning) searchableText += " " + calc.info.beskrivning.toLowerCase();
@@ -901,7 +902,7 @@ function showSearchModal() {
 
         matches.forEach(calc => {
             const btn = createButton(calc.namn, "sub-btn", () => {
-                renderCalc(calc.kategorier[0], calc.id);
+                renderCalc(calc.CATEGORIES[0], calc.id);
             });
             resultsContainer.appendChild(btn);
         });
