@@ -9,21 +9,21 @@ import {
     valid
 } from './config.js';
 
-const beraknaSkalning010V = (v) => (v.volt / 10) * (v.max - v.min) + v.min;
+const calculateProcessValueFromVoltage = (v) => (v.volt / 10) * (v.max - v.min) + v.min;
 
-const beraknaSkalning420mA = (v) => `Värde: ${(((v.ma - 4) / 16) * (v.max - v.min) + v.min).toFixed(2)}`;
+const calculateProcessValueFromCurrent = (v) => `Värde: ${(((v.ma - 4) / 16) * (v.max - v.min) + v.min).toFixed(2)}`;
 
-const beraknaPband = (v) => `P-band (Xp): ${(v.utgang / v.fel).toFixed(2)}`;
+const calculateProportionalBand = (v) => `P-band (Xp): ${(v.utgang / v.fel).toFixed(2)}`;
 
-const beraknaTidskonstant = (v) => `Tidskonstant: ${((v.volym / v.flode) * 60).toFixed(1)} minuter`;
+const calculateSystemTimeConstant = (v) => `Tidskonstant: ${((v.volym / v.flode) * 60).toFixed(1)} minuter`;
 
-const getTeoretisktNoll = (inMin, inMax, fysMin, fysMax) => {
+const calculateTheoreticalZeroValue = (inMin, inMax, fysMin, fysMax) => {
     return ((0 - inMin) / (inMax - inMin)) * (fysMax - fysMin) + fysMin;
 };
 
 export const controlsCalculations = [
     {
-        id: "skalning_4_20ma",
+        id: "current_to_process_value",
         name: "Givarskalning 4-20mA",
         categories: ["styr"],
         decimaler: 2,
@@ -47,7 +47,7 @@ export const controlsCalculations = [
 
 
     {
-        id: "styr_givar_skalning_0_10v",
+        id: "voltage_to_process_value",
         name: "Givarskalning 0-10V",
         categories: ["styr"],
         label: "Resultat",
@@ -72,7 +72,7 @@ export const controlsCalculations = [
 
 	
     {
-        id: "p_band",
+        id: "proportional_band",
         name: "P-bandsberäkning (Xp)",
         categories: ["styr"],
         decimaler: 2,
@@ -91,7 +91,7 @@ export const controlsCalculations = [
         }
     },
     {
-        id: "tidskonstant",
+        id: "system_time_constant",
         name: "Tidskonstant (Värme)",
         categories: ["styr"],
         decimaler: 1,
@@ -110,7 +110,7 @@ export const controlsCalculations = [
         }
     },
     {
-        id: "plc_skalning_proffs",
+        id: "plc_signal_scaling",
         name: "PLC Skalningsverktyg",
         categories: ["styr"],
         decimaler: 2,
