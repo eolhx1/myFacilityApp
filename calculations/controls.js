@@ -34,11 +34,11 @@ export const controlsCalculations = [
         ],
         calc: (v) => !valid(v.ma, v.min, v.max) ? "Fyll i alla fält" : beraknaSkalning420mA(v),
         info: {
-            beskrivning: "Omvandlar en analog strömsignal (4-20mA) till ett motsvarande fysiskt processvärde.",
+            description: "Omvandlar en analog strömsignal (4-20mA) till ett motsvarande fysiskt processvärde.",
             detaljer: "Oumbärligt verktyg vid idrifttagning, injustering och felsökning i fält. Verifierar att givarens strömutgång korrelerar korrekt mot det uppmätta värdet i styrsystemet.",
             formel: {
                 name: "Linjär 4-20mA omvandling",
-                beskrivning: "Värde = ((mA - 4) / (20 - 4)) × (Max - Min) + Min"
+                description: "Värde = ((mA - 4) / (20 - 4)) × (Max - Min) + Min"
             }
         }
     },
@@ -60,11 +60,11 @@ export const controlsCalculations = [
         ],
         calc: (v) => !valid(v.volt, v.min, v.max) ? "Fel" : beraknaSkalning010V(v),
         info: {
-            beskrivning: "Skalar om en 0-10V styrsignal till fysiskt mätvärde.",
+            description: "Skalar om en 0-10V styrsignal till fysiskt mätvärde.",
             detaljer: "Används vid felsökning och injustering av styr- och reglersystem för att översätta insignaler från givare till korrekta fysiska storheter.",
             formel: {
                 name: "Linjär skalning",
-                beskrivning: "Värde = (Volt / 10) * (Max - Min) + Min"
+                description: "Värde = (Volt / 10) * (Max - Min) + Min"
             }
         }
     },
@@ -82,11 +82,11 @@ export const controlsCalculations = [
         ],
         calc: (v) => !valid(v.utgang, v.fel) || v.fel === 0 ? "Felaktiga värden" : beraknaPband(v),
         info: {
-            beskrivning: "Beräknar regulatorns proportionella band (Xp) baserat på aktuell utsignal och styrfel.",
+            description: "Beräknar regulatorns proportionella band (Xp) baserat på aktuell utsignal och styrfel.",
             detaljer: "Används för att analysera eller ställa in P- och PID-regulatorers förstärkning. P-bandet definierar det avvikelseområde där styrsystemets utsignal färdas från 0% till 100%.",
             formel: {
                 name: "Proportionellt band",
-                beskrivning: "Xp = (% Utsignal / Δ Ärvärde)"
+                description: "Xp = (% Utsignal / Δ Ärvärde)"
             }
         }
     },
@@ -101,11 +101,11 @@ export const controlsCalculations = [
         ],
         calc: (v) => !valid(v.volym, v.flode) || v.flode === 0 ? "Fel" : beraknaTidskonstant(v),
         info: {
-            beskrivning: "Beräknar ett VVS-systems teoretiska tidskonstant (uppehållstid) som mått på tröghet.",
+            description: "Beräknar ett VVS-systems teoretiska tidskonstant (uppehållstid) som mått på tröghet.",
             detaljer: "Används som en snabb tumregel inom styr och regler för att uppskatta hur snabbt ett system (t.ex. en värmeväxlare eller akkumulatortank) reagerar på förändringar.",
             formel: {
                 name: "Tidskonstant",
-                beskrivning: "Tid = (Volym / Flöde) × 60 [minuter]"
+                description: "Tid = (Volym / Flöde) × 60 [minuter]"
             }
         }
     },
@@ -123,11 +123,11 @@ export const controlsCalculations = [
         calc: (v) => !valid(v.givar_min_ma, v.givar_max_ma, v.fys_min, v.fys_max) ? "Fyll i fält" :
         `PLC KONFIGURATION:\nIn: ${v.givar_min_ma}-${v.givar_max_ma}mA\nUt: ${v.fys_min}-${v.fys_max}\n\nDIAGNOS VID 0mA:\nPLC visar: ${getTeoretisktNoll(v.givar_min_ma, v.givar_max_ma, v.fys_min, v.fys_max).toFixed(2)}`,
         info: {
-            beskrivning: "Avancerat konfigurations- och beräkningsverktyg för PLC-arkitekter och automationsingenjörer.",
+            description: "Avancerat konfigurations- och beräkningsverktyg för PLC-arkitekter och automationsingenjörer.",
             detaljer: "Mappar givarens konfigurerade mätområde mot fysiska enheter samt förbereder larmdiagnos. Beräknar direkt vilket teoretiskt värde styrsystemet läser av vid ett eventuellt kabelbrott (0mA).",
             formel: {
                 name: "Teoretiskt nollvärde (vid 0mA)",
-                beskrivning: "Värde = ((0 - In_Min) / (In_Max - In_Min)) × (Fys_Max - Fys_Min) + Fys_Min"
+                description: "Värde = ((0 - In_Min) / (In_Max - In_Min)) × (Fys_Max - Fys_Min) + Fys_Min"
             }
         }
     }

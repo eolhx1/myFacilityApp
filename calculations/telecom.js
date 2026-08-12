@@ -51,7 +51,7 @@ export const telecomCalculations = [
         ],
         calc: beraknaFiberDampning,
         info: {
-            beskrivning: "Beräknar maximalt tillåten dämpning för en fiberlänk.",
+            description: "Beräknar maximalt tillåten dämpning för en fiberlänk.",
             detaljer: "Används för att säkerställa att optiska länkar klarar dämpningskraven baserat på standardvärden för fiberkablar, svetsar och anslutningskontakter.",
             formel: { name: "Loss Budget", beskrivning: "Totalt = (Längd × 0.4) + (Svetsar × 0.05) + (Kontakter × 0.5)" }
         }
@@ -67,7 +67,7 @@ export const telecomCalculations = [
         ],
         calc: beraknaPoE,
         info: {
-            beskrivning: "Kollar spänning och kabellängd för PoE-matade nätverksenheter.",
+            description: "Kollar spänning och kabellängd för PoE-matade nätverksenheter.",
             detaljer: "Beräknar spänningsfallet i kopparkabeln (AWG24) för att säkerställa att spänningen framme vid enheten (t.ex. IP-kamera eller accesspunkt) inte understiger kritiska nivåer.",
             formel: { name: "Spänningsfall i tråd", beskrivning: "U_fall = R × (P / U_ut)" }
         }

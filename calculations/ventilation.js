@@ -80,7 +80,7 @@ export const ventilationCalculations = [
         ],
         calc: beraknaOmsattning,
         info: {
-            beskrivning: "Beräknar hur många gånger per timme rumsvolymen byts ut.",
+            description: "Beräknar hur många gånger per timme rumsvolymen byts ut.",
             detaljer: "Används för att kontrollera att ett rum eller utrymme uppfyller gällande krav på luftväxling per timme."
         }
     },
@@ -97,7 +97,7 @@ export const ventilationCalculations = [
         ],
         calc: (v) => !valid(v.flode, v.tRum, v.tTill) ? "Fel" : beraknaKyleffekt(v),
         info: {
-            beskrivning: "Beräknar tilluftsventilationens kyleffekt baserat på flöde och ΔT.",
+            description: "Beräknar tilluftsventilationens kyleffekt baserat på flöde och ΔT.",
             detaljer: "Visar hur mycket kyla som tillförs lokalen via tilluften vid en viss temperaturskillnad mellan rum och tilluft."
         }
     },
@@ -113,7 +113,7 @@ export const ventilationCalculations = [
         ],
         calc: beraknaFlodeKontinuitet,
         info: {
-            beskrivning: "Beräknar luftflöde utifrån lufthastighet och kanalarea.",
+            description: "Beräknar luftflöde utifrån lufthastighet och kanalarea.",
             detaljer: "Används vid injustering och flödesmätningar i kanaler baserat på kontinuitetsekvationen (Flöde = Hastighet × Area)."
         }
     },
@@ -129,7 +129,7 @@ export const ventilationCalculations = [
         ],
         calc: beraknaKfaktor,
         info: {
-            beskrivning: "Beräknar luftflöde genom don med känd K-faktor och mätt tryck.",
+            description: "Beräknar luftflöde genom don med känd K-faktor och mätt tryck.",
             detaljer: "Standardberäkning vid mätning på mätuttag i ventilationsdon.",
             formel: { name: "K-faktor", beskrivning: "Flöde = K × √Δp" }
         }
@@ -151,7 +151,7 @@ export const ventilationCalculations = [
             return mattLs / projLs;
         },
         info: {
-            beskrivning: "Beräknar injusteringskvot för ventilationsgrenar.",
+            description: "Beräknar injusteringskvot för ventilationsgrenar.",
             detaljer: "Används vid injustering av ventilationssystem för att beräkna flödesförhållanden mellan uppmätta och projekterade värden."
         }
     },
@@ -167,7 +167,7 @@ export const ventilationCalculations = [
         ],
         calc: beraknaSFP,
         info: {
-            beskrivning: "Beräknar fläktarnas specifika energianvändning (SFP-tal).",
+            description: "Beräknar fläktarnas specifika energianvändning (SFP-tal).",
             detaljer: "Visar hur mycket eleffekt fläktarna kräver per flödesenhet, vilket är en viktig energiparameter vid OVK och dimensionering.",
             formel: { name: "SFP", beskrivning: "SFP = P_tot / Flöde (m³/s)" }
         }
@@ -186,7 +186,7 @@ export const ventilationCalculations = [
         ],
         calc: beraknaFlaktAffinitet,
         info: {
-            beskrivning: "Beräknar nytt flöde, tryck och effekt vid ändrat varvtal för fläktar.",
+            description: "Beräknar nytt flöde, tryck och effekt vid ändrat varvtal för fläktar.",
             detaljer: "Baserat på fläktarnas affinitetslagar vid varvtalsändring (t.ex. via frekvensomriktare).",
             formel: { name: "Affinitetslagarna", beskrivning: "Q2 = Q1×(n2/n1), p2 = p1×(n2/n1)², P2 = P1×(n2/n1)³" }
         }
@@ -203,7 +203,7 @@ export const ventilationCalculations = [
         ],
         calc: beraknaEkvivalentDiameter,
         info: {
-            beskrivning: "Beräknar hydraulisk/ekvivalent diameter för rektangulära kanaler.",
+            description: "Beräknar hydraulisk/ekvivalent diameter för rektangulära kanaler.",
             detaljer: "Används för att omvandla rektangulära kanaldimensioner till motsvarande cirkulär diameter vid tryckfallsberäkningar."
         }
     },
@@ -219,7 +219,7 @@ export const ventilationCalculations = [
         ],
         calc: beraknaGallerFlode,
         info: {
-            beskrivning: "Beräknar flöde genom don/galler baserat på mätt hastighet och area.",
+            description: "Beräknar flöde genom don/galler baserat på mätt hastighet och area.",
             detaljer: "Används vid mätning med mätvinge eller tratt direkt mot donets effektiva area."
         }
     },
@@ -236,7 +236,7 @@ export const ventilationCalculations = [
         ],
         calc: beraknaTemperaturverkningsgrad,
         info: {
-            beskrivning: "Beräknar värmeväxlarens temperaturverkningsgrad.",
+            description: "Beräknar värmeväxlarens temperaturverkningsgrad.",
             detaljer: "Visar hur effektivt värmeåtervinningsaggregatet överför värme från frånluften till uteluften.",
             formel: { name: "Verkningsgrad", beskrivning: "η = (t_till - t_ute) / (t_från - t_ute)" }
         }
@@ -256,7 +256,7 @@ export const ventilationCalculations = [
         ],
         calc: beraknaBlandningstemperatur,
         info: {
-            beskrivning: "Beräknar sluttemperatur vid blandning av uteluft och återluft.",
+            description: "Beräknar sluttemperatur vid blandning av uteluft och återluft.",
             detaljer: "Används i ventilationssammanhang för att beräkna temperaturen efter spjäll eller återluftskammare."
         }
     }

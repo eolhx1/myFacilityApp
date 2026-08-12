@@ -101,7 +101,7 @@ export const plumbingCalculations = [
         ],
         calc: beraknaVsFlode,
         info: {
-            beskrivning: "Beräknar erforderligt vattenflöde för en given radiatoreffekt.",
+            description: "Beräknar erforderligt vattenflöde för en given radiatoreffekt.",
             detaljer: "Används för att bestämma det flöde i l/h eller l/s som krävs för att avge en specifik effekt vid vald temperaturskillnad (ΔT). Bygger på vattnets specifika värmekapacitet."
         }
     },
