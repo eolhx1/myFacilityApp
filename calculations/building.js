@@ -27,7 +27,7 @@ Blondels mått (2H + B): ${blondelMått.toFixed(0)} mm
 Status: ${komfort}`;
 };
 
-export const byggKalkyler = [{
+export const buildingCalculations = [{
     id: "bygg_trappa",
     namn: "Trappberäkning (Stigning & Steg)",
     kategorier: ["bygg"],

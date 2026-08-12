@@ -88,7 +88,7 @@ const beraknaKoldbarareEffekt = (v) => {
 };
 
 // --- Kalkyl-array (VS) ---
-export const vsKalkyler = [
+export const plumbingCalculations = [
     {
         id: "vs_effekt_flode",
         namn: "Radiatorflöde & Effekt (VS)",

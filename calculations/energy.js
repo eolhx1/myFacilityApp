@@ -27,7 +27,7 @@ const beraknaEER = (v) => {
            `Snabbkoll: För varje kW el får ut ${eer.toFixed(1)} kW kyla.`;
 };
 
-export const energiKalkyler = [
+export const energyCalculations = [
     {
         id: "energi_transmission",
         namn: "Värmeförlust (Transmissionsförlust)",

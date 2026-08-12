@@ -21,7 +21,7 @@ const getTeoretisktNoll = (inMin, inMax, fysMin, fysMax) => {
     return ((0 - inMin) / (inMax - inMin)) * (fysMax - fysMin) + fysMin;
 };
 
-export const styrKalkyler = [
+export const controlsCalculations = [
     {
         id: "skalning_4_20ma",
         namn: "Givarskalning 4-20mA",

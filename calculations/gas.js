@@ -8,7 +8,7 @@ const beraknaAnvandningstidGas = (v) => {
     return (v.volym * v.tryck) / (v.flode * 60);
 };
 
-export const gasKalkyler = [{
+export const gasCalculations = [{
     id: "gas_anvandningstid",
     namn: "Användningstid gasflaska",
     kategorier: ["gas"],

@@ -11,7 +11,7 @@ const beraknaOhmsLag = (v) => {
     return "Fel";
 };
 
-export const elKalkyler = [{
+export const electricalCalculations = [{
     id: "el_ohms_lag",
     namn: "Ohms lag",
     kategorier: ["el", "tele"],

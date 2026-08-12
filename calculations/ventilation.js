@@ -66,7 +66,7 @@ const beraknaBlandningstemperatur = (v) => {
     return ((v.q_ute * v.t_ute) + (v.q_ater * v.t_ater)) / v.q_total;
 };
 
-export const ventKalkyler = [
+export const ventilationCalculations = [
     {
         id: "vent_luft_omsattning",
         namn: "Luftomsättning",

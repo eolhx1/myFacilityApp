@@ -38,7 +38,7 @@ const beraknaPoE = (v) => {
            `Status: ${status}`;
 };
 
-export const teleKalkyler = [
+export const telecomCalculations = [
     {
         id: "tele_fiber_dampning",
         namn: "Dämpningsbudget Fiberlänk",
