@@ -24,6 +24,6 @@ export const electricalCalculations = [{
     calc: beraknaOhmsLag,
     info: {
         description: "Räknar ut spänning, ström eller resistans med Ohms lag.",
-        detaljer: "Grundläggande el-beräkning för att snabbt ta reda på saknade värden i en elektrisk krets."
+        details: "Grundläggande el-beräkning för att snabbt ta reda på saknade värden i en elektrisk krets."
     }
 }];

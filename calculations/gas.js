@@ -21,6 +21,6 @@ export const gasCalculations = [{
     calc: beraknaAnvandningstidGas,
     info: {
         description: "Beräknar uppskattad räcker-tid för en gasflaska vid givet uttag.",
-        detaljer: "Används för att beräkna hur länge en gasol- eller gasflaska räcker baserat på flaskans vattenvolym, aktuellt tryck och det uttagna flödet."
+        details: "Används för att beräkna hur länge en gasol- eller gasflaska räcker baserat på flaskans vattenvolym, aktuellt tryck och det uttagna flödet."
     }
 }];

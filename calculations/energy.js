@@ -42,7 +42,7 @@ export const energyCalculations = [
         calc: beraknaTransmissionsforlust,
         info: {
             description: "Beräknar värmeeffekt som läcker ut genom byggnadsdelar.",
-            detaljer: "Används för att uppskatta transmissionsförluster genom väggar, tak och fönster baserat på materialets U-värde, ytarea och temperaturskillnad.",
+            details: "Används för att uppskatta transmissionsförluster genom väggar, tak och fönster baserat på materialets U-värde, ytarea och temperaturskillnad.",
             formula: { name: "Transmissionsförlust", beskrivning: "P = U × A × ΔT" }
         }
     },
@@ -58,7 +58,7 @@ export const energyCalculations = [
         calc: beraknaCOP,
         info: {
             description: "Beräknar värmepumpens aktuella verkningsgrad (COP).",
-            detaljer: "Visar förhållandet mellan producerad värmeenergi och tillförd elektrisk energi under driftförhållanden.",
+            details: "Visar förhållandet mellan producerad värmeenergi och tillförd elektrisk energi under driftförhållanden.",
             formula: { name: "COP", beskrivning: "COP = Avgiven värmeeffekt / Tillförd eleffekt" }
         }
     },
@@ -74,7 +74,7 @@ export const energyCalculations = [
         calc: beraknaEER,
         info: {
             description: "Beräknar kylmaskinens aktuella verkningsgrad (EER).",
-            detaljer: "Visar effektiviteten för kylanläggningar genom att ställa levererad kyleffekt i relation till tillförd driftel.",
+            details: "Visar effektiviteten för kylanläggningar genom att ställa levererad kyleffekt i relation till tillförd driftel.",
             formula: { name: "EER", beskrivning: "EER = Avgiven kyleffekt / Tillförd eleffekt" }
         }
     }

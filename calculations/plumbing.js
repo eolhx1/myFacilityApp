@@ -102,7 +102,7 @@ export const plumbingCalculations = [
         calc: beraknaVsFlode,
         info: {
             description: "Beräknar erforderligt vattenflöde för en given radiatoreffekt.",
-            detaljer: "Används för att bestämma det flöde i l/h eller l/s som krävs för att avge en specifik effekt vid vald temperaturskillnad (ΔT). Bygger på vattnets specifika värmekapacitet."
+            details: "Används för att bestämma det flöde i l/h eller l/s som krävs för att avge en specifik effekt vid vald temperaturskillnad (ΔT). Bygger på vattnets specifika värmekapacitet."
         }
     },
     {
@@ -117,8 +117,8 @@ export const plumbingCalculations = [
         ],
         calc: beraknaKvVarde,
         info: {
-            beskrivning: "Beräknar ventilens K<sub>v</sub>-värde för flödesinställning.",
-            detaljer: "K<sub>v</sub>-värdet definieras som det flöde i m³/h som passerar ventilen vid ett tryckfall på 1 bar. Viktigt verktyg vid injustering av stam- och radiatordon."
+            description: "Beräknar ventilens K<sub>v</sub>-värde för flödesinställning.",
+            details: "K<sub>v</sub>-värdet definieras som det flöde i m³/h som passerar ventilen vid ett tryckfall på 1 bar. Viktigt verktyg vid injustering av stam- och radiatordon."
         }
     },
     {
@@ -135,8 +135,8 @@ export const plumbingCalculations = [
         ],
         calc: beraknaNyRadiatoreffekt,
         info: {
-            beskrivning: "Beräknar förändrad radiatoreffekt vid sänkt framledningstemperatur.",
-            detaljer: "Hjälper till att utreda om befintliga radiatorer klarar att hålla värmen vid övergång till lågtemperatursystem (t.ex. konvertering från direktverkande el eller olja till värmepump)."
+            description: "Beräknar förändrad radiatoreffekt vid sänkt framledningstemperatur.",
+            details: "Hjälper till att utreda om befintliga radiatorer klarar att hålla värmen vid övergång till lågtemperatursystem (t.ex. konvertering från direktverkande el eller olja till värmepump)."
         }
     },
     {
@@ -151,8 +151,8 @@ export const plumbingCalculations = [
         ],
         calc: beraknaVsProportionalitet,
         info: {
-            beskrivning: "Beräknar injusteringskvoten för stammar och ventiler.",
-            detaljer: "Används vid injustering enligt proportionalitetsmetoden för att snabbt räkna ut inställningsvärden baserat på förhållandet mellan uppmätt och projekterat flöde."
+            description: "Beräknar injusteringskvoten för stammar och ventiler.",
+            details: "Används vid injustering enligt proportionalitetsmetoden för att snabbt räkna ut inställningsvärden baserat på förhållandet mellan uppmätt och projekterat flöde."
         }
     },
     {
@@ -167,8 +167,8 @@ export const plumbingCalculations = [
         ],
         calc: beraknaTryckfallRor,
         info: {
-            beskrivning: "Beräknar tryckfall i rörnätet inklusive schablon för kopplingar.",
-            detaljer: "Multiplicerar rörlängden med friktionsmotståndet och lägger schablonmässigt till 40 % extra tryckfall för att kompensera för rördelar, ventiler och kopplingar."
+            description: "Beräknar tryckfall i rörnätet inklusive schablon för kopplingar.",
+            details: "Multiplicerar rörlängden med friktionsmotståndet och lägger schablonmässigt till 40 % extra tryckfall för att kompensera för rördelar, ventiler och kopplingar."
         }
     },
     {
@@ -185,8 +185,8 @@ export const plumbingCalculations = [
         ],
         calc: beraknaPumpAffinitet,
         info: {
-            beskrivning: "Beräknar nytt flöde, tryck och effekt vid ändrat pumpvarvtal.",
-            detaljer: "Baserat på affinitetslagarna: flödet är direkt proportionellt mot varvtalet, trycket mot kvadraten och effekten mot kubiken på varvtalsändringen."
+            description: "Beräknar nytt flöde, tryck och effekt vid ändrat pumpvarvtal.",
+            details: "Baserat på affinitetslagarna: flödet är direkt proportionellt mot varvtalet, trycket mot kvadraten och effekten mot kubiken på varvtalsändringen."
         }
     },
     {
@@ -202,8 +202,8 @@ export const plumbingCalculations = [
         ],
         calc: beraknaEttrorTemp,
         info: {
-            beskrivning: "Beräknar avkylningen per radiator i en seriekopplad ettrörsslinga.",
-            detaljer: "Visar hur mycket framledningstemperaturen sjunker efter en radiator beroende på dess effektuttag och slingans totala vattenflöde."
+            description: "Beräknar avkylningen per radiator i en seriekopplad ettrörsslinga.",
+            details: "Visar hur mycket framledningstemperaturen sjunker efter en radiator beroende på dess effektuttag och slingans totala vattenflöde."
         }
     },
     {
@@ -218,8 +218,8 @@ export const plumbingCalculations = [
         ],
         calc: beraknaVasteffektFlode,
         info: {
-            beskrivning: "Beräknar överförd värmeeffekt i kW baserat på flöde och ΔT.",
-            detaljer: "Används ofta vid mätning eller verifiering av effekten i kulvertar, värmeväxlare eller större värmekretsar."
+            description: "Beräknar överförd värmeeffekt i kW baserat på flöde och ΔT.",
+            details: "Används ofta vid mätning eller verifiering av effekten i kulvertar, värmeväxlare eller större värmekretsar."
         }
     },
     {
@@ -235,8 +235,8 @@ export const plumbingCalculations = [
         ],
         calc: beraknaVattenexpansion,
         info: {
-            beskrivning: "Beräknar vattenexpansion vid uppvärmning från fyll- till drifttemperatur.",
-            detaljer: "Hjälper till att bestämma volymökningen i ett slutet värmesystem, vilket är grundläggande vid dimensionering eller kontroll av expansionskärl."
+            description: "Beräknar vattenexpansion vid uppvärmning från fyll- till drifttemperatur.",
+            details: "Hjälper till att bestämma volymökningen i ett slutet värmesystem, vilket är grundläggande vid dimensionering eller kontroll av expansionskärl."
         }
     },
     {
@@ -250,8 +250,8 @@ export const plumbingCalculations = [
         ],
         calc: beraknaKoldbarareEffekt,
         info: {
-            beskrivning: "Beräknar kyleffekt eller värmeeffekt i köld-/värmebärarsystem.",
-            detaljer: "Anpassad för system med köldbärare (t.ex. glykolblandningar) där värmekapaciteten avviker något från rent vatten."
+            description: "Beräknar kyleffekt eller värmeeffekt i köld-/värmebärarsystem.",
+            details: "Anpassad för system med köldbärare (t.ex. glykolblandningar) där värmekapaciteten avviker något från rent vatten."
         }
     }
 ];
