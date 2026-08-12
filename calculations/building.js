@@ -1,9 +1,13 @@
+//
+// filenamne: ./calculations/building.js
+//
+
 // =================================================================
 // BYGG KALKYLER
 // =================================================================
 import { valid } from './config.js';
 
-const beraknaTrappa = (v) => {
+const calculateStairDesign = (v) => {
     if (!valid(v.totalhojd, v.stegdjup)) return "Fel";
     if (v.totalhojd <= 0 || v.stegdjup <= 0) return "Måtten måste vara större än 0";
 
@@ -28,7 +32,7 @@ Status: ${komfort}`;
 };
 
 export const buildingCalculations = [{
-    id: "bygg_trappa",
+    id: "stair_design",
     name: "Trappberäkning (Stigning & Steg)",
     categories: ["bygg"],
     decimaler: 1,
@@ -36,10 +40,10 @@ export const buildingCalculations = [{
         { id: "totalhojd", label: "Total höjd (golv till golv) [mm]" },
         { id: "stegdjup", label: "Plansteg / Stegdjup (B) [mm]" }
     ],
-    calc: beraknaTrappa,
+    calc: calculateStairDesign,
     info: {
         description: "Beräknar steghöjd och komfort för trappor enligt Blondels formel.",
         details: "Hjälper till att dimensionera bekväma och säkra trappor genom att beräkna antal steg, exakt stigningshöjd och kontrollera mot ergonomiska standarder.",
-        formula: { name: "Blondels formel", beskrivning: "2 × Steghöjd (H) + Stegdjup (B) bör ligga mellan 600 och 630 mm." }
+        formula: { name: "Blondels formel", description: "2 × Steghöjd (H) + Stegdjup (B) bör ligga mellan 600 och 630 mm." }
     }
 }];
