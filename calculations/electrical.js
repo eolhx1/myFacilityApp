@@ -25,7 +25,7 @@ export const electricalCalculations = [{
         { id: "varde1", label: "Ström (I) [A]" },
         { id: "varde2", label: "Resistans (R) [Ω]" }
     ],
-    calc: beraknaOhmsLag,
+    calc: calculateOhmsLaw,
     info: {
         description: "Räknar ut spänning, ström eller resistans med Ohms lag.",
         details: "Grundläggande el-beräkning för att snabbt ta reda på saknade värden i en elektrisk krets."
