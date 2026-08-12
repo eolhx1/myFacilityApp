@@ -701,7 +701,7 @@ function renderCalc(category, calcId) {
     <div id="calcInfo" class="calc-info-content">
     ${typeof calc.info === 'string' ? `<p>${calc.info}</p>` : `
     ${calc.info?.beskrivning ? `<p>${calc.info.description}</p>` : ""}
-    ${calc.info?.formel ? `<p><strong>Formel:</strong> ${calc.info.formel.name} (${calc.info.formula.description})</p>` : ""}
+    ${calc.info?.formula ? `<p><strong>Formel:</strong> ${calc.info.formula.name} (${calc.info.formula.description})</p>` : ""}
     `}
     </div>
     </div>`;
