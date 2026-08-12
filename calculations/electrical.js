@@ -13,8 +13,8 @@ const beraknaOhmsLag = (v) => {
 
 export const electricalCalculations = [{
     id: "el_ohms_lag",
-    namn: "Ohms lag",
-    kategorier: ["el", "tele"],
+    name: "Ohms lag",
+    categories: ["el", "tele"],
     decimaler: 2,
     inputs: [
         { id: "lage", label: "Vad vill du räkna ut?", unit: ["U", "I", "R"], requiresInput: false },

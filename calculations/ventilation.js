@@ -69,8 +69,8 @@ const beraknaBlandningstemperatur = (v) => {
 export const ventilationCalculations = [
     {
         id: "vent_luft_omsattning",
-        namn: "Luftomsättning",
-        kategorier: ["vent"],
+        name: "Luftomsättning",
+        categories: ["vent"],
         unit: "h⁻¹",
         label: "Luftomsättning",
         decimaler: 1,
@@ -86,8 +86,8 @@ export const ventilationCalculations = [
     },
     {
         id: "vent_luft_kyleffekt",
-        namn: "Kyleffekt luft",
-        kategorier: ["vent"],
+        name: "Kyleffekt luft",
+        categories: ["vent"],
         unit: "kW",
         decimaler: 2,
         inputs: [
@@ -103,8 +103,8 @@ export const ventilationCalculations = [
     },
     {
         id: "vent_kontinuitet_flode",
-        namn: "Flöde & Lufthastighet",
-        kategorier: ["vent"],
+        name: "Flöde & Lufthastighet",
+        categories: ["vent"],
         unit: "l/s",
         decimaler: 1,
         inputs: [
@@ -119,8 +119,8 @@ export const ventilationCalculations = [
     },
     {
         id: "vent_kfaktor_flode",
-        namn: "K-faktor flödesberäkning",
-        kategorier: ["vent"],
+        name: "K-faktor flödesberäkning",
+        categories: ["vent"],
         unit: "l/s",
         decimaler: 1,
         inputs: [
@@ -131,13 +131,13 @@ export const ventilationCalculations = [
         info: {
             beskrivning: "Beräknar luftflöde genom don med känd K-faktor och mätt tryck.",
             detaljer: "Standardberäkning vid mätning på mätuttag i ventilationsdon.",
-            formel: { namn: "K-faktor", beskrivning: "Flöde = K × √Δp" }
+            formel: { name: "K-faktor", beskrivning: "Flöde = K × √Δp" }
         }
     },
     {
         id: "vent_proportionalitetsmetoden",
-        namn: "Proportionalitetsmetoden",
-        kategorier: ["vent"],
+        name: "Proportionalitetsmetoden",
+        categories: ["vent"],
         unit: "",
         decimaler: 2,
         inputs: [
@@ -157,8 +157,8 @@ export const ventilationCalculations = [
     },
     {
         id: "vent_sfp",
-        namn: "Specifik Fläkteffekt (SFP)",
-        kategorier: ["vent", "bygg"],
+        name: "Specifik Fläkteffekt (SFP)",
+        categories: ["vent", "bygg"],
         unit: "kW/(m³/s)",
         decimaler: 1,
         inputs: [
@@ -169,13 +169,13 @@ export const ventilationCalculations = [
         info: {
             beskrivning: "Beräknar fläktarnas specifika energianvändning (SFP-tal).",
             detaljer: "Visar hur mycket eleffekt fläktarna kräver per flödesenhet, vilket är en viktig energiparameter vid OVK och dimensionering.",
-            formel: { namn: "SFP", beskrivning: "SFP = P_tot / Flöde (m³/s)" }
+            formel: { name: "SFP", beskrivning: "SFP = P_tot / Flöde (m³/s)" }
         }
     },
     {
         id: "vent_affinitet_flakt",
-        namn: "Affinitetslagar (Fläkt)",
-        kategorier: ["vent"],
+        name: "Affinitetslagar (Fläkt)",
+        categories: ["vent"],
         decimaler: 2,
         inputs: [
             { id: "n1", label: "Nuvarande varvtal / frekvens [varv/min eller Hz]" },
@@ -188,13 +188,13 @@ export const ventilationCalculations = [
         info: {
             beskrivning: "Beräknar nytt flöde, tryck och effekt vid ändrat varvtal för fläktar.",
             detaljer: "Baserat på fläktarnas affinitetslagar vid varvtalsändring (t.ex. via frekvensomriktare).",
-            formel: { namn: "Affinitetslagarna", beskrivning: "Q2 = Q1×(n2/n1), p2 = p1×(n2/n1)², P2 = P1×(n2/n1)³" }
+            formel: { name: "Affinitetslagarna", beskrivning: "Q2 = Q1×(n2/n1), p2 = p1×(n2/n1)², P2 = P1×(n2/n1)³" }
         }
     },
     {
         id: "vent_ekvivalent_diameter",
-        namn: "Ekvivalent kanaldiameter",
-        kategorier: ["vent"],
+        name: "Ekvivalent kanaldiameter",
+        categories: ["vent"],
         unit: "mm",
         decimaler: 0,
         inputs: [
@@ -209,8 +209,8 @@ export const ventilationCalculations = [
     },
     {
         id: "vent_galler_effektiv_area",
-        namn: "Flöde via effektiv area (Don/Galler)",
-        kategorier: ["vent"],
+        name: "Flöde via effektiv area (Don/Galler)",
+        categories: ["vent"],
         unit: "l/s",
         decimaler: 1,
         inputs: [
@@ -225,8 +225,8 @@ export const ventilationCalculations = [
     },
     {
         id: "vent_temperaturverkningsgrad",
-        namn: "Temperaturverkningsgrad (Värmeväxlare)",
-        kategorier: ["vent"],
+        name: "Temperaturverkningsgrad (Värmeväxlare)",
+        categories: ["vent"],
         unit: "",
         decimaler: 2,
         inputs: [
@@ -238,13 +238,13 @@ export const ventilationCalculations = [
         info: {
             beskrivning: "Beräknar värmeväxlarens temperaturverkningsgrad.",
             detaljer: "Visar hur effektivt värmeåtervinningsaggregatet överför värme från frånluften till uteluften.",
-            formel: { namn: "Verkningsgrad", beskrivning: "η = (t_till - t_ute) / (t_från - t_ute)" }
+            formel: { name: "Verkningsgrad", beskrivning: "η = (t_till - t_ute) / (t_från - t_ute)" }
         }
     },
     {
         id: "ventil_blandningstemperatur",
-        namn: "Blandningstemperatur (Recirkulation)",
-        kategorier: ["vent", "styr"],
+        name: "Blandningstemperatur (Recirkulation)",
+        categories: ["vent", "styr"],
         unit: "°C",
         decimaler: 1,
         inputs: [

@@ -41,8 +41,8 @@ const beraknaPoE = (v) => {
 export const telecomCalculations = [
     {
         id: "tele_fiber_dampning",
-        namn: "Dämpningsbudget Fiberlänk",
-        kategorier: ["tele"],
+        name: "Dämpningsbudget Fiberlänk",
+        categories: ["tele"],
         decimaler: 2,
         inputs: [
             { id: "langd_km", label: "Fiberlängd [km]" },
@@ -53,13 +53,13 @@ export const telecomCalculations = [
         info: {
             beskrivning: "Beräknar maximalt tillåten dämpning för en fiberlänk.",
             detaljer: "Används för att säkerställa att optiska länkar klarar dämpningskraven baserat på standardvärden för fiberkablar, svetsar och anslutningskontakter.",
-            formel: { namn: "Loss Budget", beskrivning: "Totalt = (Längd × 0.4) + (Svetsar × 0.05) + (Kontakter × 0.5)" }
+            formel: { name: "Loss Budget", beskrivning: "Totalt = (Längd × 0.4) + (Svetsar × 0.05) + (Kontakter × 0.5)" }
         }
     },
     {
         id: "tele_poe_koll",
-        namn: "PoE Spänningsfall & Längdkoll",
-        kategorier: ["tele"],
+        name: "PoE Spänningsfall & Längdkoll",
+        categories: ["tele"],
         decimaler: 2,
         inputs: [
             { id: "kabellangd_m", label: "Kabellängd [m]" },
@@ -69,7 +69,7 @@ export const telecomCalculations = [
         info: {
             beskrivning: "Kollar spänning och kabellängd för PoE-matade nätverksenheter.",
             detaljer: "Beräknar spänningsfallet i kopparkabeln (AWG24) för att säkerställa att spänningen framme vid enheten (t.ex. IP-kamera eller accesspunkt) inte understiger kritiska nivåer.",
-            formel: { namn: "Spänningsfall i tråd", beskrivning: "U_fall = R × (P / U_ut)" }
+            formel: { name: "Spänningsfall i tråd", beskrivning: "U_fall = R × (P / U_ut)" }
         }
     }
 ];

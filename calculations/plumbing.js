@@ -91,8 +91,8 @@ const beraknaKoldbarareEffekt = (v) => {
 export const plumbingCalculations = [
     {
         id: "vs_effekt_flode",
-        namn: "Radiatorflöde & Effekt (VS)",
-        kategorier: ["vs"],
+        name: "Radiatorflöde & Effekt (VS)",
+        categories: ["vs"],
         unit: "l/h",
         decimaler: 1,
         inputs: [
@@ -107,8 +107,8 @@ export const plumbingCalculations = [
     },
     {
         id: "vs_kv_varde",
-        namn: "K<sub>v</sub>-värde (Ventilinställning)",
-        kategorier: ["vs"],
+        name: "K<sub>v</sub>-värde (Ventilinställning)",
+        categories: ["vs"],
         unit: "",
         decimaler: 2,
         inputs: [
@@ -123,8 +123,8 @@ export const plumbingCalculations = [
     },
     {
         id: "vs_radiator_ny_temp",
-        namn: "Radiatoreffekt vid ny temperatur",
-        kategorier: ["vs"],
+        name: "Radiatoreffekt vid ny temperatur",
+        categories: ["vs"],
         unit: "W",
         decimaler: 0,
         inputs: [
@@ -141,8 +141,8 @@ export const plumbingCalculations = [
     },
     {
         id: "vs_proportionalitetsmetoden",
-        namn: "Proportionalitetsmetoden (VS)",
-        kategorier: ["vs"],
+        name: "Proportionalitetsmetoden (VS)",
+        categories: ["vs"],
         unit: "",
         decimaler: 2,
         inputs: [
@@ -157,8 +157,8 @@ export const plumbingCalculations = [
     },
     {
         id: "vs_tryckfall_ror",
-        namn: "Tryckfall i rör (VS)",
-        kategorier: ["vs"],
+        name: "Tryckfall i rör (VS)",
+        categories: ["vs"],
         unit: "",
         decimaler: 0,
         inputs: [
@@ -173,8 +173,8 @@ export const plumbingCalculations = [
     },
     {
         id: "vs_affinitet_pump",
-        namn: "Affinitetslagar (Pump)",
-        kategorier: ["vs"],
+        name: "Affinitetslagar (Pump)",
+        categories: ["vs"],
         decimaler: 2,
         inputs: [
             { id: "n1", label: "Nuvarande varvtal / frekvens [varv/min eller Hz]" },
@@ -191,8 +191,8 @@ export const plumbingCalculations = [
     },
     {
         id: "vs_ettror_temp",
-        namn: "Framledningstemperatur Ettrörssystem",
-        kategorier: ["vs"],
+        name: "Framledningstemperatur Ettrörssystem",
+        categories: ["vs"],
         unit: "°C",
         decimaler: 1,
         inputs: [
@@ -208,8 +208,8 @@ export const plumbingCalculations = [
     },
     {
         id: "vs_vasteffekt_flode",
-        namn: "Värmeeffekt från Flöde & ΔT",
-        kategorier: ["vs"],
+        name: "Värmeeffekt från Flöde & ΔT",
+        categories: ["vs"],
         unit: "kW",
         decimaler: 2,
         inputs: [
@@ -224,8 +224,8 @@ export const plumbingCalculations = [
     },
     {
         id: "vs_vattenexpansion",
-        namn: "Vattenexpansion i system",
-        kategorier: ["vs"],
+        name: "Vattenexpansion i system",
+        categories: ["vs"],
         unit: "liter",
         decimaler: 1,
         inputs: [
@@ -241,8 +241,8 @@ export const plumbingCalculations = [
     },
     {
         id: "energi_koldbarare_effekt",
-        namn: "Effekt köldbärare (Flöde & ΔT)",
-        kategorier: ["energi", "vs"],
+        name: "Effekt köldbärare (Flöde & ΔT)",
+        categories: ["energi", "vs"],
         decimaler: 2,
         inputs: [
             { id: "flode_ls", label: "Köldbärarens flöde [l/s]" },

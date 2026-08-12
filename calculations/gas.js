@@ -10,8 +10,8 @@ const beraknaAnvandningstidGas = (v) => {
 
 export const gasCalculations = [{
     id: "gas_anvandningstid",
-    namn: "Användningstid gasflaska",
-    kategorier: ["gas"],
+    name: "Användningstid gasflaska",
+    categories: ["gas"],
     decimaler: 1,
     inputs: [
         { id: "volym", label: "Flaskans volym", unit: ["L"] },

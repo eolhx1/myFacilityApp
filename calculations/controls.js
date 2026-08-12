@@ -1,5 +1,5 @@
 //
-// filenamne: controls.js
+// filenamne: ./calculations/controls.js
 //
 
 // =================================================================
@@ -24,8 +24,8 @@ const getTeoretisktNoll = (inMin, inMax, fysMin, fysMax) => {
 export const controlsCalculations = [
     {
         id: "skalning_4_20ma",
-        namn: "Givarskalning 4-20mA",
-        kategorier: ["styr"],
+        name: "Givarskalning 4-20mA",
+        categories: ["styr"],
         decimaler: 2,
         inputs: [
             { id: "ma", label: "mA" },
@@ -37,7 +37,7 @@ export const controlsCalculations = [
             beskrivning: "Omvandlar en analog strömsignal (4-20mA) till ett motsvarande fysiskt processvärde.",
             detaljer: "Oumbärligt verktyg vid idrifttagning, injustering och felsökning i fält. Verifierar att givarens strömutgång korrelerar korrekt mot det uppmätta värdet i styrsystemet.",
             formel: {
-                namn: "Linjär 4-20mA omvandling",
+                name: "Linjär 4-20mA omvandling",
                 beskrivning: "Värde = ((mA - 4) / (20 - 4)) × (Max - Min) + Min"
             }
         }
@@ -48,8 +48,8 @@ export const controlsCalculations = [
 
     {
         id: "styr_givar_skalning_0_10v",
-        namn: "Givarskalning 0-10V",
-        kategorier: ["styr"],
+        name: "Givarskalning 0-10V",
+        categories: ["styr"],
         label: "Resultat",
         unit: "",
         decimaler: 2,
@@ -63,7 +63,7 @@ export const controlsCalculations = [
             beskrivning: "Skalar om en 0-10V styrsignal till fysiskt mätvärde.",
             detaljer: "Används vid felsökning och injustering av styr- och reglersystem för att översätta insignaler från givare till korrekta fysiska storheter.",
             formel: {
-                namn: "Linjär skalning",
+                name: "Linjär skalning",
                 beskrivning: "Värde = (Volt / 10) * (Max - Min) + Min"
             }
         }
@@ -73,8 +73,8 @@ export const controlsCalculations = [
 	
     {
         id: "p_band",
-        namn: "P-bandsberäkning (Xp)",
-        kategorier: ["styr"],
+        name: "P-bandsberäkning (Xp)",
+        categories: ["styr"],
         decimaler: 2,
         inputs: [
             { id: "utgang", label: "% Utsignal" },
@@ -85,15 +85,15 @@ export const controlsCalculations = [
             beskrivning: "Beräknar regulatorns proportionella band (Xp) baserat på aktuell utsignal och styrfel.",
             detaljer: "Används för att analysera eller ställa in P- och PID-regulatorers förstärkning. P-bandet definierar det avvikelseområde där styrsystemets utsignal färdas från 0% till 100%.",
             formel: {
-                namn: "Proportionellt band",
+                name: "Proportionellt band",
                 beskrivning: "Xp = (% Utsignal / Δ Ärvärde)"
             }
         }
     },
     {
         id: "tidskonstant",
-        namn: "Tidskonstant (Värme)",
-        kategorier: ["styr"],
+        name: "Tidskonstant (Värme)",
+        categories: ["styr"],
         decimaler: 1,
         inputs: [
             { id: "volym", label: "Volym (m³)" },
@@ -104,15 +104,15 @@ export const controlsCalculations = [
             beskrivning: "Beräknar ett VVS-systems teoretiska tidskonstant (uppehållstid) som mått på tröghet.",
             detaljer: "Används som en snabb tumregel inom styr och regler för att uppskatta hur snabbt ett system (t.ex. en värmeväxlare eller akkumulatortank) reagerar på förändringar.",
             formel: {
-                namn: "Tidskonstant",
+                name: "Tidskonstant",
                 beskrivning: "Tid = (Volym / Flöde) × 60 [minuter]"
             }
         }
     },
     {
         id: "plc_skalning_proffs",
-        namn: "PLC Skalningsverktyg",
-        kategorier: ["styr"],
+        name: "PLC Skalningsverktyg",
+        categories: ["styr"],
         decimaler: 2,
         inputs: [
             { id: "givar_min_ma", label: "In Min (mA)" },
@@ -126,7 +126,7 @@ export const controlsCalculations = [
             beskrivning: "Avancerat konfigurations- och beräkningsverktyg för PLC-arkitekter och automationsingenjörer.",
             detaljer: "Mappar givarens konfigurerade mätområde mot fysiska enheter samt förbereder larmdiagnos. Beräknar direkt vilket teoretiskt värde styrsystemet läser av vid ett eventuellt kabelbrott (0mA).",
             formel: {
-                namn: "Teoretiskt nollvärde (vid 0mA)",
+                name: "Teoretiskt nollvärde (vid 0mA)",
                 beskrivning: "Värde = ((0 - In_Min) / (In_Max - In_Min)) × (Fys_Max - Fys_Min) + Fys_Min"
             }
         }

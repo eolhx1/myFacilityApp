@@ -30,8 +30,8 @@ const beraknaEER = (v) => {
 export const energyCalculations = [
     {
         id: "energi_transmission",
-        namn: "Värmeförlust (Transmissionsförlust)",
-        kategorier: ["energi"],
+        name: "Värmeförlust (Transmissionsförlust)",
+        categories: ["energi"],
         decimaler: 0,
         inputs: [
             { id: "u_varde", label: "U-värde [W/(m²·K)]" },
@@ -43,13 +43,13 @@ export const energyCalculations = [
         info: {
             beskrivning: "Beräknar värmeeffekt som läcker ut genom byggnadsdelar.",
             detaljer: "Används för att uppskatta transmissionsförluster genom väggar, tak och fönster baserat på materialets U-värde, ytarea och temperaturskillnad.",
-            formel: { namn: "Transmissionsförlust", beskrivning: "P = U × A × ΔT" }
+            formel: { name: "Transmissionsförlust", beskrivning: "P = U × A × ΔT" }
         }
     },
     {
         id: "energi_cop",
-        namn: "Värmepumpens Verkningsgrad (COP)",
-        kategorier: ["energi"],
+        name: "Värmepumpens Verkningsgrad (COP)",
+        categories: ["energi"],
         decimaler: 2,
         inputs: [
             { id: "avgiven_effekt", label: "Avgiven värmeeffekt [kW]" },
@@ -59,13 +59,13 @@ export const energyCalculations = [
         info: {
             beskrivning: "Beräknar värmepumpens aktuella verkningsgrad (COP).",
             detaljer: "Visar förhållandet mellan producerad värmeenergi och tillförd elektrisk energi under driftförhållanden.",
-            formel: { namn: "COP", beskrivning: "COP = Avgiven värmeeffekt / Tillförd eleffekt" }
+            formel: { name: "COP", beskrivning: "COP = Avgiven värmeeffekt / Tillförd eleffekt" }
         }
     },
     {
         id: "energi_eer",
-        namn: "Kylmaskinens Verkningsgrad (EER)",
-        kategorier: ["energi"],
+        name: "Kylmaskinens Verkningsgrad (EER)",
+        categories: ["energi"],
         decimaler: 2,
         inputs: [
             { id: "kyleffekt", label: "Avgiven kyleffekt [kW]" },
@@ -75,7 +75,7 @@ export const energyCalculations = [
         info: {
             beskrivning: "Beräknar kylmaskinens aktuella verkningsgrad (EER).",
             detaljer: "Visar effektiviteten för kylanläggningar genom att ställa levererad kyleffekt i relation till tillförd driftel.",
-            formel: { namn: "EER", beskrivning: "EER = Avgiven kyleffekt / Tillförd eleffekt" }
+            formel: { name: "EER", beskrivning: "EER = Avgiven kyleffekt / Tillförd eleffekt" }
         }
     }
 ];
