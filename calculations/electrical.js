@@ -1,9 +1,13 @@
+//
+// filenamne: ./calculations/electrical.js
+//
+
 // =================================================================
 // EL KALKYLER
 // =================================================================
 import { valid } from './config.js';
 
-const beraknaOhmsLag = (v) => {
+const calculateOhmsLaw = (v) => {
     if (!valid(v.varde1, v.varde2)) return "Fel";
     const läge = v.lage_unit || "U";
     if (läge === "U") return v.varde1 * v.varde2;
@@ -12,7 +16,7 @@ const beraknaOhmsLag = (v) => {
 };
 
 export const electricalCalculations = [{
-    id: "el_ohms_lag",
+    id: "ohms_law",
     name: "Ohms lag",
     categories: ["el", "tele"],
     decimaler: 2,
