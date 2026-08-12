@@ -251,7 +251,7 @@ function showMainMenu() {
 
     Object.entries(CATEGORIES).forEach(([key, cat]) => {
         const isObject = typeof cat === 'object';
-        const displayName = isObject ? `${cat.ikon} ${cat.name}` : cat;
+        const displayName = isObject ? `${cat.icon} ${cat.name}` : cat;
         const btn = createButton(displayName, "nav-btn", () => showSubMenu(key));
         btn.dataset.category = key;
         state.mainNav.appendChild(btn);
@@ -285,7 +285,7 @@ function showSubMenu(categoryKey) {
 
     const catData = CATEGORIES[categoryKey] || {};
     const categoryName = catData.name || (categoryKey === "recent" ? "Senaste" : "CATEGORIES");
-    const categoryIcon = catData.ikon || "";
+    const categoryIcon = catData.icon || "";
 
     // 1. Bygg header med sökfält och rubrik
     const headerDiv = document.createElement("div");
