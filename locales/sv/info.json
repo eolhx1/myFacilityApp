@@ -1,30 +1,29 @@
-
 {
-  "categories": {
-    "styr": "Styr",
-    "ventilation": "Ventilation",
-    "vs": "VS",
-    "el": "El",
-    "gas": "Gas",
-    "tele": "Tele",
-    "bygg": "Bygg",
-    "energi": "Energi"
-  }
-}
-
-
-{
-  "calc.scaling420": {
+  "scaling420": {
     "description": "Omvandlar en uppmätt 4-20mA-signal till motsvarande fysiskt värde utifrån givarens mätområde.",
     "details": "4-20mA är en vanlig signalstandard inom fastighetsautomation och industri.",
     "formulaName": "Skalning av 4-20mA-signal",
     "formulaDescription": "Värde = Min + ((mA - 4) / 16) × (Max - Min)"
   },
-
-  "calc.pband": {
+  
+  "pband": {
     "description": "Beräknar regulatorns P-band (Xp) utifrån regleravvikelse och utsignal.",
     "details": "P-bandet beskriver regulatorns känslighet och används vid injustering och optimering av regulatorer.",
     "formulaName": "Proportionellt band",
     "formulaDescription": "Xp = % Utsignal / Δ Ärvärde"
+  },
+  
+  "scaling010": {
+    "description": "Omvandlar en uppmätt 0-10V-signal till motsvarande processvärde baserat på givarens mätområde.",
+    "details": "0-10V är en vanlig signalstandard inom styr- och reglersystem. Genom att ange mätområdets min- och maxvärden kan den uppmätta spänningen omvandlas till rätt fysisk storhet.",
+    "formulaName": "Omvandling från 0-10V",
+    "formulaDescription": "Värde = (Volt / 10) × (Max - Min) + Min"
+  },
+  
+  "timeConstant": {
+    "description": "Beräknar den teoretiska uppehållstiden i ett vattenburet system utifrån volym och flöde.",
+    "details": "Tidskonstanten används som en tumregel för att uppskatta hur snabbt ett system reagerar på förändringar.",
+    "formulaName": "Tidskonstant",
+    "formulaDescription": "Tid = (Volym / Flöde) × 60"
   }
 }
