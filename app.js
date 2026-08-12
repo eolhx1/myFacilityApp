@@ -251,7 +251,7 @@ function showMainMenu() {
 
     Object.entries(CATEGORIES).forEach(([key, cat]) => {
         const isObject = typeof cat === 'object';
-        const displayName = isObject ? `${cat.ikon} ${cat.namn}` : cat;
+        const displayName = isObject ? `${cat.ikon} ${cat.name}` : cat;
         const btn = createButton(displayName, "nav-btn", () => showSubMenu(key));
         btn.dataset.category = key;
         state.mainNav.appendChild(btn);
@@ -284,7 +284,7 @@ function showSubMenu(categoryKey) {
     }
 
     const catData = CATEGORIES[categoryKey] || {};
-    const categoryName = catData.namn || (categoryKey === "recent" ? "Senaste" : "CATEGORIES");
+    const categoryName = catData.name || (categoryKey === "recent" ? "Senaste" : "CATEGORIES");
     const categoryIcon = catData.ikon || "";
 
     // 1. Bygg header med sökfält och rubrik
@@ -316,7 +316,8 @@ function showSubMenu(categoryKey) {
     if (list) {
         kalkylerAttVisa = list.map(calcId => findCalc(calcId)).filter(Boolean);
     } else {
-        kalkylerAttVisa = ALL_CALCULATIONS.filter(c => c.CATEGORIES.includes(categoryKey));
+//        kalkylerAttVisa = ALL_CALCULATIONS.filter(c => c.CATEGORIES.includes(categoryKey));
+		kalkylerAttVisa = ALL_CALCULATIONS.filter(c => c.categories.includes(categoryKey))
     }
 
     // Container för själva kalkylkorten
@@ -346,7 +347,7 @@ function showSubMenu(categoryKey) {
             card.style.cssText = "display: flex; flex-direction: column; align-items: flex-start; text-align: left; background: var(--card-bg, #fff); border: 1px solid var(--border-color, #ccc); border-radius: 8px; padding: 12px; cursor: pointer; width: 100%; transition: background 0.2s;";
             
             card.innerHTML = `
-                <span style="font-weight: bold; font-size: 1rem; color: var(--text-color);">${calc.namn}</span>
+                <span style="font-weight: bold; font-size: 1rem; color: var(--text-color);">${calc.name}</span>
                 ${beskrivning ? `<span style="font-size: 0.8rem; color: var(--text-muted, #666); margin-top: 3px; line-height: 1.2;">${beskrivning}</span>` : ""}
             `;
 
@@ -372,7 +373,7 @@ function showSubMenu(categoryKey) {
         }
 
         const filtered = kalkylerAttVisa.filter(calc => {
-            let searchableText = calc.namn.toLowerCase();
+            let searchableText = calc.name.toLowerCase();
             if (calc.info) {
                 if (typeof calc.info === 'string') searchableText += " " + calc.info.toLowerCase();
                 else if (calc.info.beskrivning) searchableText += " " + calc.info.beskrivning.toLowerCase();
@@ -484,7 +485,7 @@ function showSaveJobModal(calcId) {
     modal.innerHTML = `
     <div class="confirm-box" style="max-width: 400px; width: 90%;">
     <h3 style="margin-top:0;">Spara till fältjobb</h3>
-    <p style="font-size: 0.85rem; color: var(--text-muted);">${calc.namn}</p>
+    <p style="font-size: 0.85rem; color: var(--text-muted);">${calc.name}</p>
     <div class="input-group" style="margin-bottom: 10px; text-align: left;">
     <label style="font-size: 0.9rem; font-weight: bold;">Projektnamn / Fastighet:</label>
     <input type="text" id="modalProjectName" placeholder="t.ex. Brf Solbacken Centralen" style="width: 100%; padding: 8px; box-sizing: border-box; border: 1px solid var(--border-color); border-radius: 4px; margin-top: 4px;">
@@ -506,14 +507,14 @@ function showSaveJobModal(calcId) {
     nameInput.focus();
 
     modal.querySelector("#confirmSaveJob").onclick = () => {
-        const projectName = nameInput.value.trim() || `Jobb - ${calc.namn}`;
+        const projectName = nameInput.value.trim() || `Jobb - ${calc.name}`;
         const notes = modal.querySelector("#modalNotes").value.trim();
         const inputsData = JSON.parse(localStorage.getItem(`calc_${calcId}`) || "{}");
 
         const newJob = {
             id: 'job_' + Date.now(),
             calcId: calcId,
-            calcName: calc.namn,
+            calcName: calc.name,
             projectName: projectName,
             notes: notes,
             resultText: resultText,
@@ -561,7 +562,7 @@ function renderFavoritesManagement() {
         row.style.alignItems = "center";
         row.style.gap = "4px";
 
-        const calcBtn = createButton(calc.namn, "sub-btn", () => { renderCalc("favoriter", calc.id); });
+        const calcBtn = createButton(calc.name, "sub-btn", () => { renderCalc("favoriter", calc.id); });
         calcBtn.style.flexGrow = "1";
         calcBtn.style.margin = "0";
 
@@ -619,7 +620,7 @@ function renderCalc(category, calcId) {
     if (!calc) return;
 
     const catData = CATEGORIES[category];
-    const categoryName = (typeof catData === 'object') ? catData.namn : (catData || "Kalkyl");
+    const categoryName = (typeof catData === 'object') ? catData.name : (catData || "Kalkyl");
     const savedData = JSON.parse(localStorage.getItem(`calc_${calcId}`) || "{}");
 
     state.container.innerHTML = `
@@ -627,7 +628,7 @@ function renderCalc(category, calcId) {
     <div class="calc-header-nav">
     <button id="backBtn" class="back-btn" data-category="${category}">${categoryName}</button>
     </div>
-    <h2>${calc.namn}
+    <h2>${calc.name}
     <button id="favoriteBtn" class="favorite-btn" data-calc-id="${calcId}">
     ${isFavorite(calcId) ? "⭐" : "☆"}
     </button>
@@ -700,7 +701,7 @@ function renderCalc(category, calcId) {
     <div id="calcInfo" class="calc-info-content">
     ${typeof calc.info === 'string' ? `<p>${calc.info}</p>` : `
     ${calc.info?.beskrivning ? `<p>${calc.info.beskrivning}</p>` : ""}
-    ${calc.info?.formel ? `<p><strong>Formel:</strong> ${calc.info.formel.namn} (${calc.info.formel.beskrivning})</p>` : ""}
+    ${calc.info?.formel ? `<p><strong>Formel:</strong> ${calc.info.formel.name} (${calc.info.formel.beskrivning})</p>` : ""}
     `}
     </div>
     </div>`;
@@ -893,7 +894,7 @@ function showSearchModal() {
 
         const searchWords = query.split(/\s+/);
         const matches = ALL_CALCULATIONS.filter(calc => {
-            let searchableText = calc.namn.toLowerCase();
+            let searchableText = calc.name.toLowerCase();
             if (calc.info && typeof calc.info === 'object') {
                 if (calc.info.beskrivning) searchableText += " " + calc.info.beskrivning.toLowerCase();
             }
@@ -901,8 +902,9 @@ function showSearchModal() {
         });
 
         matches.forEach(calc => {
-            const btn = createButton(calc.namn, "sub-btn", () => {
-                renderCalc(calc.CATEGORIES[0], calc.id);
+            const btn = createButton(calc.name, "sub-btn", () => {
+//              renderCalc(calc.CATEGORIES[0], calc.id);
+				renderCalc(calc.categories[0], calc.id);
             });
             resultsContainer.appendChild(btn);
         });
