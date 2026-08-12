@@ -18,7 +18,7 @@ export const UNIT_MAP = {
 
 export const CATEGORIES = {
     styr: {
-        namn: "Styr & Regler",
+        name: "Styr & Regler",
         ikon: "⚙️"
     },
     vent: {
