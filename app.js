@@ -339,7 +339,7 @@ function showSubMenu(categoryKey) {
             let beskrivning = "";
             if (calc.info) {
                 if (typeof calc.info === 'string') beskrivning = calc.info;
-                else if (calc.info.beskrivning) beskrivning = calc.info.beskrivning;
+                else if (calc.info.description) beskrivning = calc.info.description;
             }
 
             const card = document.createElement("button");
@@ -376,7 +376,7 @@ function showSubMenu(categoryKey) {
             let searchableText = calc.name.toLowerCase();
             if (calc.info) {
                 if (typeof calc.info === 'string') searchableText += " " + calc.info.toLowerCase();
-                else if (calc.info.beskrivning) searchableText += " " + calc.info.beskrivning.toLowerCase();
+                else if (calc.info.description) searchableText += " " + calc.info.description.toLowerCase();
             }
             return query.split(/\s+/).every(word => searchableText.includes(word));
         });
@@ -700,8 +700,8 @@ function renderCalc(category, calcId) {
 
     <div id="calcInfo" class="calc-info-content">
     ${typeof calc.info === 'string' ? `<p>${calc.info}</p>` : `
-    ${calc.info?.beskrivning ? `<p>${calc.info.beskrivning}</p>` : ""}
-    ${calc.info?.formel ? `<p><strong>Formel:</strong> ${calc.info.formel.name} (${calc.info.formel.beskrivning})</p>` : ""}
+    ${calc.info?.beskrivning ? `<p>${calc.info.description}</p>` : ""}
+    ${calc.info?.formel ? `<p><strong>Formel:</strong> ${calc.info.formel.name} (${calc.info.formula.description})</p>` : ""}
     `}
     </div>
     </div>`;
@@ -896,7 +896,7 @@ function showSearchModal() {
         const matches = ALL_CALCULATIONS.filter(calc => {
             let searchableText = calc.name.toLowerCase();
             if (calc.info && typeof calc.info === 'object') {
-                if (calc.info.beskrivning) searchableText += " " + calc.info.beskrivning.toLowerCase();
+                if (calc.info.description) searchableText += " " + calc.info.description.toLowerCase();
             }
             return searchWords.every(word => searchableText.includes(word));
         });
