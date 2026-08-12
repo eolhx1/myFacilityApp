@@ -22,31 +22,31 @@ export const CATEGORIES = {
         ikon: "⚙️"
     },
     vent: {
-        namn: "Ventilation",
+        name: "Ventilation",
         ikon: "💨"
     },
     vs: {
-        namn: "VS & Värme",
+        name: "VS & Värme",
         ikon: "💧"
     },
     el: {
-        namn: "Elkraft",
+        name: "Elkraft",
         ikon: "⚡"
     },
     tele: {
-        namn: "Tele & Data",
+        name: "Tele & Data",
         ikon: "📡"
     },
     gas: {
-        namn: "Gas",
+        name: "Gas",
         ikon: "🔥"
     },
     bygg: {
-        namn: "Bygg",
+        name: "Bygg",
         ikon: "🧱"
     },
     energi: {
-        namn: "Energi",
+        name: "Energi",
         ikon: "🔋"
     }
 };
