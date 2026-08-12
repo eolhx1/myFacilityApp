@@ -131,7 +131,7 @@ export const ventilationCalculations = [
         info: {
             description: "Beräknar luftflöde genom don med känd K-faktor och mätt tryck.",
             detaljer: "Standardberäkning vid mätning på mätuttag i ventilationsdon.",
-            formel: { name: "K-faktor", beskrivning: "Flöde = K × √Δp" }
+            formula: { name: "K-faktor", beskrivning: "Flöde = K × √Δp" }
         }
     },
     {
@@ -169,7 +169,7 @@ export const ventilationCalculations = [
         info: {
             description: "Beräknar fläktarnas specifika energianvändning (SFP-tal).",
             detaljer: "Visar hur mycket eleffekt fläktarna kräver per flödesenhet, vilket är en viktig energiparameter vid OVK och dimensionering.",
-            formel: { name: "SFP", beskrivning: "SFP = P_tot / Flöde (m³/s)" }
+            formula: { name: "SFP", beskrivning: "SFP = P_tot / Flöde (m³/s)" }
         }
     },
     {
@@ -188,7 +188,7 @@ export const ventilationCalculations = [
         info: {
             description: "Beräknar nytt flöde, tryck och effekt vid ändrat varvtal för fläktar.",
             detaljer: "Baserat på fläktarnas affinitetslagar vid varvtalsändring (t.ex. via frekvensomriktare).",
-            formel: { name: "Affinitetslagarna", beskrivning: "Q2 = Q1×(n2/n1), p2 = p1×(n2/n1)², P2 = P1×(n2/n1)³" }
+            formula: { name: "Affinitetslagarna", beskrivning: "Q2 = Q1×(n2/n1), p2 = p1×(n2/n1)², P2 = P1×(n2/n1)³" }
         }
     },
     {
@@ -238,7 +238,7 @@ export const ventilationCalculations = [
         info: {
             description: "Beräknar värmeväxlarens temperaturverkningsgrad.",
             detaljer: "Visar hur effektivt värmeåtervinningsaggregatet överför värme från frånluften till uteluften.",
-            formel: { name: "Verkningsgrad", beskrivning: "η = (t_till - t_ute) / (t_från - t_ute)" }
+            formula: { name: "Verkningsgrad", beskrivning: "η = (t_till - t_ute) / (t_från - t_ute)" }
         }
     },
     {

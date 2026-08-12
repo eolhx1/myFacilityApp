@@ -36,7 +36,7 @@ export const controlsCalculations = [
         info: {
             description: "Omvandlar en analog strömsignal (4-20mA) till ett motsvarande fysiskt processvärde.",
             detaljer: "Oumbärligt verktyg vid idrifttagning, injustering och felsökning i fält. Verifierar att givarens strömutgång korrelerar korrekt mot det uppmätta värdet i styrsystemet.",
-            formel: {
+            formula: {
                 name: "Linjär 4-20mA omvandling",
                 description: "Värde = ((mA - 4) / (20 - 4)) × (Max - Min) + Min"
             }
@@ -62,7 +62,7 @@ export const controlsCalculations = [
         info: {
             description: "Skalar om en 0-10V styrsignal till fysiskt mätvärde.",
             detaljer: "Används vid felsökning och injustering av styr- och reglersystem för att översätta insignaler från givare till korrekta fysiska storheter.",
-            formel: {
+            formula: {
                 name: "Linjär skalning",
                 description: "Värde = (Volt / 10) * (Max - Min) + Min"
             }
@@ -84,7 +84,7 @@ export const controlsCalculations = [
         info: {
             description: "Beräknar regulatorns proportionella band (Xp) baserat på aktuell utsignal och styrfel.",
             detaljer: "Används för att analysera eller ställa in P- och PID-regulatorers förstärkning. P-bandet definierar det avvikelseområde där styrsystemets utsignal färdas från 0% till 100%.",
-            formel: {
+            formula: {
                 name: "Proportionellt band",
                 description: "Xp = (% Utsignal / Δ Ärvärde)"
             }
@@ -103,7 +103,7 @@ export const controlsCalculations = [
         info: {
             description: "Beräknar ett VVS-systems teoretiska tidskonstant (uppehållstid) som mått på tröghet.",
             detaljer: "Används som en snabb tumregel inom styr och regler för att uppskatta hur snabbt ett system (t.ex. en värmeväxlare eller akkumulatortank) reagerar på förändringar.",
-            formel: {
+            formula: {
                 name: "Tidskonstant",
                 description: "Tid = (Volym / Flöde) × 60 [minuter]"
             }
@@ -125,7 +125,7 @@ export const controlsCalculations = [
         info: {
             description: "Avancerat konfigurations- och beräkningsverktyg för PLC-arkitekter och automationsingenjörer.",
             detaljer: "Mappar givarens konfigurerade mätområde mot fysiska enheter samt förbereder larmdiagnos. Beräknar direkt vilket teoretiskt värde styrsystemet läser av vid ett eventuellt kabelbrott (0mA).",
-            formel: {
+            formula: {
                 name: "Teoretiskt nollvärde (vid 0mA)",
                 description: "Värde = ((0 - In_Min) / (In_Max - In_Min)) × (Fys_Max - Fys_Min) + Fys_Min"
             }

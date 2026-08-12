@@ -40,6 +40,6 @@ export const buildingCalculations = [{
     info: {
         description: "Beräknar steghöjd och komfort för trappor enligt Blondels formel.",
         detaljer: "Hjälper till att dimensionera bekväma och säkra trappor genom att beräkna antal steg, exakt stigningshöjd och kontrollera mot ergonomiska standarder.",
-        formel: { name: "Blondels formel", beskrivning: "2 × Steghöjd (H) + Stegdjup (B) bör ligga mellan 600 och 630 mm." }
+        formula: { name: "Blondels formel", beskrivning: "2 × Steghöjd (H) + Stegdjup (B) bör ligga mellan 600 och 630 mm." }
     }
 }];
