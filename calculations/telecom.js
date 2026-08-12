@@ -1,9 +1,13 @@
+//
+// filenamne: ./calculations/telecom.js
+//
+
 // =================================================================
 // TELE & DATA KALKYLER
 // =================================================================
 import { valid } from './config.js';
 
-const beraknaFiberDampning = (v) => {
+const calculateFiberLossBudget = (v) => {
     if (!valid(v.langd_km, v.antal_svetsar, v.antal_kontakter)) return "Fel";
     
     const dampningFiber = v.langd_km * 0.4;
@@ -17,7 +21,7 @@ const beraknaFiberDampning = (v) => {
            `- Kontakter (${v.antal_kontakter} st): ${dampningKontakter.toFixed(2)} dB`;
 };
 
-const beraknaPoE = (v) => {
+const calculatePoEVoltageDrop = (v) => {
     if (!valid(v.kabellangd_m, v.effekt_w)) return "Fel";
     
     const utspänningV = 48;
@@ -40,7 +44,7 @@ const beraknaPoE = (v) => {
 
 export const telecomCalculations = [
     {
-        id: "tele_fiber_dampning",
+        id: "fiber_loss_budget",
         name: "Dämpningsbudget Fiberlänk",
         categories: ["tele"],
         decimaler: 2,
@@ -49,15 +53,15 @@ export const telecomCalculations = [
             { id: "antal_svetsar", label: "Antal svetsar" },
             { id: "antal_kontakter", label: "Antal kontaktpar (hane/hona)" }
         ],
-        calc: beraknaFiberDampning,
+        calc: calculateFiberLossBudget,
         info: {
             description: "Beräknar maximalt tillåten dämpning för en fiberlänk.",
             details: "Används för att säkerställa att optiska länkar klarar dämpningskraven baserat på standardvärden för fiberkablar, svetsar och anslutningskontakter.",
-            formula: { name: "Loss Budget", beskrivning: "Totalt = (Längd × 0.4) + (Svetsar × 0.05) + (Kontakter × 0.5)" }
+            formula: { name: "Loss Budget", description: "Totalt = (Längd × 0.4) + (Svetsar × 0.05) + (Kontakter × 0.5)" }
         }
     },
     {
-        id: "tele_poe_koll",
+        id: "poe_voltage_drop",
         name: "PoE Spänningsfall & Längdkoll",
         categories: ["tele"],
         decimaler: 2,
@@ -65,11 +69,11 @@ export const telecomCalculations = [
             { id: "kabellangd_m", label: "Kabellängd [m]" },
             { id: "effekt_w", label: "Enhetens effektförbrukning [W]" }
         ],
-        calc: beraknaPoE,
+        calc: calculatePoEVoltageDrop,
         info: {
             description: "Kollar spänning och kabellängd för PoE-matade nätverksenheter.",
             details: "Beräknar spänningsfallet i kopparkabeln (AWG24) för att säkerställa att spänningen framme vid enheten (t.ex. IP-kamera eller accesspunkt) inte understiger kritiska nivåer.",
-            formula: { name: "Spänningsfall i tråd", beskrivning: "U_fall = R × (P / U_ut)" }
+            formula: { name: "Spänningsfall i tråd", description: "U_fall = R × (P / U_ut)" }
         }
     }
 ];
