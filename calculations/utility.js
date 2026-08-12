@@ -1,4 +1,4 @@
-// Fil: js/hjalpmedel.js
+// Fil: js/utils.js
 
 export const valid = (...values) => values.every(v => v !== undefined && v !== null && !isNaN(v) && v !== '');
 export const toM3h = (val, unit) => (unit === "ls" ? val * 3.6 : val);
@@ -14,7 +14,7 @@ export const UNIT_MAP = {
     "celsius": "°C"
 };
 
-export const KATEGORIER = {
+export const CATEGORIES = {
     styr: {
         namn: "Styr & Regler",
         ikon: "⚙️"
