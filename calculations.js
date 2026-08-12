@@ -9,7 +9,7 @@
 import {
     UNIT_MAP,
     CATEGORIES
-} from './calculations/utility.js';
+} from './calculations/config.js';
 
 import { controlsCalculations } from './calculations/controls.js';
 import { ventilationCalculations } from './calculations/ventilation.js';
