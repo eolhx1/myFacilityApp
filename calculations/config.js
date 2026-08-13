@@ -21,7 +21,7 @@ export const CATEGORIES = {
         name: "Styr & Regler",
         icon: "⚙️"
     },
-    Ventilation: {
+    ventilation: {
         name: "Ventilation",
         icon: "💨"
     },
