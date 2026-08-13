@@ -8,23 +8,27 @@
 import { valid } from './config.js';
 
 const calculateCylinderRuntime = (v) => {
-    if (!valid(v.volym, v.tryck, v.flode) || v.flode === 0) return "Fel";
-    return (v.volym * v.tryck) / (v.flode * 60);
+    if (!valid(v.cylinderVolume, v.pressure, v.flowRate) || v.flowRate === 0) return "Fel";
+    return (v.cylinderVolume * v.pressure) / (v.flowRate * 60);
 };
 
 export const gasCalculations = [{
     id: "cylinder_runtime",
-    name: "Användningstid gasflaska",
+    name: "Drifttid gasflaska",
     categories: ["gas"],
     decimaler: 1,
     inputs: [
-        { id: "volym", label: "Flaskans volym", unit: ["L"] },
-        { id: "tryck", label: "Tryck", unit: ["bar"] },
-        { id: "flode", label: "Ordinerat flöde", unit: ["L/min"] }
+        { id: "cylinderVolume", label: "Flaskans volym", unit: ["L"] },
+        { id: "pressure", label: "Tryck", unit: ["bar"] },
+        { id: "flowRate", label: "Ordinerat flöde", unit: ["L/min"] }
     ],
     calc: calculateCylinderRuntime,
     info: {
-        description: "Beräknar uppskattad räcker-tid för en gasflaska vid givet uttag.",
-        details: "Används för att beräkna hur länge en gasol- eller gasflaska räcker baserat på flaskans vattenvolym, aktuellt tryck och det uttagna flödet."
+        description: "Beräknar hur länge en gasflaska räcker vid ett givet gasuttag.",
+        details: "Används inom medicinska gaser, svetsning och industri för att uppskatta återstående drifttid baserat på flaskvolym, fyllnadstryck och aktuellt gasuttag.",
+		formula: {
+			name: "Drifttid gasflaska",
+			description: "Tid = (Flaskans volym × Tryck) / (Flöde × 60)"
+		}
     }
 }];
