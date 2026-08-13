@@ -6,6 +6,8 @@
 // IMPORTS
 // =================================================================
 
+console.log(controlsCalculations);
+
 import {
     UNIT_MAP,
     CATEGORIES
@@ -34,6 +36,15 @@ export const ALL_CALCULATIONS = [
     ...buildingCalculations,
     ...energyCalculations
 ];
+
+console.log(
+    "Controls:",
+    ALL_CALCULATIONS.filter(c => c.categories.includes("controls"))
+);
+
+console.log(
+    ALL_CALCULATIONS.filter(c => c.categories.includes("controls"))
+);
 
 // =================================================================
 // EXPORTS
