@@ -315,12 +315,8 @@ function showSubMenu(categoryKey) {
     const headerDiv = document.createElement("div");
     headerDiv.className = "submenu-header-bar";
 	
-    headerDiv.style.cssText =
-"display: flex;
- flex-direction: column;
- margin-bottom: 15px;
- gap: 2px;
- padding: 0 4px;";
+headerDiv.style.cssText =
+    "display:flex;flex-direction:column;margin-bottom:15px;gap:2px;padding:0 4px;";
 
  headerDiv.innerHTML = `
 	
@@ -1098,3 +1094,4 @@ function showConfirmModal(message, onConfirm) {
     modal.querySelector("#cancelBtn").addEventListener("click", () => {
         document.body.removeChild(modal);
     });
+}
