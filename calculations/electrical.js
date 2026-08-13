@@ -8,10 +8,10 @@
 import { valid } from './config.js';
 
 const calculateOhmsLaw = (v) => {
-    if (!valid(v.varde1, v.varde2)) return "Fel";
-    const läge = v.lage_unit || "U";
-    if (läge === "U") return v.varde1 * v.varde2;
-    if (läge === "I" || läge === "R") return v.varde1 / v.varde2;
+    if (!valid(v.value1, v.value2)) return "Fel";
+    const mode = v.calculationMode_unit || "U";
+    if (mode === "U") return v.value1 * v.value2;
+    if (mode === "I" || mode === "R") return v.value1 / v.value2;
     return "Fel";
 };
 
@@ -21,13 +21,17 @@ export const electricalCalculations = [{
     categories: ["electrical", "telecom"],
     decimaler: 2,
     inputs: [
-        { id: "lage", label: "Vad vill du räkna ut?", unit: ["U", "I", "R"], requiresInput: false },
-        { id: "varde1", label: "Ström (I) [A]" },
-        { id: "varde2", label: "Resistans (R) [Ω]" }
+        { id: "calculationMode", label: "Vad vill du räkna ut?", unit: ["U", "I", "R"], requiresInput: false },
+        { id: "value1", label: "Ström (I) [A]" },
+        { id: "value2", label: "Resistans (R) [Ω]" }
     ],
     calc: calculateOhmsLaw,
-    info: {
-        description: "Räknar ut spänning, ström eller resistans med Ohms lag.",
-        details: "Grundläggande el-beräkning för att snabbt ta reda på saknade värden i en elektrisk krets."
-    }
+		info: {
+			description: "Beräknar spänning (U), ström (I) eller resistans (R) utifrån två kända värden enligt Ohms lag.",
+			details: "Används vid felsökning, dimensionering och utbildning inom elteknik. Välj vilket värde som ska beräknas och ange de två återstående storheterna.",
+			formula: {
+				name: "Ohms lag",
+				description: "U = I × R, I = U / R, R = U / I"
+			}
+		}
 }];
