@@ -17,23 +17,23 @@ export const UNIT_MAP = {
 };
 
 export const CATEGORIES = {
-    styr: {
+    controls: {
         name: "Styr & Regler",
         icon: "⚙️"
     },
-    vent: {
+    Ventilation: {
         name: "Ventilation",
         icon: "💨"
     },
-    vs: {
+    plumbing: {
         name: "VS & Värme",
         icon: "💧"
     },
-    el: {
+    electrical: {
         name: "Elkraft",
         icon: "⚡"
     },
-    tele: {
+    telecom: {
         name: "Tele & Data",
         icon: "📡"
     },
@@ -41,11 +41,11 @@ export const CATEGORIES = {
         name: "Gas",
         icon: "🔥"
     },
-    bygg: {
+    building: {
         name: "Bygg",
         icon: "🧱"
     },
-    energi: {
+    energy: {
         name: "Energi",
         icon: "🔋"
     }
