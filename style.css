@@ -689,3 +689,24 @@ input:checked + .slider:before {
 /* .calc-page { */
 /*     padding-bottom: 30px; */
 /* } */
+
+
+/* ==========================================================================
+   ?. BREADCRUMB
+   ========================================================================== */
+.breadcrumb {
+    padding: 10px 20px;
+    font-size: 14px;
+    color: #0066cc;
+    font-weight: 600;
+}
+
+.crumb-home,
+.crumb-category {
+    cursor: pointer;
+}
+
+.crumb-home:hover,
+.crumb-category:hover {
+    text-decoration: underline;
+}

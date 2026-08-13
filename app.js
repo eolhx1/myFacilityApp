@@ -256,6 +256,8 @@ function showMainMenu() {
         btn.dataset.category = key;
         state.mainNav.appendChild(btn);
     });
+	
+	
 }
 
 function showSubMenu(categoryKey) {
@@ -292,22 +294,33 @@ function showSubMenu(categoryKey) {
     headerDiv.className = "submenu-header-bar";
     headerDiv.style.cssText = "display: flex; flex-direction: column; margin-bottom: 15px; gap: 10px; padding: 0 4px;";
     headerDiv.innerHTML = `
-    <button id="subBackBtn" class="back-link-btn" style="background: none; border: none; color: var(--primary-color, #0066cc); font-size: 0.9rem; cursor: pointer; display: flex; align-items: center; gap: 4px; padding: 0; text-align: left;">
-        ← Tillbaka till Hem
-    </button>
-    <h2 style="margin: 0; font-size: 1.4rem; font-weight: bold; display: flex; align-items: center; gap: 8px;">
-        <span>${categoryIcon}</span> ${categoryName}
-    </h2>
+	
+<div class="breadcrumb">
+    <span class="crumb-home">🏠 Hem</span>
+    /
+    <span class="crumb-category">${categoryName}</span>
+</div>
+
+<h2>
+    <span>${categoryIcon}</span> ${categoryName}
+</h2>
+
+	
     <div class="search-input-wrapper" style="position: relative; margin-top: 5px;">
         <input type="text" id="categorySearch" placeholder="Sök i ${categoryName.toLowerCase()}..." style="width: 100%; padding: 10px 12px; box-sizing: border-box; border: 1px solid var(--border-color, #ccc); border-radius: 6px; font-size: 0.95rem; background: var(--card-bg, #fff); color: var(--text-color);">
     </div>
     `;
     state.subNav.appendChild(headerDiv);
+	
+	const homeCrumb = headerDiv.querySelector(".crumb-home");
 
-    document.getElementById("subBackBtn").onclick = () => {
+if (homeCrumb) {
+    homeCrumb.onclick = () => {
         triggerHaptic(20);
         showMainMenu();
     };
+}
+
 
     // 2. Hämta kalkyler för denna kategori
     const list = (categoryKey === "recent") ? getRecent() : null;
@@ -624,32 +637,53 @@ function renderCalc(category, calcId) {
     const categoryName = (typeof catData === 'object') ? catData.name : (catData || "Kalkyl");
     const savedData = JSON.parse(localStorage.getItem(`calc_${calcId}`) || "{}");
 
-    state.container.innerHTML = `
-    <div class="calc-page" data-calc-id="${calcId}">
-    <div class="calc-header-nav">
-    <button id="backBtn" class="back-btn" data-category="${category}">${categoryName}</button>
+state.container.innerHTML = `
+<div class="calc-page" data-calc-id="${calcId}">
+
+    <div class="breadcrumb">
+        <span class="crumb-home">🏠 Hem</span>
+        /
+        <span class="crumb-category">${categoryName}</span>
+        /
+        <span>${calc.name}</span>
     </div>
-    <h2>${calc.name}
-    <button id="favoriteBtn" class="favorite-btn" data-calc-id="${calcId}">
-    ${isFavorite(calcId) ? "⭐" : "☆"}
-    </button>
+
+    <h2>
+        ${calc.name}
+        <button id="favoriteBtn" class="favorite-btn" data-calc-id="${calcId}">
+            ${isFavorite(calcId) ? "⭐" : "☆"}
+        </button>
     </h2>
 
     ${calc.inputs.map(i => {
-        const savedValue = (savedData[i.id] !== undefined && savedData[i.id] !== null) ? savedData[i.id] : "";
-        const savedUnit = savedData[i.id + "_unit"] || (i.unit ? i.unit[0] : "");
+        const savedValue =
+            (savedData[i.id] !== undefined && savedData[i.id] !== null)
+                ? savedData[i.id]
+                : "";
+
+        const savedUnit =
+            savedData[i.id + "_unit"] || (i.unit ? i.unit[0] : "");
 
         let currentLabel = i.label;
+
         if (calcId === "ohms_law") {
             const currentMode = savedData["calculationMode_unit"] || "U";
+
             if (i.id === "value1") {
-                currentLabel = currentMode === "U" ? "Ström (I) [A]" : "Spänning (U) [V]";
+                currentLabel =
+                    currentMode === "U"
+                        ? "Ström (I) [A]"
+                        : "Spänning (U) [V]";
             } else if (i.id === "value2") {
-                currentLabel = currentMode === "R" ? "Ström (I) [A]" : "Resistans (R) [Ω]";
+                currentLabel =
+                    currentMode === "R"
+                        ? "Ström (I) [A]"
+                        : "Resistans (R) [Ω]";
             }
         }
 
         if (i.unit && i.unit.length > 1 && i.requiresInput === false) {
+
             const getDisplayNames = (u) => {
                 if (u === "U") return "Spänning (U)";
                 if (u === "I") return "Ström (I)";
@@ -659,54 +693,102 @@ function renderCalc(category, calcId) {
 
             return `
             <div class="input-group">
-            <label>${i.label}</label>
-            <select data-unit="${i.id}" style="width: 100%; padding-right: 30px; box-sizing: border-box;">
-            ${i.unit.map(u => `<option value="${u}" ${savedUnit === u ? "selected" : ""}>${getDisplayNames(u)}</option>`).join("")}
-            </select>
+                <label>${i.label}</label>
+                <select data-unit="${i.id}" style="width:100%; padding-right:30px; box-sizing:border-box;">
+                    ${i.unit.map(u =>
+                        `<option value="${u}" ${savedUnit === u ? "selected" : ""}>
+                            ${getDisplayNames(u)}
+                        </option>`
+                    ).join("")}
+                </select>
             </div>`;
         }
 
         return i.unit ? `
         <div class="input-group">
-        <label for-id="${i.id}">${currentLabel}</label>
-        <div style="display:flex; gap:8px;">
-        <input type="number" inputmode="decimal" step="any" data-id="${i.id}" value="${savedValue}">
-        <select data-unit="${i.id}" style="padding-right: 30px;">
-        ${i.unit.map(u => {
-            const display = UNIT_MAP[u] || u;
-            return `<option value="${u}" ${savedUnit === u ? "selected" : ""}>${display}</option>`;
-        }).join("")}
-        </select>
-        </div>
+            <label for-id="${i.id}">${currentLabel}</label>
+            <div style="display:flex; gap:8px;">
+                <input
+                    type="number"
+                    inputmode="decimal"
+                    step="any"
+                    data-id="${i.id}"
+                    value="${savedValue}">
+                <select data-unit="${i.id}" style="padding-right:30px;">
+                    ${i.unit.map(u => {
+                        const display = UNIT_MAP[u] || u;
+                        return `
+                        <option value="${u}" ${savedUnit === u ? "selected" : ""}>
+                            ${display}
+                        </option>`;
+                    }).join("")}
+                </select>
+            </div>
         </div>` : `
         <div class="input-group">
-        <label for-id="${i.id}">${currentLabel}</label>
-        <input type="number" inputmode="decimal" step="any" data-id="${i.id}" value="${savedValue}">
+            <label for-id="${i.id}">${currentLabel}</label>
+            <input
+                type="number"
+                inputmode="decimal"
+                step="any"
+                data-id="${i.id}"
+                value="${savedValue}">
         </div>`;
     }).join("")}
 
-    <button id="resetBtn" class="reset-btn" data-calc-id="${calcId}">Nollställ</button>
+    <button id="resetBtn"
+            class="reset-btn"
+            data-calc-id="${calcId}">
+        Nollställ
+    </button>
 
     <div class="result" id="resultDisplay">
-    <span id="resultText"></span>
-    <button id="copyBtn" class="copy-icon">📋</button>
+        <span id="resultText"></span>
+        <button id="copyBtn" class="copy-icon">📋</button>
     </div>
 
-    <button id="saveJobBtn" class="nav-btn" style="background: var(--primary-color); color: white; width: 100%; margin-top: 10px; margin-bottom: 5px;">💾 Spara till jobb</button>
+    <button id="saveJobBtn"
+            class="nav-btn"
+            style="background: var(--primary-color); color:white; width:100%; margin-top:10px; margin-bottom:5px;">
+        💾 Spara till jobb
+    </button>
 
     <div class="calc-info-title" onclick="toggleInfo()">
-    <span>ℹ️ Info om beräkningen</span>
-    <span id="infoIcon">▼</span>
+        <span>ℹ️ Info om beräkningen</span>
+        <span id="infoIcon">▼</span>
     </div>
 
-<div id="calcInfo" class="calc-info-content">
-${typeof calc.info === 'string' ? `<p>${calc.info}</p>` : `
-${calc.info?.description ? `<p>${calc.info.description}</p>` : ""}
-${calc.info?.details ? `<p>${calc.info.details}</p>` : ""}
-${calc.info?.formula ? `<p><strong>Formel:</strong> ${calc.info.formula.name} (${calc.info.formula.description})</p>` : ""}
-`}
+    <div id="calcInfo" class="calc-info-content">
+        ${typeof calc.info === 'string'
+            ? `<p>${calc.info}</p>`
+            : `
+                ${calc.info?.description ? `<p>${calc.info.description}</p>` : ""}
+                ${calc.info?.details ? `<p>${calc.info.details}</p>` : ""}
+                ${calc.info?.formula ? `<p><strong>Formel:</strong> ${calc.info.formula.name} (${calc.info.formula.description})</p>` : ""}
+            `
+        }
     </div>
-    </div>`;
+
+</div>
+`;
+
+const homeCrumb = state.container.querySelector(".crumb-home");
+
+if (homeCrumb) {
+    homeCrumb.onclick = () => {
+        triggerHaptic(20);
+        showMainMenu();
+    };
+}
+
+const categoryCrumb = state.container.querySelector(".crumb-category");
+
+if (categoryCrumb) {
+    categoryCrumb.onclick = () => {
+        triggerHaptic(20);
+        showSubMenu(category);
+    };
+}
 
     const copyBtn = document.getElementById("copyBtn");
     if (copyBtn) {
@@ -863,6 +945,7 @@ function showSearchModal() {
 
     state.container.innerHTML = `
     <div class="calc-page">
+	
     <div class="calc-header-nav">
     <button id="backFromSearch" class="back-btn">Tillbaka</button>
     </div>
