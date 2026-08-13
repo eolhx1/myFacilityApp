@@ -246,19 +246,20 @@ function showMainMenu() {
     clear(state.container);
     clear(state.subNav);
 
-    state.container.innerHTML = `
+    state.mainNav.classList.remove("hidden");
+    state.subNav.classList.remove("hidden");
+
+    state.mainNav.innerHTML = `
         <div class="breadcrumb">
             <span class="crumb-home">🏠 Hem</span>
         </div>
     `;
 
-    state.mainNav.classList.remove("hidden");
-    state.subNav.classList.remove("hidden");
-    state.mainNav.innerHTML = "";
-
     Object.entries(CATEGORIES).forEach(([key, cat]) => {
-        const isObject = typeof cat === 'object';
-        const displayName = isObject ? `${cat.icon} ${cat.name}` : cat;
+        const isObject = typeof cat === "object";
+        const displayName = isObject
+            ? `${cat.icon} ${cat.name}`
+            : cat;
 
         const btn = createButton(
             displayName,
@@ -270,7 +271,7 @@ function showMainMenu() {
         state.mainNav.appendChild(btn);
     });
 
-    const homeCrumb = state.container.querySelector(".crumb-home");
+    const homeCrumb = state.mainNav.querySelector(".crumb-home");
 
     if (homeCrumb) {
         homeCrumb.onclick = () => {
