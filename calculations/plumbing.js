@@ -10,85 +10,85 @@ import { valid, formatResult } from './config.js';
 
 // --- Beräkningsfunktioner (VS & Värme) ---
 const calculateRequiredRadiatorFlow = (v) => {
-    if (!valid(v.effekt, v.dt)) return "Fel";
-    if (v.dt === 0) return "Fel (0-division)";
-    const flode_lh = (v.effekt / (4180 * v.dt)) * 3600;
+    if (!valid(v.heatOutput, v.temperatureDifference)) return "Fel";
+    if (v.temperatureDifference === 0) return "Fel (0-division)";
+    const flowRateLh = (v.heatOutput / (4180 * v.temperatureDifference)) * 3600;
     
-    let resultatText = `Flöde: ${formatResult(flode_lh, 1)} l/h\n`;
-    resultatText += `Flöde: ${formatResult(flode_lh / 3600, 4)} l/s`;
-    return resultatText;
+    let resultText = `Flöde: ${formatResult(flowRateLh, 1)} l/h\n`;
+    resultText += `Flöde: ${formatResult(flowRateLh / 3600, 4)} l/s`;
+    return resultText;
 };
 
 const calculateKvValue = (v) => {
-    if (!valid(v.flode_m3h, v.tryckfall) || v.tryckfall <= 0) return "Fel";
-    const kv = v.flode_m3h / Math.sqrt(v.tryckfall);
-    return kv;
+    if (!valid(v.flowRateM3h, v.pressureDrop) || v.pressureDrop <= 0) return "Fel";
+    const kvValue = v.flowRateM3h / Math.sqrt(v.pressureDrop);
+    return kvValue;
 };
 
 const calculateRadiatorOutputAtNewTemperature = (v) => {
-    if (!valid(v.p_proj, v.dt_ny, v.dt_gammal, v.exponent) || v.dt_gammal === 0) return "Fel";
-    const p_ny = v.p_proj * Math.pow(v.dt_ny / v.dt_gammal, v.exponent);
-    return p_ny;
+    if (!valid(v.designHeatOutput, v.newTemperatureDifference, v.oldTemperatureDifference, v.radiatorExponent) || v.oldTemperatureDifference === 0) return "Fel";
+    const newHeatOutput = v.designHeatOutput * Math.pow(v.newTemperatureDifference / v.oldTemperatureDifference, v.radiatorExponent);
+    return newHeatOutput;
 };
 
 const calculateBalancingRatio = (v) => {
-    if (!valid(v.q_matt, v.q_proj) || v.q_proj === 0) return "Fel";
-    return v.q_matt / v.q_proj;
+    if (!valid(v.measuredFlow, v.designFlow) || v.designFlow === 0) return "Fel";
+    return v.measuredFlow / v.designFlow;
 };
 
 const calculatePipePressureDrop = (v) => {
-    if (!valid(v.R, v.L)) return "Fel";
-    const delta_p_pa = v.R * v.L;
-    const delta_p_total = delta_p_pa * 1.4;
+    if (!valid(v.frictionResistance, v.pipeLength)) return "Fel";
+    const pressureDropPa = v.frictionResistance * v.pipeLength;
+    const totalPressureDrop = pressureDropPa * 1.4;
 
-    let resultatText = `Rörnätets tryckfall: ${formatResult(delta_p_total, 0)} Pa\n`;
-    resultatText += `Inkl. kopplingar (~40%): ${formatResult(delta_p_total / 1000, 2)} kPa`;
-    return resultatText;
+    let resultText = `Rörnätets tryckfall: ${formatResult(totalPressureDrop, 0)} Pa\n`;
+    resultText += `Inkl. kopplingar (~40%): ${formatResult(totalPressureDrop / 1000, 2)} kPa`;
+    return resultText;
 };
 
 // Affinitetslagar för Pumpar
 const calculatePumpAffinityLaws = (v) => {
-    if (!valid(v.n1, v.n2, v.q1, v.p1, v.e1)) return "Fel";
+    if (!valid(v.currentSpeed, v.newSpeed, v.currentFlow, v.currentPressure, v.currentPower)) return "Fel";
     
-    const kvot = v.n2 / v.n1;
-    const q2 = v.q1 * kvot;
-    const p2 = v.p1 * Math.pow(kvot, 2);
-    const e2 = v.e1 * Math.pow(kvot, 3);
+const speedRatio = v.newSpeed / v.currentSpeed;
+const newFlow = v.currentFlow * speedRatio;
+const newPressure = v.currentPressure * Math.pow(speedRatio, 2);
+const newPower = v.currentPower * Math.pow(speedRatio, 3);
     
-    return `Nytt flöde (Q2): ${q2.toFixed(2)} l/s\n` +
-           `Nytt tryck / uppfordringshöjd (p2): ${p2.toFixed(1)} kPa\n` +
-           `Ny effekt (P2): ${e2.toFixed(2)} kW`;
+return `Nytt flöde (Q2): ${newFlow.toFixed(2)} l/s\n` +
+       `Nytt tryck / uppfordringshöjd (P2): ${newPressure.toFixed(1)} kPa\n` +
+       `Ny effekt (E2): ${newPower.toFixed(2)} kW`;
 };
 
 const calculateOnePipeTemperatureDrop = (v) => {
-    if (!valid(v.t_fram, v.effekt, v.q_slinga) || v.q_slinga === 0) return "Fel";
-    const flode_m3s = v.q_slinga / 3600000;
-    const namnare = flode_m3s * 4180 * 1000;
+    if (!valid(v.supplyTemperature, v.heatOutput, v.loopFlow) || v.loopFlow === 0) return "Fel";
+    const flowRateM3s = v.loopFlow / 3600000;
+    const denominator = flowRateM3s * 4180 * 1000;
 
-    if (namnare === 0) return "Fel (0-division)";
-    const t_nasta = v.t_fram - (v.effekt / namnare);
-    return t_nasta;
+    if (denominator === 0) return "Fel (0-division)";
+    const nextTemperature = v.supplyTemperature - (v.heatOutput / denominator);
+    return nextTemperature;
 };
 
 const calculateHeatOutputFromFlow = (v) => {
-    if (!valid(v.flode_ls, v.dt)) return "Fel";
-    const effekt_kw = v.flode_ls * 4.19 * v.dt;
-    return `Överförd effekt: ${effekt_kw.toFixed(2)} kW`;
+    if (!valid(v.flowRateLs, v.temperatureDifference)) return "Fel";
+    const heatOutputKw = v.flowRateLs * 4.19 * v.temperatureDifference;
+    return `Överförd effekt: ${heatOutputKw.toFixed(2)} kW`;
 };
 
 const calculateWaterExpansion = (v) => {
-    if (!valid(v.volym_m3, v.t_kall, v.t_varm)) return "Fel";
-    const expansion_procent = (v.t_varm - v.t_kall) * 0.00035; 
-    const expansionsvolym_liter = v.volym_m3 * 1000 * expansion_procent;
+    if (!valid(v.systemVolumeM3, v.coldTemperature, v.hotTemperature)) return "Fel";
+    const expansionFactor = (v.hotTemperature - v.coldTemperature) * 0.00035; 
+    const expansionVolumeLiters = v.systemVolumeM3 * 1000 * expansionFactor;
     
-    return `Volymökning: ${expansionsvolym_liter.toFixed(1)} liter\n` +
-           `Total ny volym: ${(v.volym_m3 * 1000 + expansionsvolym_liter).toFixed(1)} liter`;
+    return `Volymökning: ${expansionVolumeLiters.toFixed(1)} liter\n` +
+           `Total ny volym: ${(v.systemVolumeM3 * 1000 + expansionVolumeLiters).toFixed(1)} liter`;
 };
 
 const calculateBrineHeatTransfer = (v) => {
-    if (!valid(v.flode_ls, v.dt)) return "Fel";
-    const effekt_kw = v.flode_ls * 4.0 * v.dt;
-    return `Kyl- / Värmebärareeffekt: ${effekt_kw.toFixed(2)} kW`;
+    if (!valid(v.flowRateLs, v.temperatureDifference)) return "Fel";
+    const heatOutputKw = v.flowRateLs * 4.0 * v.temperatureDifference;
+    return `Kyl- / Värmebärareeffekt: ${heatOutputKw.toFixed(2)} kW`;
 };
 
 // --- Kalkyl-array (VS) ---
@@ -100,13 +100,17 @@ export const plumbingCalculations = [
         unit: "l/h",
         decimaler: 1,
         inputs: [
-            { id: "effekt", label: "Radiatoreffekt (P)", unit: ["W"] },
-            { id: "dt", label: "Temperaturskillnad (ΔT)", unit: ["°C"] }
+            { id: "heatOutput", label: "Radiatoreffekt (P)", unit: ["W"] },
+            { id: "temperatureDifference", label: "Temperaturskillnad (ΔT)", unit: ["°C"] }
         ],
         calc: calculateRequiredRadiatorFlow,
         info: {
             description: "Beräknar erforderligt vattenflöde för en given radiatoreffekt.",
-            details: "Används för att bestämma det flöde i l/h eller l/s som krävs för att avge en specifik effekt vid vald temperaturskillnad (ΔT). Bygger på vattnets specifika värmekapacitet."
+            details: "Används för att bestämma det flöde i l/h eller l/s som krävs för att avge en specifik effekt vid vald temperaturskillnad (ΔT). Bygger på vattnets specifika värmekapacitet.",
+			formula: {
+				name: "Radiatorflöde",
+				description: "Flöde = Effekt / (4180 × ΔT)"
+			}
         }
     },
     {
@@ -116,15 +120,20 @@ export const plumbingCalculations = [
         unit: "",
         decimaler: 2,
         inputs: [
-            { id: "flode_m3h", label: "Flöde (q)", unit: ["m³/h"] },
-            { id: "tryckfall", label: "Tryckfall över ventil (Δp)", unit: ["bar"] }
+            { id: "flowRateM3h", label: "Flöde (q)", unit: ["m³/h"] },
+            { id: "pressureDrop", label: "Tryckfall över ventil (Δp)", unit: ["bar"] }
         ],
         calc: calculateKvValue,
         info: {
             description: "Beräknar ventilens K<sub>v</sub>-värde för flödesinställning.",
-            details: "K<sub>v</sub>-värdet definieras som det flöde i m³/h som passerar ventilen vid ett tryckfall på 1 bar. Viktigt verktyg vid injustering av stam- och radiatordon."
+            details: "K<sub>v</sub>-värdet definieras som det flöde i m³/h som passerar ventilen vid ett tryckfall på 1 bar. Viktigt verktyg vid injustering av stam- och radiatordon.",
+			formula: {
+				name: "Kv-värde",
+				description: "Kv = Flöde / √Tryckfall"
+			}
         }
     },
+	
     {
         id: "radiator_output_at_new_temperature",
         name: "Radiatoreffekt vid ny temperatur",
@@ -132,17 +141,22 @@ export const plumbingCalculations = [
         unit: "W",
         decimaler: 0,
         inputs: [
-            { id: "p_proj", label: "Projekterad effekt", unit: ["W"] },
-            { id: "dt_ny", label: "Ny övertemperatur (ΔT_ny)", unit: ["°C"] },
-            { id: "dt_gammal", label: "Gammal övertemperatur (ΔT_gammal)", unit: ["°C"] },
-            { id: "exponent", label: "Radiatorexponent (n)" }
+            { id: "designHeatOutput", label: "Projekterad effekt", unit: ["W"] },
+            { id: "newTemperatureDifference", label: "Ny övertemperatur (ΔT_ny)", unit: ["°C"] },
+            { id: "oldTemperatureDifference", label: "Gammal övertemperatur (ΔT_gammal)", unit: ["°C"] },
+            { id: "radiatorExponent", label: "Radiatorexponent (n)" }
         ],
         calc: calculateRadiatorOutputAtNewTemperature,
         info: {
             description: "Beräknar förändrad radiatoreffekt vid sänkt framledningstemperatur.",
-            details: "Hjälper till att utreda om befintliga radiatorer klarar att hålla värmen vid övergång till lågtemperatursystem (t.ex. konvertering från direktverkande el eller olja till värmepump)."
+            details: "Hjälper till att utreda om befintliga radiatorer klarar att hålla värmen vid övergång till lågtemperatursystem (t.ex. konvertering från direktverkande el eller olja till värmepump).",
+			formula: {
+				name: "Radiatoreffekt vid ny temperatur",
+				description: "P₂ = P₁ × (ΔT₂ / ΔT₁)^n"
+			}
         }
     },
+	
     {
         id: "balancing_ratio",
         name: "Proportionalitetsmetoden (VS)",
@@ -150,15 +164,20 @@ export const plumbingCalculations = [
         unit: "",
         decimaler: 2,
         inputs: [
-            { id: "q_matt", label: "Uppmätt flöde", unit: ["l/h", "m³/h"] },
-            { id: "q_proj", label: "Projekterat flöde", unit: ["l/h", "m³/h"] }
+            { id: "measuredFlow", label: "Uppmätt flöde", unit: ["l/h", "m³/h"] },
+            { id: "designFlow", label: "Projekterat flöde", unit: ["l/h", "m³/h"] }
         ],
         calc: calculateBalancingRatio,
         info: {
             description: "Beräknar injusteringskvoten för stammar och ventiler.",
-            details: "Används vid injustering enligt proportionalitetsmetoden för att snabbt räkna ut inställningsvärden baserat på förhållandet mellan uppmätt och projekterat flöde."
+            details: "Används vid injustering enligt proportionalitetsmetoden för att snabbt räkna ut inställningsvärden baserat på förhållandet mellan uppmätt och projekterat flöde.",
+			formula: {
+				name: "Proportionalitetsmetoden",
+				description: "Kvot = Uppmätt flöde / Projekterat flöde"
+			}
         }
     },
+	
     {
         id: "pipe_pressure_drop",
         name: "Tryckfall i rör (VS)",
@@ -166,33 +185,43 @@ export const plumbingCalculations = [
         unit: "",
         decimaler: 0,
         inputs: [
-            { id: "R", label: "Friktionsmotstånd (R) [Pa/m]", unit: ["Pa/m"] },
-            { id: "L", label: "Rörsatsens totala längd (fram + retur)", unit: ["m"] }
+            { id: "frictionResistance", label: "Friktionsmotstånd (R) [Pa/m]", unit: ["Pa/m"] },
+            { id: "pipeLength", label: "Rörsatsens totala längd (fram + retur)", unit: ["m"] }
         ],
         calc: calculatePipePressureDrop,
         info: {
             description: "Beräknar tryckfall i rörnätet inklusive schablon för kopplingar.",
-            details: "Multiplicerar rörlängden med friktionsmotståndet och lägger schablonmässigt till 40 % extra tryckfall för att kompensera för rördelar, ventiler och kopplingar."
+            details: "Multiplicerar rörlängden med friktionsmotståndet och lägger schablonmässigt till 40 % extra tryckfall för att kompensera för rördelar, ventiler och kopplingar.",
+			formula: {
+				name: "Tryckfall i rör",
+				description: "Δp = R × L × 1,4"
+			}
         }
     },
+	
     {
         id: "pump_affinity_laws",
         name: "Affinitetslagar (Pump)",
         categories: ["plumbing"],
         decimaler: 2,
         inputs: [
-            { id: "n1", label: "Nuvarande varvtal / frekvens [varv/min eller Hz]" },
-            { id: "n2", label: "Nytt varvtal / frekvens [varv/min eller Hz]" },
-            { id: "q1", label: "Nuvarande flöde [l/s]" },
-            { id: "p1", label: "Nuvarande tryck [kPa]" },
-            { id: "e1", label: "Nuvarande effekt [kW]" }
+            { id: "currentSpeed", label: "Nuvarande varvtal / frekvens [varv/min eller Hz]" },
+            { id: "newSpeed", label: "Nytt varvtal / frekvens [varv/min eller Hz]" },
+            { id: "currentFlow", label: "Nuvarande flöde [l/s]" },
+            { id: "currentPressure", label: "Nuvarande tryck [kPa]" },
+            { id: "currentPower", label: "Nuvarande effekt [kW]" }
         ],
         calc: calculatePumpAffinityLaws,
         info: {
             description: "Beräknar nytt flöde, tryck och effekt vid ändrat pumpvarvtal.",
-            details: "Baserat på affinitetslagarna: flödet är direkt proportionellt mot varvtalet, trycket mot kvadraten och effekten mot kubiken på varvtalsändringen."
+            details: "Baserat på affinitetslagarna: flödet är direkt proportionellt mot varvtalet, trycket mot kvadraten och effekten mot kubiken på varvtalsändringen.",
+			formula: {
+				name: "Affinitetslagar för pumpar",
+				description: "Q₂/Q₁ = n₂/n₁, P₂/P₁ = (n₂/n₁)², E₂/E₁ = (n₂/n₁)³"
+			}
         }
     },
+	
     {
         id: "one_pipe_temperature_drop",
         name: "Framledningstemperatur Ettrörssystem",
@@ -200,14 +229,19 @@ export const plumbingCalculations = [
         unit: "°C",
         decimaler: 1,
         inputs: [
-            { id: "t_fram", label: "Ingående framledningstemp (T_fram)", unit: ["celsius"] },
-            { id: "effekt", label: "Radiatoreffekt (P)", unit: ["W"] },
-            { id: "q_slinga", label: "Slingans totala vattenflöde", unit: ["l/h"] }
+            { id: "supplyTemperature", label: "Ingående framledningstemperatur", unit: ["celsius"] },
+            { id: "heatOutput", label: "Radiatoreffekt (P)", unit: ["W"] },
+            { id: "loopFlow", label: "Slingans totala vattenflöde", unit: ["l/h"] }
         ],
         calc: calculateOnePipeTemperatureDrop,
         info: {
             description: "Beräknar avkylningen per radiator i en seriekopplad ettrörsslinga.",
-            details: "Visar hur mycket framledningstemperaturen sjunker efter en radiator beroende på dess effektuttag och slingans totala vattenflöde."
+            details: "Visar hur mycket framledningstemperaturen sjunker efter en radiator beroende på dess effektuttag och slingans totala vattenflöde.",
+			formula: {
+				name: "Temperatursänkning",
+				description: "T₂ = T₁ − (P / (q × ρ × cp))"
+			}
+
         }
     },
     {
@@ -217,13 +251,17 @@ export const plumbingCalculations = [
         unit: "kW",
         decimaler: 2,
         inputs: [
-            { id: "flode_ls", label: "Vattenflöde [l/s]", unit: ["l/s"] },
-            { id: "dt", label: "Temperaturskillnad (fram - retur) [°C]", unit: ["°C"] }
+            { id: "flowRateLs", label: "Vattenflöde [l/s]", unit: ["l/s"] },
+            { id: "temperatureDifference", label: "Temperaturskillnad (fram - retur) [°C]", unit: ["°C"] }
         ],
         calc: calculateHeatOutputFromFlow,
         info: {
             description: "Beräknar överförd värmeeffekt i kW baserat på flöde och ΔT.",
-            details: "Används ofta vid mätning eller verifiering av effekten i kulvertar, värmeväxlare eller större värmekretsar."
+            details: "Används ofta vid mätning eller verifiering av effekten i kulvertar, värmeväxlare eller större värmekretsar.",
+			formula: {
+				name: "Värmeeffekt",
+				description: "P = q × 4,19 × ΔT"
+			}
         }
     },
     {
@@ -233,29 +271,38 @@ export const plumbingCalculations = [
         unit: "liter",
         decimaler: 1,
         inputs: [
-            { id: "volym_m3", label: "Systemets totala vattenvolym [m³]", unit: ["m³"] },
-            { id: "t_kall", label: "Kallvattentemperatur (fyllning) [°C]", unit: ["°C"] },
-            { id: "t_varm", label: "Max drifttemperatur [°C]", unit: ["°C"] }
+            { id: "systemVolumeM3", label: "Systemets totala vattenvolym [m³]", unit: ["m³"] },
+            { id: "coldTemperature", label: "Kallvattentemperatur (fyllning) [°C]", unit: ["°C"] },
+            { id: "hotTemperature", label: "Max drifttemperatur [°C]", unit: ["°C"] }
         ],
         calc: calculateWaterExpansion,
         info: {
             description: "Beräknar vattenexpansion vid uppvärmning från fyll- till drifttemperatur.",
-            details: "Hjälper till att bestämma volymökningen i ett slutet värmesystem, vilket är grundläggande vid dimensionering eller kontroll av expansionskärl."
+            details: "Hjälper till att bestämma volymökningen i ett slutet värmesystem, vilket är grundläggande vid dimensionering eller kontroll av expansionskärl.",
+			formula: {
+				name: "Vattenexpansion",
+				description: "Expansionsvolym = Systemvolym × Temperaturökning × 0,00035"
+			}
         }
     },
     {
         id: "brine_heat_transfer",
         name: "Effekt köldbärare (Flöde & ΔT)",
-        categories: ["enery", "plumbing"],
+        categories: ["energy", "plumbing"],
         decimaler: 2,
         inputs: [
-            { id: "flode_ls", label: "Köldbärarens flöde [l/s]" },
-            { id: "dt", label: "Temperaturskillnad (In - Ut) [°C]" }
+            { id: "flowRateLs", label: "Köldbärarens flöde [l/s]" },
+            { id: "temperatureDifference", label: "Temperaturskillnad (In - Ut) [°C]" }
         ],
         calc: calculateBrineHeatTransfer,
         info: {
             description: "Beräknar kyleffekt eller värmeeffekt i köld-/värmebärarsystem.",
-            details: "Anpassad för system med köldbärare (t.ex. glykolblandningar) där värmekapaciteten avviker något från rent vatten."
+            details: "Anpassad för system med köldbärare (t.ex. glykolblandningar) där värmekapaciteten avviker något från rent vatten.",
+			formula: {
+				name: "Köldbärareffekt",
+				description: "P = q × 4,0 × ΔT"
+			}
+
         }
     }
 ];
