@@ -5,6 +5,8 @@
 // =================================================================
 // STYR & REGLER KALKYLER
 // =================================================================
+console.log("controls.js loaded");
+
 import {
     valid
 } from './config.js';
@@ -43,9 +45,6 @@ export const controlsCalculations = [
         }
     },
 
-
-
-
     {
         id: "voltage_to_process_value",
         name: "Givarskalning 0-10V",
@@ -68,9 +67,7 @@ export const controlsCalculations = [
             }
         }
     },
-	
-
-	
+		
     {
         id: "proportional_band",
         name: "P-bandsberäkning (Xp)",
@@ -112,8 +109,8 @@ export const controlsCalculations = [
     },
 	
     {
-        id: "plc_signal_scaling",
-        name: "PLC Skalningsverktyg",
+        id: "zero_current_process_value",
+        name: "Teoretiskt värde vid 0 mA",
         categories: ["controls"],
         decimaler: 2,
         inputs: [
@@ -125,11 +122,11 @@ export const controlsCalculations = [
         calc: (v) => !valid(v.inputMinmA, v.inputMaxmA, v.physicalMin, v.physicalMax) ? "Fyll i fält" :
         `PLC KONFIGURATION:\nIn: ${v.inputMinmA}-${v.inputMaxmA}mA\nUt: ${v.physicalMin}-${v.physicalMax}\n\nDIAGNOS VID 0mA:\nPLC visar: ${calculateTheoreticalZeroValue(v.inputMinmA, v.inputMaxmA, v.physicalMin, v.physicalMax).toFixed(2)}`,
         info: {
-            description: "Avancerat konfigurations- och beräkningsverktyg för PLC-arkitekter och automationsingenjörer.",
-            details: "Mappar givarens konfigurerade mätområde mot fysiska enheter samt förbereder larmdiagnos. Beräknar direkt vilket teoretiskt värde styrsystemet läser av vid ett eventuellt kabelbrott (0mA).",
+            description: "Beräknar vilket processvärde en PLC eller DUC teoretiskt visar om den analoga insignalen faller till 0 mA.",
+            details: "Används vid felsökning av analoga insignaler och kabelbrott. Kalkylen visar vilket värde styrsystemet kommer att presentera när en transmitter som normalt arbetar inom ett konfigurerat mA-område plötsligt levererar 0 mA.",
             formula: {
-                name: "Teoretiskt nollvärde (vid 0mA)",
-                description: "Värde = ((0 - Input_Min) / (Input_Max - Input_Min)) × (Physical_Min - Physical_Max) + Physical_Max"
+                name: "Teoretiskt värde vid 0 mA",
+                description: "Teoretiskt värde vid 0 mA = ((0 mA − Givarens minström) / (Givarens maxström − Givarens minström)) × (Fysiskt maxvärde − Fysiskt minvärde) + Fysiskt minvärde"
             }
         }
     }
