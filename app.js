@@ -242,8 +242,15 @@ function runCalc(category, calcId) {
 // ==========================================================================
 function showMainMenu() {
     state.activeCategory = null;
+
     clear(state.container);
     clear(state.subNav);
+
+    state.container.innerHTML = `
+        <div class="breadcrumb">
+            <span class="crumb-home">🏠 Hem</span>
+        </div>
+    `;
 
     state.mainNav.classList.remove("hidden");
     state.subNav.classList.remove("hidden");
@@ -252,13 +259,28 @@ function showMainMenu() {
     Object.entries(CATEGORIES).forEach(([key, cat]) => {
         const isObject = typeof cat === 'object';
         const displayName = isObject ? `${cat.icon} ${cat.name}` : cat;
-        const btn = createButton(displayName, "nav-btn", () => showSubMenu(key));
+
+        const btn = createButton(
+            displayName,
+            "nav-btn",
+            () => showSubMenu(key)
+        );
+
         btn.dataset.category = key;
         state.mainNav.appendChild(btn);
     });
-	
-	
+
+    const homeCrumb = state.container.querySelector(".crumb-home");
+
+    if (homeCrumb) {
+        homeCrumb.onclick = () => {
+            triggerHaptic(20);
+            showMainMenu();
+        };
+    }
 }
+
+
 
 function showSubMenu(categoryKey) {
     state.activeCategory = categoryKey;
@@ -292,8 +314,15 @@ function showSubMenu(categoryKey) {
     // 1. Bygg header med sökfält och rubrik
     const headerDiv = document.createElement("div");
     headerDiv.className = "submenu-header-bar";
-    headerDiv.style.cssText = "display: flex; flex-direction: column; margin-bottom: 15px; gap: 10px; padding: 0 4px;";
-    headerDiv.innerHTML = `
+	
+    headerDiv.style.cssText =
+"display: flex;
+ flex-direction: column;
+ margin-bottom: 15px;
+ gap: 2px;
+ padding: 0 4px;";
+
+ headerDiv.innerHTML = `
 	
 <div class="breadcrumb">
     <span class="crumb-home">🏠 Hem</span>
@@ -305,7 +334,6 @@ function showSubMenu(categoryKey) {
     <span>${categoryIcon}</span> ${categoryName}
 </h2>
 
-	
     <div class="search-input-wrapper" style="position: relative; margin-top: 5px;">
         <input type="text" id="categorySearch" placeholder="Sök i ${categoryName.toLowerCase()}..." style="width: 100%; padding: 10px 12px; box-sizing: border-box; border: 1px solid var(--border-color, #ccc); border-radius: 6px; font-size: 0.95rem; background: var(--card-bg, #fff); color: var(--text-color);">
     </div>
@@ -638,8 +666,6 @@ function renderCalc(category, calcId) {
     const savedData = JSON.parse(localStorage.getItem(`calc_${calcId}`) || "{}");
 
 state.container.innerHTML = `
-<div class="calc-page" data-calc-id="${calcId}">
-
     <div class="breadcrumb">
         <span class="crumb-home">🏠 Hem</span>
         /
@@ -647,6 +673,8 @@ state.container.innerHTML = `
         /
         <span>${calc.name}</span>
     </div>
+
+<div class="calc-page" data-calc-id="${calcId}">
 
     <h2>
         ${calc.name}
@@ -1070,4 +1098,3 @@ function showConfirmModal(message, onConfirm) {
     modal.querySelector("#cancelBtn").addEventListener("click", () => {
         document.body.removeChild(modal);
     });
-}

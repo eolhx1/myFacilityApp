@@ -699,6 +699,9 @@ input:checked + .slider:before {
     font-size: 14px;
     color: #0066cc;
     font-weight: 600;
+	
+	    min-height: 24px;
+    margin-bottom: 8px;
 }
 
 .crumb-home,
@@ -709,4 +712,8 @@ input:checked + .slider:before {
 .crumb-home:hover,
 .crumb-category:hover {
     text-decoration: underline;
+}
+
+.submenu-header-bar h2 {
+    margin: 4px 0 8px 0;
 }
