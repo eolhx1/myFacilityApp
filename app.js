@@ -136,8 +136,8 @@ document.addEventListener("DOMContentLoaded", async () => {
             const calcId = state.container.querySelector("[data-calc-id]")?.dataset.calcId;
             if (!calcId) return;
 
-            // Rättat till "el_ohms_lag" här i enlighet med ID i kalkyler.js
-            if (calcId === "el_ohms_lag") {
+            // Rättat till "ohms_law" här i enlighet med ID i kalkyler.js
+            if (calcId === "ohms_law") {
                 const page = state.container.querySelector(".calc-page");
                 const valjare = page.querySelector('select[data-unit="lage"]');
                 const label1 = page.querySelector('label[for-id="varde1"]');
@@ -317,6 +317,7 @@ function showSubMenu(categoryKey) {
         kalkylerAttVisa = list.map(calcId => findCalc(calcId)).filter(Boolean);
     } else {
 //        kalkylerAttVisa = ALL_CALCULATIONS.filter(c => c.CATEGORIES.includes(categoryKey));
+console.log("categoryKey =", categoryKey);
 		kalkylerAttVisa = ALL_CALCULATIONS.filter(c => c.categories.includes(categoryKey))
     }
 
@@ -639,7 +640,7 @@ function renderCalc(category, calcId) {
         const savedUnit = savedData[i.id + "_unit"] || (i.unit ? i.unit[0] : "");
 
         let currentLabel = i.label;
-        if (calcId === "el_ohms_lag") {
+        if (calcId === "ohms_law") {
             const currentLage = savedData["lage_unit"] || "U";
             if (i.id === "varde1") {
                 currentLabel = currentLage === "U" ? "Ström (I) [A]" : "Spänning (U) [V]";
