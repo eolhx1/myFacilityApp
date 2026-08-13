@@ -8,27 +8,28 @@
 import { valid } from './config.js';
 
 const calculateStairDesign = (v) => {
-    if (!valid(v.totalhojd, v.stegdjup)) return "Fel";
-    if (v.totalhojd <= 0 || v.stegdjup <= 0) return "Måtten måste vara större än 0";
+    if (!valid(v.totalHeight, v.treadDepth)) return "Fel";
+    if (v.totalHeight <= 0 || v.treadDepth <= 0) return "Måtten måste vara större än 0";
 
-    const uppskattatAntalSteg = Math.round(v.totalhojd / 180);
-    const antalSteg = uppskattatAntalSteg > 0 ? uppskattatAntalSteg : 1;
-    
-    const exaktSteghojd = v.totalhojd / antalSteg;
-    const blondelMått = (2 * exaktSteghojd) + v.stegdjup;
-    
-    let komfort = "Godkänd / Bekväm trappa";
-    if (blondelMått < 600) {
-        komfort = "⚠️ Trappan kan upplevas som brant / korta steg";
-    } else if (blondelMått > 630) {
-        komfort = "⚠️ Trappan kan upplevas som långsam / långa steg";
+    const estimatedStepCount = Math.round(v.totalHeight / 180);
+    const stepCount = estimatedStepCount > 0 ? estimatedStepCount : 1;
+
+    const stepHeight = v.totalHeight / stepCount;
+    const blondelValue = (2 * stepHeight) + v.treadDepth;
+
+    let comfortRating = "Godkänd / Bekväm trappa";
+
+    if (blondelValue < 600) {
+        comfortRating = "⚠️ Trappan kan upplevas som brant / korta steg";
+    } else if (blondelValue > 630) {
+        comfortRating = "⚠️ Trappan kan upplevas som långsam / långa steg";
     }
 
-    return `Antal steg: ${antalSteg} st
-Steghöjd: ${exaktSteghojd.toFixed(1)} mm
-Stegdjup: ${v.stegdjup} mm
-Blondels mått (2H + B): ${blondelMått.toFixed(0)} mm
-Status: ${komfort}`;
+    return `Antal steg: ${stepCount} st
+Steghöjd: ${stepHeight.toFixed(1)} mm
+Stegdjup: ${v.treadDepth} mm
+Blondels mått (2H + B): ${blondelValue.toFixed(0)} mm
+Status: ${comfortRating}`;
 };
 
 export const buildingCalculations = [{
@@ -37,8 +38,8 @@ export const buildingCalculations = [{
     categories: ["building"],
     decimaler: 1,
     inputs: [
-        { id: "totalhojd", label: "Total höjd (golv till golv) [mm]" },
-        { id: "stegdjup", label: "Plansteg / Stegdjup (B) [mm]" }
+{ id: "totalHeight", label: "Total höjd (golv till golv) [mm]" },
+{ id: "treadDepth", label: "Plansteg / Stegdjup (B) [mm]" }
     ],
     calc: calculateStairDesign,
     info: {
