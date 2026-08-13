@@ -139,9 +139,9 @@ document.addEventListener("DOMContentLoaded", async () => {
             // Rättat till "ohms_law" här i enlighet med ID i kalkyler.js
             if (calcId === "ohms_law") {
                 const page = state.container.querySelector(".calc-page");
-                const valjare = page.querySelector('select[data-unit="lage"]');
-                const label1 = page.querySelector('label[for-id="varde1"]');
-                const label2 = page.querySelector('label[for-id="varde2"]');
+                const valjare = page.querySelector('select[data-unit="calculationMode"]');
+				const label1 = page.querySelector('label[for-id="value1"]');
+				const label2 = page.querySelector('label[for-id="value2"]');
 
                 if (valjare && label1 && label2) {
                     const val = valjare.value;
@@ -337,10 +337,10 @@ console.log("kalkylerAttVisa =", kalkylerAttVisa);
 
         items.forEach(calc => {
             // Hämta beskrivning från info om den finns
-            let beskrivning = "";
+            let description = "";
             if (calc.info) {
-                if (typeof calc.info === 'string') beskrivning = calc.info;
-                else if (calc.info.description) beskrivning = calc.info.description;
+                if (typeof calc.info === 'string') description = calc.info;
+                else if (calc.info.description) description = calc.info.description;
             }
 
             const card = document.createElement("button");
@@ -349,7 +349,7 @@ console.log("kalkylerAttVisa =", kalkylerAttVisa);
             
             card.innerHTML = `
                 <span style="font-weight: bold; font-size: 1rem; color: var(--text-color);">${calc.name}</span>
-                ${beskrivning ? `<span style="font-size: 0.8rem; color: var(--text-muted, #666); margin-top: 3px; line-height: 1.2;">${beskrivning}</span>` : ""}
+                ${description ? `<span style="font-size: 0.8rem; color: var(--text-muted, #666); margin-top: 3px; line-height: 1.2;">${description}</span>` : ""}
             `;
 
             card.onclick = () => {
@@ -641,11 +641,11 @@ function renderCalc(category, calcId) {
 
         let currentLabel = i.label;
         if (calcId === "ohms_law") {
-            const currentLage = savedData["lage_unit"] || "U";
-            if (i.id === "varde1") {
-                currentLabel = currentLage === "U" ? "Ström (I) [A]" : "Spänning (U) [V]";
-            } else if (i.id === "varde2") {
-                currentLabel = currentLage === "R" ? "Ström (I) [A]" : "Resistans (R) [Ω]";
+            const currentMode = savedData["calculationMode_unit"] || "U";
+            if (i.id === "value1") {
+                currentLabel = currentMode === "U" ? "Ström (I) [A]" : "Spänning (U) [V]";
+            } else if (i.id === "value2") {
+                currentLabel = currentMode === "R" ? "Ström (I) [A]" : "Resistans (R) [Ω]";
             }
         }
 
@@ -699,11 +699,12 @@ function renderCalc(category, calcId) {
     <span id="infoIcon">▼</span>
     </div>
 
-    <div id="calcInfo" class="calc-info-content">
-    ${typeof calc.info === 'string' ? `<p>${calc.info}</p>` : `
-    ${calc.info?.beskrivning ? `<p>${calc.info.description}</p>` : ""}
-    ${calc.info?.formula ? `<p><strong>Formel:</strong> ${calc.info.formula.name} (${calc.info.formula.description})</p>` : ""}
-    `}
+<div id="calcInfo" class="calc-info-content">
+${typeof calc.info === 'string' ? `<p>${calc.info}</p>` : `
+${calc.info?.description ? `<p>${calc.info.description}</p>` : ""}
+${calc.info?.details ? `<p>${calc.info.details}</p>` : ""}
+${calc.info?.formula ? `<p><strong>Formel:</strong> ${calc.info.formula.name} (${calc.info.formula.description})</p>` : ""}
+`}
     </div>
     </div>`;
 
