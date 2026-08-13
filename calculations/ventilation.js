@@ -59,7 +59,7 @@ const calculateAirflowFromEffectiveArea = (v) => {
 };
 
 const calculateHeatRecoveryEfficiency = (v) => {
-    if (!valid(v.t_till, v.t_ute, v.t_fran)) return "Fel";
+    if (!valid(v.t_till, v.t_ute, v.t_fran)) return "Fel";s
     const nämnare = v.t_fran - v.t_ute;
     if (nämnare === 0) return "Fel (0-division)";
     return (v.t_till - v.t_ute) / nämnare;
@@ -74,7 +74,7 @@ export const ventilationCalculations = [
     {
         id: "air_change_rate",
         name: "Luftomsättning",
-        categories: ["vent"],
+        categories: ["ventilation"],
         unit: "h⁻¹",
         label: "Luftomsättning",
         decimaler: 1,
@@ -91,7 +91,7 @@ export const ventilationCalculations = [
     {
         id: "supply_air_cooling_capacity",
         name: "Kyleffekt luft",
-        categories: ["vent"],
+        categories: ["ventilation"],
         unit: "kW",
         decimaler: 2,
         inputs: [
@@ -108,7 +108,7 @@ export const ventilationCalculations = [
     {
         id: "airflow_from_velocity",
         name: "Flöde & Lufthastighet",
-        categories: ["vent"],
+        categories: ["ventilation"],
         unit: "l/s",
         decimaler: 1,
         inputs: [
@@ -124,7 +124,7 @@ export const ventilationCalculations = [
     {
         id: "airflow_from_k_factor",
         name: "K-faktor flödesberäkning",
-        categories: ["vent"],
+        categories: ["ventilation"],
         unit: "l/s",
         decimaler: 1,
         inputs: [
@@ -141,7 +141,7 @@ export const ventilationCalculations = [
     {
         id: "ventilation_balancing_ratio",
         name: "Proportionalitetsmetoden",
-        categories: ["vent"],
+        categories: ["ventilation"],
         unit: "",
         decimaler: 2,
         inputs: [
@@ -162,7 +162,7 @@ export const ventilationCalculations = [
     {
         id: "specific_fan_power",
         name: "Specifik Fläkteffekt (SFP)",
-        categories: ["vent", "bygg"],
+        categories: ["ventilation", "building"],
         unit: "kW/(m³/s)",
         decimaler: 1,
         inputs: [
@@ -179,7 +179,7 @@ export const ventilationCalculations = [
     {
         id: "fan_affinity_laws",
         name: "Affinitetslagar (Fläkt)",
-        categories: ["vent"],
+        categories: ["ventilation"],
         decimaler: 2,
         inputs: [
             { id: "n1", label: "Nuvarande varvtal / frekvens [varv/min eller Hz]" },
@@ -198,7 +198,7 @@ export const ventilationCalculations = [
     {
         id: "equivalent_duct_diameter",
         name: "Ekvivalent kanaldiameter",
-        categories: ["vent"],
+        categories: ["ventilation"],
         unit: "mm",
         decimaler: 0,
         inputs: [
@@ -214,7 +214,7 @@ export const ventilationCalculations = [
     {
         id: "airflow_from_effective_area",
         name: "Flöde via effektiv area (Don/Galler)",
-        categories: ["vent"],
+        categories: ["ventilation"],
         unit: "l/s",
         decimaler: 1,
         inputs: [
@@ -230,7 +230,7 @@ export const ventilationCalculations = [
     {
         id: "heat_recovery_efficiency",
         name: "Temperaturverkningsgrad (Värmeväxlare)",
-        categories: ["vent"],
+        categories: ["ventilation"],
         unit: "",
         decimaler: 2,
         inputs: [
@@ -248,7 +248,7 @@ export const ventilationCalculations = [
     {
         id: "mixed_air_temperature",
         name: "Blandningstemperatur (Recirkulation)",
-        categories: ["vent", "styr"],
+        categories: ["ventilation", "controls"],
         unit: "°C",
         decimaler: 1,
         inputs: [

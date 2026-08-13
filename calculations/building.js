@@ -34,7 +34,7 @@ Status: ${komfort}`;
 export const buildingCalculations = [{
     id: "stair_design",
     name: "Trappberäkning (Stigning & Steg)",
-    categories: ["bygg"],
+    categories: ["building"],
     decimaler: 1,
     inputs: [
         { id: "totalhojd", label: "Total höjd (golv till golv) [mm]" },

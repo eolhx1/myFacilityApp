@@ -18,7 +18,7 @@ const calculateOhmsLaw = (v) => {
 export const electricalCalculations = [{
     id: "ohms_law",
     name: "Ohms lag",
-    categories: ["el", "tele"],
+    categories: ["electrical", "telecom"],
     decimaler: 2,
     inputs: [
         { id: "lage", label: "Vad vill du räkna ut?", unit: ["U", "I", "R"], requiresInput: false },

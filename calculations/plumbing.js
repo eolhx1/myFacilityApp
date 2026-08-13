@@ -3,7 +3,7 @@
 //
 
 // =================================================================
-// Fil: kalkyler/vs.js
+// Fil: kalkyler/plumbing.js
 // =================================================================
 
 import { valid, formatResult } from './config.js';
@@ -96,7 +96,7 @@ export const plumbingCalculations = [
     {
         id: "required_radiator_flow",
         name: "Radiatorflöde & Effekt (VS)",
-        categories: ["vs"],
+        categories: ["plumbing"],
         unit: "l/h",
         decimaler: 1,
         inputs: [
@@ -112,7 +112,7 @@ export const plumbingCalculations = [
     {
         id: "valve_kv_value",
         name: "K<sub>v</sub>-värde (Ventilinställning)",
-        categories: ["vs"],
+        categories: ["plumbing"],
         unit: "",
         decimaler: 2,
         inputs: [
@@ -128,7 +128,7 @@ export const plumbingCalculations = [
     {
         id: "radiator_output_at_new_temperature",
         name: "Radiatoreffekt vid ny temperatur",
-        categories: ["vs"],
+        categories: ["plumbing"],
         unit: "W",
         decimaler: 0,
         inputs: [
@@ -146,7 +146,7 @@ export const plumbingCalculations = [
     {
         id: "balancing_ratio",
         name: "Proportionalitetsmetoden (VS)",
-        categories: ["vs"],
+        categories: ["plumbing"],
         unit: "",
         decimaler: 2,
         inputs: [
@@ -162,7 +162,7 @@ export const plumbingCalculations = [
     {
         id: "pipe_pressure_drop",
         name: "Tryckfall i rör (VS)",
-        categories: ["vs"],
+        categories: ["plumbing"],
         unit: "",
         decimaler: 0,
         inputs: [
@@ -178,7 +178,7 @@ export const plumbingCalculations = [
     {
         id: "pump_affinity_laws",
         name: "Affinitetslagar (Pump)",
-        categories: ["vs"],
+        categories: ["plumbing"],
         decimaler: 2,
         inputs: [
             { id: "n1", label: "Nuvarande varvtal / frekvens [varv/min eller Hz]" },
@@ -196,7 +196,7 @@ export const plumbingCalculations = [
     {
         id: "one_pipe_temperature_drop",
         name: "Framledningstemperatur Ettrörssystem",
-        categories: ["vs"],
+        categories: ["plumbing"],
         unit: "°C",
         decimaler: 1,
         inputs: [
@@ -213,7 +213,7 @@ export const plumbingCalculations = [
     {
         id: "heat_output_from_flow",
         name: "Värmeeffekt från Flöde & ΔT",
-        categories: ["vs"],
+        categories: ["plumbing"],
         unit: "kW",
         decimaler: 2,
         inputs: [
@@ -229,7 +229,7 @@ export const plumbingCalculations = [
     {
         id: "water_expansion",
         name: "Vattenexpansion i system",
-        categories: ["vs"],
+        categories: ["plumbing"],
         unit: "liter",
         decimaler: 1,
         inputs: [
@@ -246,7 +246,7 @@ export const plumbingCalculations = [
     {
         id: "brine_heat_transfer",
         name: "Effekt köldbärare (Flöde & ΔT)",
-        categories: ["energi", "vs"],
+        categories: ["enery", "plumbing"],
         decimaler: 2,
         inputs: [
             { id: "flode_ls", label: "Köldbärarens flöde [l/s]" },

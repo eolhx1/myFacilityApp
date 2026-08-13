@@ -35,7 +35,7 @@ export const energyCalculations = [
     {
         id: "transmission_heat_loss",
         name: "Värmeförlust (Transmissionsförlust)",
-        categories: ["energi"],
+        categories: ["energy"],
         decimaler: 0,
         inputs: [
             { id: "u_varde", label: "U-värde [W/(m²·K)]" },
@@ -53,7 +53,7 @@ export const energyCalculations = [
     {
         id: "heat_pump_cop",
         name: "Värmepumpens Verkningsgrad (COP)",
-        categories: ["energi"],
+        categories: ["energy"],
         decimaler: 2,
         inputs: [
             { id: "avgiven_effekt", label: "Avgiven värmeeffekt [kW]" },
@@ -69,7 +69,7 @@ export const energyCalculations = [
     {
         id: "cooling_eer",
         name: "Kylmaskinens Verkningsgrad (EER)",
-        categories: ["energi"],
+        categories: ["energy"],
         decimaler: 2,
         inputs: [
             { id: "kyleffekt", label: "Avgiven kyleffekt [kW]" },

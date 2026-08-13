@@ -46,7 +46,7 @@ export const telecomCalculations = [
     {
         id: "fiber_loss_budget",
         name: "Dämpningsbudget Fiberlänk",
-        categories: ["tele"],
+        categories: ["telecom"],
         decimaler: 2,
         inputs: [
             { id: "langd_km", label: "Fiberlängd [km]" },
@@ -63,7 +63,7 @@ export const telecomCalculations = [
     {
         id: "poe_voltage_drop",
         name: "PoE Spänningsfall & Längdkoll",
-        categories: ["tele"],
+        categories: ["telecom"],
         decimaler: 2,
         inputs: [
             { id: "kabellangd_m", label: "Kabellängd [m]" },
