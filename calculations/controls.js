@@ -5,14 +5,13 @@
 // =================================================================
 // STYR & REGLER KALKYLER
 // =================================================================
-console.log("controls.js loaded");
-
 import {
     valid
 } from './config.js';
 
-const calculateProcessValueFromVoltage = (v) => (v.voltage / 10) * (v.max - v.min) + v.min;
-
+const calculateProcessValueFromVoltage = (v) =>
+    `Värde: ${(((v.voltage / 10) * (v.max - v.min) + v.min)).toFixed(2)}`;
+	
 const calculateProcessValueFromCurrent = (v) => `Värde: ${(((v.currentmA - 4) / 16) * (v.max - v.min) + v.min).toFixed(2)}`;
 
 const calculateProportionalBand = (v) => `P-band (Xp): ${(v.outputSignal / v.controlError).toFixed(2)}`;
