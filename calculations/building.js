@@ -14,16 +14,20 @@ const calculateStairDesign = (v) => {
     const estimatedStepCount = Math.round(v.totalHeight / 180);
     const stepCount = estimatedStepCount > 0 ? estimatedStepCount : 1;
 
-    const stepHeight = v.totalHeight / stepCount;
-    const blondelValue = (2 * stepHeight) + v.treadDepth;
+const stepHeight = v.totalHeight / stepCount;
+const blondelValue = (2 * stepHeight) + v.treadDepth;
 
-    let comfortRating = "Godkänd / Bekväm trappa";
+let comfortRating = "Godkänd / Bekväm trappa";
 
-    if (blondelValue < 600) {
-        comfortRating = "⚠️ Trappan kan upplevas som brant / korta steg";
-    } else if (blondelValue > 630) {
-        comfortRating = "⚠️ Trappan kan upplevas som långsam / långa steg";
-    }
+if (stepHeight < 120 || stepHeight > 220) {
+    comfortRating = "⚠️ Ovanlig steghöjd";
+}
+
+if (blondelValue < 600) {
+    comfortRating = "⚠️ Trappan kan upplevas som brant / korta steg";
+} else if (blondelValue > 630) {
+    comfortRating = "⚠️ Trappan kan upplevas som långsam / långa steg";
+}
 
     return `Antal steg: ${stepCount} st
 Steghöjd: ${stepHeight.toFixed(1)} mm

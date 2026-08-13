@@ -9,7 +9,10 @@ import { valid } from './config.js';
 
 const calculateCylinderRuntime = (v) => {
     if (!valid(v.cylinderVolume, v.pressure, v.flowRate) || v.flowRate === 0) return "Fel";
-    return (v.cylinderVolume * v.pressure) / (v.flowRate * 60);
+
+    const runtimeHours = (v.cylinderVolume * v.pressure) / (v.flowRate * 60);
+
+    return `Drifttid: ${runtimeHours.toFixed(1)} h`;
 };
 
 export const gasCalculations = [{

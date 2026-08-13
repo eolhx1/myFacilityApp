@@ -12,11 +12,14 @@ import {
 const calculateProcessValueFromVoltage = (v) =>
     `Värde: ${(((v.voltage / 10) * (v.max - v.min) + v.min)).toFixed(2)}`;
 	
-const calculateProcessValueFromCurrent = (v) => `Värde: ${(((v.currentmA - 4) / 16) * (v.max - v.min) + v.min).toFixed(2)}`;
+const calculateProcessValueFromCurrent = (v) => 
+	`Värde: ${(((v.currentmA - 4) / 16) * (v.max - v.min) + v.min).toFixed(2)}`;
 
-const calculateProportionalBand = (v) => `P-band (Xp): ${(v.outputSignal / v.controlError).toFixed(2)}`;
+const calculateProportionalBand = (v) => 
+	`P-band (Xp): ${(v.outputSignal / v.controlError).toFixed(2)}`;
 
-const calculateSystemTimeConstant = (v) => `Tidskonstant: ${((v.volume / v.flow) * 60).toFixed(1)} minuter`;
+const calculateSystemTimeConstant = (v) => 
+	`Tidskonstant: ${((v.volume / v.flow) * 60).toFixed(1)} minuter`;
 
 const calculateTheoreticalZeroValue = (inMin, inMax, physicalMin, physicalMax) => {
     return ((0 - inMin) / (inMax - inMin)) * (physicalMax - physicalMin) + physicalMin;

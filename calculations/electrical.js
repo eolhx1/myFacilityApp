@@ -9,9 +9,21 @@ import { valid } from './config.js';
 
 const calculateOhmsLaw = (v) => {
     if (!valid(v.value1, v.value2)) return "Fel";
+
     const mode = v.calculationMode_unit || "U";
-    if (mode === "U") return v.value1 * v.value2;
-    if (mode === "I" || mode === "R") return v.value1 / v.value2;
+
+    if (mode === "U") {
+        return `Spänning (U): ${(v.value1 * v.value2).toFixed(2)} V`;
+    }
+
+    if (mode === "I") {
+        return `Ström (I): ${(v.value1 / v.value2).toFixed(2)} A`;
+    }
+
+    if (mode === "R") {
+        return `Resistans (R): ${(v.value1 / v.value2).toFixed(2)} Ω`;
+    }
+
     return "Fel";
 };
 

@@ -21,19 +21,22 @@ const calculateRequiredRadiatorFlow = (v) => {
 
 const calculateKvValue = (v) => {
     if (!valid(v.flowRateM3h, v.pressureDrop) || v.pressureDrop <= 0) return "Fel";
+
     const kvValue = v.flowRateM3h / Math.sqrt(v.pressureDrop);
-    return kvValue;
+
+    return `Kv-värde: ${kvValue.toFixed(2)}`;
 };
 
 const calculateRadiatorOutputAtNewTemperature = (v) => {
     if (!valid(v.designHeatOutput, v.newTemperatureDifference, v.oldTemperatureDifference, v.radiatorExponent) || v.oldTemperatureDifference === 0) return "Fel";
     const newHeatOutput = v.designHeatOutput * Math.pow(v.newTemperatureDifference / v.oldTemperatureDifference, v.radiatorExponent);
-    return newHeatOutput;
+    return `Ny radiatoreffekt: ${newHeatOutput.toFixed(0)} W`;
 };
 
 const calculateBalancingRatio = (v) => {
     if (!valid(v.measuredFlow, v.designFlow) || v.designFlow === 0) return "Fel";
-    return v.measuredFlow / v.designFlow;
+    const ratio = v.measuredFlow / v.designFlow;
+return `Injusteringskvot: ${ratio.toFixed(2)}`;
 };
 
 const calculatePipePressureDrop = (v) => {
@@ -67,7 +70,7 @@ const calculateOnePipeTemperatureDrop = (v) => {
 
     if (denominator === 0) return "Fel (0-division)";
     const nextTemperature = v.supplyTemperature - (v.heatOutput / denominator);
-    return nextTemperature;
+    return `Framledning efter radiator: ${nextTemperature.toFixed(1)} °C`;
 };
 
 const calculateHeatOutputFromFlow = (v) => {

@@ -9,30 +9,43 @@ import { valid, toM3h, toLs } from './config.js';
 
 const calculateAirChangeRate = (v) => {
     if (!v.roomVolume || v.roomVolume <= 0 || !v.airflow) return "Fel";
-    return toM3h(v.airflow, v.airflow_unit || "m3h") / v.roomVolume;
+    const airChangeRate =
+    toM3h(v.airflow, v.airflow_unit || "m3h") / v.roomVolume;
+
+return `Luftomsättning: ${airChangeRate.toFixed(1)} h⁻¹`;
 };
 
 const calculateCoolingCapacity = (v) => {
     const airflowLs = toLs(v.airflow, v.airflow_unit || "ls");
     const dT = v.roomTemperature - v.supplyAirTemperature;
-    return (1.2 * airflowLs * dT) / 1000;
+   const coolingCapacity = (1.2 * airflowLs * dT) / 1000;
+
+return `Kyleffekt: ${coolingCapacity.toFixed(2)} kW`;
 };
 
 const calculateAirflowFromVelocity = (v) => {
     if (!valid(v.airVelocity, v.ductArea)) return "Fel";
-    return (v.airVelocity * v.ductArea) * 1000;
+    const airflow = (v.airVelocity * v.ductArea) * 1000;
+
+return `Luftflöde: ${airflow.toFixed(1)} l/s`;
 };
 
 const calculateAirflowFromKFactor = (v) => {
     if (!valid(v.kFactor, v.pressureDifference) || v.pressureDifference < 0) return "Fel";
-    return v.kFactor * Math.sqrt(v.pressureDifference);
+    const airflow =
+    v.kFactor * Math.sqrt(v.pressureDifference);
+
+return `Luftflöde: ${airflow.toFixed(1)} l/s`;
 };
 
 const calculateSpecificFanPower = (v) => {
     if (!valid(v.totalPower, v.airflow) || v.airflow === 0) return "Fel";
     const flowUnit = v.airflow_unit || "ls";
     let airflowM3s = flowUnit === "ls" ? v.airflow / 1000 : v.airflow / 3600;
-    return v.totalPower / airflowM3s;
+    const sfp = v.totalPower / airflowM3s;
+
+return `SFP: ${sfp.toFixed(2)} kW/(m³/s)`;
+
 };
 
 const calculateFanAffinityLaws = (v) => {
@@ -51,24 +64,41 @@ return `Nytt flöde (Q2): ${newFlow.toFixed(2)} m³/s\n` +
 
 const calculateEquivalentDuctDiameter = (v) => {
     if (!valid(v.ductWidth, v.ductHeight) || (v.ductWidth + v.ductHeight) === 0) return "Fel";
-    return (2 * v.ductWidth * v.ductHeight) / (v.ductWidth + v.ductHeight);
+    const diameter =
+    (2 * v.ductWidth * v.ductHeight) /
+    (v.ductWidth + v.ductHeight);
+
+return `Ekvivalent kanaldiameter: ${diameter.toFixed(0)} mm`;
+
 };
 
 const calculateAirflowFromEffectiveArea = (v) => {
     if (!valid(v.airVelocity, v.effectiveArea)) return "Fel";
-    return (v.airVelocity * v.effectiveArea) * 1000;
+    const airflow =
+    (v.airVelocity * v.effectiveArea) * 1000;
+
+return `Luftflöde: ${airflow.toFixed(1)} l/s`;
 };
 
 const calculateHeatRecoveryEfficiency = (v) => {
     if (!valid(v.supplyAirTemperature, v.outdoorAirTemperature, v.extractAirTemperature)) return "Fel";
     const temperatureDifference = v.extractAirTemperature - v.outdoorAirTemperature;
     if (temperatureDifference === 0) return "Fel (0-division)";
-    return (v.supplyAirTemperature - v.outdoorAirTemperature) / temperatureDifference;
+    const efficiency =
+    (v.supplyAirTemperature - v.outdoorAirTemperature) /
+    temperatureDifference;
+
+return `Temperaturverkningsgrad: ${(efficiency * 100).toFixed(1)} %`;
 };
 
 const calculateMixedAirTemperature = (v) => {
     if (!valid(v.outdoorAirflow, v.outdoorAirTemperature, v.returnAirflow, v.returnAirTemperature, v.totalAirflow) || v.totalAirflow === 0) return "Fel";
-    return ((v.outdoorAirflow * v.outdoorAirTemperature) + (v.returnAirflow * v.returnAirTemperature)) / v.totalAirflow;
+   const mixedAirTemperature =
+    ((v.outdoorAirflow * v.outdoorAirTemperature) +
+     (v.returnAirflow * v.returnAirTemperature)) /
+    v.totalAirflow;
+
+return `Blandningstemperatur: ${mixedAirTemperature.toFixed(1)} °C`;
 };
 
 export const ventilationCalculations = [
@@ -162,14 +192,19 @@ inputs: [
     { id: "measuredFlow", label: "Uppmätt flöde", unit: ["ls", "m3h"], base: "ls" },
     { id: "designFlow", label: "Projekterat flöde", unit: ["ls", "m3h"], base: "ls" }
 ],
-        calc: (v) => {
-if (!valid(v.measuredFlow, v.designFlow) || v.designFlow === 0) return "Fel";
 
-const measuredFlowLs = toLs(v.measuredFlow, v.measuredFlow_unit || "ls");
-const designFlowLs = toLs(v.designFlow, v.designFlow_unit || "ls");
+calc: (v) => {
+    if (!valid(v.measuredFlow, v.designFlow) || v.designFlow === 0) return "Fel";
 
-return measuredFlowLs / designFlowLs;
-        },
+    const measuredFlowLs = toLs(v.measuredFlow, v.measuredFlow_unit || "ls");
+    const designFlowLs = toLs(v.designFlow, v.designFlow_unit || "ls");
+
+    const ratio = measuredFlowLs / designFlowLs;
+
+    return `Injusteringskvot: ${ratio.toFixed(2)}`;
+},
+		
+		
         info: {
             description: "Beräknar injusteringskvot för ventilationsgrenar.",
             details: "Används vid injustering av ventilationssystem för att beräkna flödesförhållanden mellan uppmätta och projekterade värden."
