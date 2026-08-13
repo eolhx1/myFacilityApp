@@ -316,10 +316,10 @@ function showSubMenu(categoryKey) {
     if (list) {
         kalkylerAttVisa = list.map(calcId => findCalc(calcId)).filter(Boolean);
     } else {
-//        kalkylerAttVisa = ALL_CALCULATIONS.filter(c => c.CATEGORIES.includes(categoryKey));
-console.log("categoryKey =", categoryKey);
 		kalkylerAttVisa = ALL_CALCULATIONS.filter(c => c.categories.includes(categoryKey))
     }
+console.log("categoryKey =", categoryKey);
+console.log("kalkylerAttVisa =", kalkylerAttVisa);
 
     // Container för själva kalkylkorten
     const listContainer = document.createElement("div");
