@@ -26,10 +26,10 @@ const calculateTheoreticalZeroValue = (inMin, inMax, physicalMin, physicalMax) =
 };
 
 export const controlsCalculations = [
-    {
-        id: "current_to_process_value",
-        name: "Givarskalning 4-20mA",
-        categories: ["controls"],
+	{
+		id: "current_to_process_value",
+		nameKey: "current_to_process_value",
+		categories: ["controls"],
         decimaler: 2,
         inputs: [
             { id: "currentmA", label: "mA" },
