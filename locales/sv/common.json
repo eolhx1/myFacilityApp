@@ -73,4 +73,6 @@
   "gas": "Gas",
   "building": "Bygg",
   "energy": "Energi"
+  
+  "current_to_process_value": "Givarskalning 4-20mA"
 }
