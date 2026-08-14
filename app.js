@@ -127,9 +127,12 @@ document.addEventListener("DOMContentLoaded", async () => {
             smartReset(calcId);
         }
 
-        if (id === "saveJobBtn") {
-            showSaveJobModal(calcId);
-        }
+if (id === "saveJobBtn") {
+    const pageCalcId =
+        state.container.querySelector("[data-calc-id]")?.dataset.calcId;
+
+    showSaveJobModal(pageCalcId);
+}
     });
 
     state.container.addEventListener("focus", (e) => {
@@ -519,12 +522,12 @@ function showJobDetailsModal(job) {
     };
 
     modal.querySelector("#copyJobBtn").onclick = () => {
-        const reportText =
-			`${getCommonText("project")}: ${job.projectName}
-			${getCommonText("calculation")}: ${job.calcName}
-			${getCommonText("date")}: ${job.date}
-			${getCommonText("note")}: ${job.notes || getCommonText("none")}
-			${getCommonText("result")}: ${job.resultText}`;
+const reportText =
+`${getCommonText("project")}: ${job.projectName}
+${getCommonText("calculation")}: ${job.calcName}
+${getCommonText("date")}: ${job.date}
+${getCommonText("note")}: ${job.notes || getCommonText("none")}
+${getCommonText("result")}: ${job.resultText}`;
         navigator.clipboard.writeText(reportText).then(() => { showToast(getCommonText("report_copied")); });
     };
 
@@ -544,6 +547,10 @@ function showJobDetailsModal(job) {
 
 function showSaveJobModal(calcId) {
     const calc = findCalc(calcId);
+	
+console.log("calcId =", calcId);
+console.log("calc =", calc);	
+	
     const resultTextEl = document.getElementById("resultText");
     const resultText = resultTextEl ? resultTextEl.innerText : "";
 
@@ -822,9 +829,10 @@ function renderCalc(category, calcId) {
         <button id="copyBtn" class="copy-icon">📋</button>
     </div>
 
-    <button id="saveJobBtn"
-            class="nav-btn"
-            style="background: var(--primary-color); color:white; width:100%; margin-top:10px; margin-bottom:5px;">
+<button id="saveJobBtn"
+        data-calc-id="${calcId}"
+        class="nav-btn"
+        style="background: var(--primary-color); color:white; width:100%; margin-top:10px; margin-bottom:5px;">
         💾 ${getCommonText("save_job")}
     </button>
 
