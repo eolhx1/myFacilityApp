@@ -392,7 +392,10 @@ if (homeCrumb) {
             let description = "";
             if (calc.info) {
                 if (typeof calc.info === 'string') description = calc.info;
-                else if (calc.info.description) description = calc.info.description;
+                else if (calc.info.description) description =
+					calc.info.descriptionKey
+						? getCommonText(calc.info.descriptionKey)
+						: calc.info.description;
             }
 
             const card = document.createElement("button");
@@ -426,7 +429,7 @@ if (homeCrumb) {
         }
 
         const filtered = kalkylerAttVisa.filter(calc => {
-            let searchableText = calc.name.toLowerCase();
+            let searchableText = getCalcName(calc).toLowerCase();
             if (calc.info) {
                 if (typeof calc.info === 'string') searchableText += " " + calc.info.toLowerCase();
                 else if (calc.info.description) searchableText += " " + calc.info.description.toLowerCase();
@@ -572,7 +575,9 @@ if (!resultText || resultText.includes(getCommonText("fill_all_fields"))) {
     nameInput.focus();
 
     modal.querySelector("#confirmSaveJob").onclick = () => {
-        const projectName = nameInput.value.trim() || `${getCommonText("job")} - ${calc.name}`;
+        const projectName =
+			nameInput.value.trim()
+			|| `${getCommonText("job")} - ${getCalcName(calc)}`;
         const notes = modal.querySelector("#modalNotes").value.trim();
         const inputsData = JSON.parse(localStorage.getItem(`calc_${calcId}`) || "{}");
 
@@ -831,7 +836,30 @@ function renderCalc(category, calcId) {
         ${typeof calc.info === 'string'
             ? `<p>${calc.info}</p>`
             : `
-                ${calc.info?.description ? `<p>${calc.info.description}</p>` : ""}
+			
+			
+			
+			
+			
+                ${(
+					calc.info?.descriptionKey
+						? getCommonText(calc.info.descriptionKey)
+						: calc.info?.description
+				)
+					? `<p>${
+						calc.info?.descriptionKey
+							? getCommonText(calc.info.descriptionKey)
+							: calc.info.description
+					  }</p>`
+					: ""
+				}
+				
+				
+				
+				
+				
+				
+				
                 ${calc.info?.details ? `<p>${calc.info.details}</p>` : ""}
                 ${calc.info?.formula ? `<p><strong>Formel:</strong> ${calc.info.formula.name} (${calc.info.formula.description})</p>` : ""}
             `
@@ -1059,7 +1087,7 @@ function showSearchModal() {
 
         const searchWords = query.split(/\s+/);
         const matches = ALL_CALCULATIONS.filter(calc => {
-            let searchableText = calc.name.toLowerCase();
+            let searchableText = getCalcName(calc).toLowerCase();
             if (calc.info && typeof calc.info === 'object') {
                 if (calc.info.description) searchableText += " " + calc.info.description.toLowerCase();
             }
@@ -1067,7 +1095,7 @@ function showSearchModal() {
         });
 
         matches.forEach(calc => {
-            const btn = createButton(calc.name, "sub-btn", () => {
+            const btn = createButton(getCalcName(calc), "sub-btn", () => {
 //              renderCalc(calc.CATEGORIES[0], calc.id);
 				renderCalc(calc.categories[0], calc.id);
             });
