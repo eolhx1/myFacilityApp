@@ -38,8 +38,8 @@ export const controlsCalculations = [
         ],
         calc: (v) => !valid(v.currentmA, v.min, v.max) ? "Fyll i alla fält" : calculateProcessValueFromCurrent(v),
         info: {
-            description: "Omvandlar en analog strömsignal (4-20mA) till ett motsvarande fysiskt processvärde.",
-            details: "Oumbärligt verktyg vid idrifttagning, injustering och felsökning i fält. Verifierar att givarens strömutgång korrelerar korrekt mot det uppmätta värdet i styrsystemet.",
+			descriptionKey: "current_to_process_value_desc",            
+			details: "Oumbärligt verktyg vid idrifttagning, injustering och felsökning i fält. Verifierar att givarens strömutgång korrelerar korrekt mot det uppmätta värdet i styrsystemet.",
             formula: {
                 name: "Linjär 4-20mA omvandling",
                 description: "Värde = ((mA - 4) / (20 - 4)) × (Max - Min) + Min"
@@ -48,8 +48,8 @@ export const controlsCalculations = [
     },
 
     {
-        id: "voltage_to_process_value",
-        name: "Givarskalning 0-10V",
+		id: "voltage_to_process_value",
+		nameKey: "voltage_to_process_value",
         categories: ["controls"],
         label: "Resultat",
         unit: "",
@@ -61,7 +61,7 @@ export const controlsCalculations = [
         ],
         calc: (v) => !valid(v.voltage, v.min, v.max) ? "Fel" : calculateProcessValueFromVoltage(v),
         info: {
-            description: "Skalar om en 0-10V styrsignal till fysiskt mätvärde.",
+            descriptionKey: "voltage_to_process_value_desc",
             details: "Används vid felsökning och injustering av styr- och reglersystem för att översätta insignaler från givare till korrekta fysiska storheter.",
             formula: {
                 name: "Linjär skalning",
@@ -72,7 +72,7 @@ export const controlsCalculations = [
 		
     {
         id: "proportional_band",
-        name: "P-bandsberäkning (Xp)",
+        nameKey: "proportional_band",
         categories: ["controls"],
         decimaler: 2,
         inputs: [
@@ -81,7 +81,7 @@ export const controlsCalculations = [
         ],
         calc: (v) => !valid(v.outputSignal, v.controlError) || v.controlError === 0 ? "Felaktiga värden" : calculateProportionalBand(v),
         info: {
-            description: "Beräknar regulatorns proportionella band (Xp) baserat på aktuell utsignal och styrfel.",
+			descriptionKey: "proportional_band_desc",
             details: "Används för att analysera eller ställa in P- och PID-regulatorers förstärkning. P-bandet definierar det avvikelseområde där styrsystemets utsignal färdas från 0% till 100%.",
             formula: {
                 name: "Proportionellt band",
@@ -92,7 +92,7 @@ export const controlsCalculations = [
 	
     {
         id: "system_time_constant",
-        name: "Tidskonstant (Värme)",
+        nameKey: "system_time_constant",
         categories: ["controls"],
         decimaler: 1,
         inputs: [
@@ -101,7 +101,7 @@ export const controlsCalculations = [
         ],
         calc: (v) => !valid(v.volume, v.flow) || v.flow === 0 ? "Fel" : calculateSystemTimeConstant(v),
         info: {
-            description: "Beräknar ett VVS-systems teoretiska tidskonstant (uppehållstid) som mått på tröghet.",
+            descriptionKey: "system_time_constant_desc",
             details: "Används som en snabb tumregel inom styr och regler för att uppskatta hur snabbt ett system (t.ex. en värmeväxlare eller akkumulatortank) reagerar på förändringar.",
             formula: {
                 name: "Tidskonstant",
@@ -112,7 +112,7 @@ export const controlsCalculations = [
 	
     {
         id: "zero_current_process_value",
-        name: "Teoretiskt värde vid 0 mA",
+        nameKey: "zero_current_process_value",
         categories: ["controls"],
         decimaler: 2,
         inputs: [
@@ -124,7 +124,7 @@ export const controlsCalculations = [
         calc: (v) => !valid(v.inputMinmA, v.inputMaxmA, v.physicalMin, v.physicalMax) ? "Fyll i fält" :
         `PLC KONFIGURATION:\nIn: ${v.inputMinmA}-${v.inputMaxmA}mA\nUt: ${v.physicalMin}-${v.physicalMax}\n\nDIAGNOS VID 0mA:\nPLC visar: ${calculateTheoreticalZeroValue(v.inputMinmA, v.inputMaxmA, v.physicalMin, v.physicalMax).toFixed(2)}`,
         info: {
-            description: "Beräknar vilket processvärde en PLC eller DUC teoretiskt visar om den analoga insignalen faller till 0 mA.",
+            descriptionKey: "zero_current_process_value_desc",
             details: "Används vid felsökning av analoga insignaler och kabelbrott. Kalkylen visar vilket värde styrsystemet kommer att presentera när en transmitter som normalt arbetar inom ett konfigurerat mA-område plötsligt levererar 0 mA.",
             formula: {
                 name: "Teoretiskt värde vid 0 mA",
