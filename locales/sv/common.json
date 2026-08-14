@@ -36,4 +36,11 @@
 
   "job_saved": "Jobbet sparades framgångsrikt!",
   "report_copied": "Rapporten kopierad till urklipp!"
+  
+  
+  "back": "Tillbaka",
+  "data": "Data",
+  "search_in": "Sök i",
+  "search_calculations": "Sök kalkyler",
+  "search_placeholder": "Skriv för att söka..."
 }
