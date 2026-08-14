@@ -269,9 +269,7 @@ function showMainMenu() {
 
     Object.entries(CATEGORIES).forEach(([key, cat]) => {
         const isObject = typeof cat === "object";
-        const displayName = isObject
-            ? `${cat.icon} ${cat.name}`
-            : cat;
+        const displayName = isObject ? `${cat.icon} ${getCommonText(cat.nameKey)}` : cat;
 
         const btn = createButton(
             displayName,
@@ -282,18 +280,7 @@ function showMainMenu() {
         btn.dataset.category = key;
         state.mainNav.appendChild(btn);
     });
-
-/* 	const categoryCrumb = state.breadcrumb.querySelector(".crumb-category");
-
-	if (categoryCrumb) {
-		categoryCrumb.onclick = () => {
-			triggerHaptic(20);
-			showSubMenu(categoryKey);
-		};
-	} */
 }
-
-
 
 function showSubMenu(categoryKey) {
 	clear(state.breadcrumb);
@@ -327,10 +314,11 @@ function showSubMenu(categoryKey) {
 
     const catData = CATEGORIES[categoryKey] || {};
     const categoryName =
-		catData.name ||
-		(categoryKey === "recent"
-			? getCommonText("recent")
-			: "CATEGORIES");
+    catData.nameKey
+        ? getCommonText(catData.nameKey)
+        : (categoryKey === "recent"
+            ? getCommonText("recent")
+            : "CATEGORIES");
 
     const categoryIcon = catData.icon || "";
 	
@@ -707,9 +695,9 @@ function renderCalc(category, calcId) {
 
     const catData = CATEGORIES[category];
     const categoryName =
-        (typeof catData === "object")
-            ? catData.name
-            : (catData || "Kalkyl");
+    (typeof catData === "object")
+        ? getCommonText(catData.nameKey)
+        : (catData || getCommonText("calculation"));
 
     const savedData = JSON.parse(
         localStorage.getItem(`calc_${calcId}`) || "{}"
