@@ -33,11 +33,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     await loadLanguage("sv");
 
-console.log("controls =", getCommonText("controls"));
-console.log("ventilation =", getCommonText("ventilation"));
-console.log("electrical =", getCommonText("electrical"));
-	
-	
     const debouncedRunCalc = debounce((calcId) => {
         runCalc(null, calcId);
     }, 250);
@@ -405,7 +400,7 @@ if (homeCrumb) {
             card.style.cssText = "display: flex; flex-direction: column; align-items: flex-start; text-align: left; background: var(--card-bg, #fff); border: 1px solid var(--border-color, #ccc); border-radius: 8px; padding: 12px; cursor: pointer; width: 100%; transition: background 0.2s;";
             
             card.innerHTML = `
-                <span style="font-weight: bold; font-size: 1rem; color: var(--text-color);">${calc.name}</span>
+                <span style="font-weight: bold; font-size: 1rem; color: var(--text-color);">${getCalcName(calc)}</span>
                 ${description ? `<span style="font-size: 0.8rem; color: var(--text-muted, #666); margin-top: 3px; line-height: 1.2;">${description}</span>` : ""}
             `;
 
@@ -553,7 +548,9 @@ if (!resultText || resultText.includes(getCommonText("fill_all_fields"))) {
     modal.innerHTML = `
     <div class="confirm-box" style="max-width: 400px; width: 90%;">
     <h3 style="margin-top:0;">${getCommonText("save_field_job")}</h3>
-    <p style="font-size: 0.85rem; color: var(--text-muted);">${calc.name}</p>
+    <p style="font-size: 0.85rem; color: var(--text-muted);">
+		${getCalcName(calc)}
+	</p>
     <div class="input-group" style="margin-bottom: 10px; text-align: left;">
     <label style="font-size: 0.9rem; font-weight: bold;">${getCommonText("project_name")}</label>
     <input type="text" id="modalProjectName" placeholder="t.ex. Brf Solbacken Centralen" style="width: 100%; padding: 8px; box-sizing: border-box; border: 1px solid var(--border-color); border-radius: 4px; margin-top: 4px;">
@@ -582,7 +579,7 @@ if (!resultText || resultText.includes(getCommonText("fill_all_fields"))) {
         const newJob = {
             id: 'job_' + Date.now(),
             calcId: calcId,
-            calcName: calc.name,
+            calcName: getCalcName(calc),
             projectName: projectName,
             notes: notes,
             resultText: resultText,
@@ -634,7 +631,7 @@ function renderFavoritesManagement() {
         row.style.alignItems = "center";
         row.style.gap = "4px";
 
-        const calcBtn = createButton(calc.name, "sub-btn", () => { renderCalc("favoriter", calc.id); });
+        const calcBtn = createButton(getCalcName(calc), "sub-btn", () => { renderCalc("favoriter", calc.id); });
         calcBtn.style.flexGrow = "1";
         calcBtn.style.margin = "0";
 
@@ -712,7 +709,7 @@ function renderCalc(category, calcId) {
             /
             <span class="crumb-category">${categoryName}</span>
             /
-            <span>${calc.name}</span>
+            <span>${getCalcName(calc)}</span>
         </div>
     `;
 
@@ -720,7 +717,7 @@ function renderCalc(category, calcId) {
 <div class="calc-page" data-calc-id="${calcId}">
 
     <h2>
-        ${calc.name}
+		${getCalcName(calc)}
         <button id="favoriteBtn" class="favorite-btn" data-calc-id="${calcId}">
             ${isFavorite(calcId) ? "⭐" : "☆"}
         </button>
@@ -936,6 +933,16 @@ function createButton(text, className, onClick) {
 }
 
 function findCalc(calcId) { return ALL_CALCULATIONS.find(c => c.id === calcId); }
+
+// innan alla kalkyler är ändrade, ska appen kunna hantera både:
+function getCalcName(calc) {
+    if (!calc) return "";
+
+    return calc.nameKey
+        ? getCommonText(calc.nameKey)
+        : calc.name;
+}
+
 function getFavorites() { return [...new Set(JSON.parse(localStorage.getItem("favorites") || "[]"))]; }
 function isFavorite(calcId) { return getFavorites().includes(calcId); }
 
