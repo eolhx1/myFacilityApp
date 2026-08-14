@@ -287,6 +287,9 @@ function showMainMenu() {
 
 
 function showSubMenu(categoryKey) {
+	
+console.log("showSubMenu:", categoryKey);
+
 	clear(state.breadcrumb);
 	
     state.activeCategory = categoryKey;
@@ -363,8 +366,10 @@ if (homeCrumb) {
     } else {
 		kalkylerAttVisa = ALL_CALCULATIONS.filter(c => c.categories.includes(categoryKey))
     }
-	console.log("categoryKey =", categoryKey);
-	console.log("kalkylerAttVisa =", kalkylerAttVisa);
+	
+console.log("categoryKey =", categoryKey);
+console.log("antal kalkyler =", kalkylerAttVisa.length);
+console.log(kalkylerAttVisa);
 
     // Container för själva kalkylkorten
     const listContainer = document.createElement("div");
@@ -831,6 +836,7 @@ const categoryCrumb = state.breadcrumb.querySelector(".crumb-category");
 if (categoryCrumb) {
     categoryCrumb.onclick = () => {
         triggerHaptic(20);
+console.log("showSubMenu får:", category);
         showSubMenu(category);
     };
 }
