@@ -302,8 +302,11 @@ console.log("showSubMenu:", categoryKey);
     if (activeBtn) activeBtn.classList.add('active-nav');
 
     state.mainNav.classList.add("hidden");
+	state.subNav.classList.remove("hidden");
+	
     clear(state.container);
     clear(state.subNav);
+	
     state.subNav.classList.add("active");
 
     if (categoryKey === "favoriter") {
