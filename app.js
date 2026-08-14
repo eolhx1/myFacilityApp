@@ -539,7 +539,7 @@ ${getCommonText("result")}: ${job.resultText}`;
 }
 
 function showSaveJobModal(calcId) {
-    const calc = findCalc(calcId);https://github.com/eolhx1/myFacilityApp/blob/main/locales.js
+    const calc = findCalc(calcId);
     const resultTextEl = document.getElementById("resultText");
     const resultText = resultTextEl ? resultTextEl.innerText : "";
 
