@@ -3,5 +3,37 @@
   "about": "myFacilityApp är ett verktyg framtaget för snabba och säkra beräkningar i fält.",
   "supportText": "För support eller förslag på nya kalkyler, kontakta oss via mail:",
   "supportEmail": "support@myFacilityApp.se",
-  "version": "1.0.0"
+  "version": "1.0.0",
+
+  "home": "Hem",
+  "recent": "Senaste",
+
+  "fill_all_fields": "Fyll i alla fält...",
+  "calculation_error": "Ett fel uppstod i beräkningen.",
+
+  "reset": "Nollställ",
+  "save_job": "Spara till jobb",
+  "info_about_calculation": "Info om beräkningen",
+
+  "search_calculations": "Sök kalkyler",
+  "search_placeholder": "Skriv för att söka...",
+  "search_in": "Sök i",
+
+  "no_calculations_found": "Inga kalkyler hittades.",
+  "no_favorites": "Inga favoriter sparade än.",
+  "no_saved_jobs": "Inga sparade jobb ännu.",
+
+  "settings": "Inställningar",
+  "dark_mode": "Mörkt läge",
+  "haptic": "Haptik",
+  "data": "Data",
+
+  "cancel": "Avbryt",
+  "ok": "OK",
+
+  "clear_saved_data": "Rensa all sparad data",
+  "confirm_clear_saved_data": "Är du säker på att du vill rensa all sparad data?",
+
+  "job_saved": "Jobbet sparades framgångsrikt!",
+  "report_copied": "Rapporten kopierad till urklipp!"
 }
