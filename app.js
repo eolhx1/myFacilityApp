@@ -109,7 +109,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
 
         if (id === "clearDataBtn") {
-            showConfirmModal("Är du säker på att du vill ${getCommonText("clear_saved_data")}?", () => {
+            showConfirmModal("Är du säker på att du vill rensa sparad data", () => {
                 localStorage.clear();
                 location.reload();
             });
