@@ -109,10 +109,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
 
         if (id === "clearDataBtn") {
-            showConfirmModal("Är du säker på att du vill rensa sparad data", () => {
-                localStorage.clear();
-                location.reload();
-            });
+            showConfirmModal(
+				getCommonText("confirm_clear_saved_data"),
+				() => {
+					localStorage.clear();
+					location.reload();
+				}
+			);
         }
 
         if (id === "favoriteBtn") {
@@ -385,8 +388,12 @@ if (homeCrumb) {
     const renderListItems = (items) => {
         listContainer.innerHTML = "";
         if (items.length === 0) {
-            listContainer.innerHTML = "<p style='padding:14px; color:var(--text-muted); text-align: center;'>getCommonText("no_calculations_found")</p>";
-            return;
+			listContainer.innerHTML = `
+				<p style="padding:14px; color:var(--text-muted); text-align:center;">
+					${getCommonText("no_calculations_found")}
+				</p>
+			`;	
+				return;
         }
 
         items.forEach(calc => {
@@ -446,7 +453,11 @@ function renderSavedJobsList() {
     state.subNav.innerHTML = "";
 
     if (jobs.length === 0) {
-        state.subNav.innerHTML = "<p style='padding:14px; color:var(--text-muted);'>getCommonText("no_saved_jobs")</p>";
+        state.subNav.innerHTML = `
+			<p style="padding:14px; color:var(--text-muted);">
+				${getCommonText("no_saved_jobs")}
+			</p>
+		`;
         return;
     }
 
@@ -597,7 +608,11 @@ function renderFavoritesManagement() {
     state.subNav.innerHTML = "";
 
     if (favorites.length === 0) {
-        state.subNav.innerHTML = "<p style='padding:14px; color:var(--text-muted);'>getCommonText("no_favorites")</p>";
+        state.subNav.innerHTML = `
+			<p style="padding:14px; color:var(--text-muted);">
+				${getCommonText("no_favorites")}
+			</p>
+		`;
         return;
     }
 
@@ -886,7 +901,8 @@ async function showSettings() {
     </div>
     <div class="settings-section">
     <h3>💾 ${getCommonText("data")}</h3>
-    <button id="clearDataBtn" class="nav-btn" style="color: var(--primary-color); width: 100%;">🗑️ Rensa all sparad ${getCommonText("data")}</button>
+    <button id="clearDataBtn" class="nav-btn" style="color: var(--primary-color); width: 100%;">🗑️ ${getCommonText("clear_saved_data")}
+</button>
     </div>
     </div>`;
 
@@ -1076,7 +1092,7 @@ window.copyResult = function(copyFull) {
     const resultTextEl = document.getElementById("resultText");
     const fullText = resultTextEl.innerText;
 
-    if (!resultTextEl || fullText.includes("Fyll i")) return;
+    if (!resultTextEl || fullText.includes(getCommonText("fill_all_fields"))) return;
 
     let textToCopy = fullText;
     if (!copyFull) {
