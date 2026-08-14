@@ -428,13 +428,17 @@ if (homeCrumb) {
         }
 
         const filtered = kalkylerAttVisa.filter(calc => {
-            let searchableText = getCalcName(calc).toLowerCase();
-            if (calc.info) {
-                if (typeof calc.info === 'string') searchableText += " " + calc.info.toLowerCase();
-                else if (calc.info.description) searchableText += " " + calc.info.description.toLowerCase();
-            }
-            return query.split(/\s+/).every(word => searchableText.includes(word));
-        });
+
+			let searchableText =
+				getCalcName(calc).toLowerCase();
+
+			searchableText +=
+				" " + getCalcDescription(calc).toLowerCase();
+
+			return query
+				.split(/\s+/)
+				.every(word => searchableText.includes(word));
+		});
 
         renderListItems(filtered);
     });
@@ -858,7 +862,13 @@ function renderCalc(category, calcId) {
 					: ""
 				}
 				
-                ${calc.info?.formula ? `<p><strong>Formel:</strong> ${calc.info.formula.name} (${calc.info.formula.description})</p>` : ""}
+				${getFormulaName(calc)
+					? `<p><strong>Formel:</strong>
+					   ${getFormulaName(calc)}
+					   (${getFormulaDescription(calc)})
+					   </p>`
+					: ""
+				}
             `
         }
     </div>
@@ -986,6 +996,24 @@ function getCalcDetails(calc) {
         : calc.info.details || "";
 }
 
+function getFormulaName(calc) {
+
+    if (!calc?.info?.formula) return "";
+
+    return calc.info.formula.nameKey
+        ? getCommonText(calc.info.formula.nameKey)
+        : calc.info.formula.name || "";
+}
+
+function getFormulaDescription(calc) {
+
+    if (!calc?.info?.formula) return "";
+
+    return calc.info.formula.descriptionKey
+        ? getCommonText(calc.info.formula.descriptionKey)
+        : calc.info.formula.description || "";
+}
+
 
 function getFavorites() { return [...new Set(JSON.parse(localStorage.getItem("favorites") || "[]"))]; }
 function isFavorite(calcId) { return getFavorites().includes(calcId); }
@@ -1101,14 +1129,20 @@ function showSearchModal() {
         resultsContainer.innerHTML = "";
         if (!query) return;
 
-        const searchWords = query.split(/\s+/);
-        const matches = ALL_CALCULATIONS.filter(calc => {
-            let searchableText = getCalcName(calc).toLowerCase();
-            if (calc.info && typeof calc.info === 'object') {
-                if (calc.info.description) searchableText += " " + calc.info.description.toLowerCase();
-            }
-            return searchWords.every(word => searchableText.includes(word));
-        });
+		const searchWords = query.split(/\s+/);
+
+		const matches = ALL_CALCULATIONS.filter(calc => {
+
+			let searchableText =
+				getCalcName(calc).toLowerCase();
+
+			searchableText +=
+				" " + getCalcDescription(calc).toLowerCase();
+
+			return searchWords.every(word =>
+				searchableText.includes(word)
+			);
+		});
 
         matches.forEach(calc => {
             const btn = createButton(getCalcName(calc), "sub-btn", () => {
