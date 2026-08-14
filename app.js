@@ -496,17 +496,17 @@ function showJobDetailsModal(job) {
     modal.innerHTML = `
     <div class="confirm-box" style="max-width: 400px; width: 90%;">
     <h3 style="margin-top:0; color:var(--primary-color);">${job.projectName}</h3>
-    <p style="margin: 4px 0; font-size: 0.9rem;"><strong>Kalkyl:</strong> ${job.calcName}</p>
-    <p style="margin: 4px 0; font-size: 0.85rem; color:var(--text-muted);">Sparad: ${job.date}</p>
-    ${job.notes ? `<div style="margin: 10px 0; padding: 8px; background: rgba(0,0,0,0.04); border-radius: 4px; font-size: 0.9rem;"><strong>Anteckning:</strong><br>${job.notes}</div>` : ""}
+    <p style="margin: 4px 0; font-size: 0.9rem;"><strong>${getCommonText("calculation")}:</strong> ${job.calcName}</p>
+    <p style="margin: 4px 0; font-size: 0.85rem; color:var(--text-muted);">${getCommonText("saved")}: ${job.date}</p>
+    ${job.notes ? `<div style="margin: 10px 0; padding: 8px; background: rgba(0,0,0,0.04); border-radius: 4px; font-size: 0.9rem;"><strong>${getCommonText("note")}:</strong><br>${job.notes}</div>` : ""}
     <div style="margin: 10px 0; padding: 8px; background: var(--card-bg, #f9f9f9); border: 1px solid var(--border-color, #eee); border-radius: 4px;">
-    <strong>Resultat:</strong> <span style="font-size: 1.05rem; font-weight:bold;">${job.resultText}</span>
+    <strong>${getCommonText("result")}:</strong> <span style="font-size: 1.05rem; font-weight:bold;">${job.resultText}</span>
     </div>
     <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 15px;">
-    <button id="loadValuesBtn" class="nav-btn" style="background: var(--primary-color); color: white;">Fyll i värden i kalkyl</button>
-    <button id="copyJobBtn" class="nav-btn">Kopiera rapport</button>
-    <button id="deleteJobBtn" class="nav-btn" style="color: #d9534f; border-color: #d9534f;">Ta bort jobb</button>
-    <button id="closeJobModalBtn" class="nav-btn" style="background: transparent; border: none; color: var(--text-muted);">Stäng</button>
+    <button id="loadValuesBtn" class="nav-btn" style="background: var(--primary-color); color: white;">${getCommonText("load_values")}</button>
+    <button id="copyJobBtn" class="nav-btn">${getCommonText("copy_report")}</button>
+    <button id="deleteJobBtn" class="nav-btn" style="color: #d9534f; border-color: #d9534f;">${getCommonText("delete_job")}</button>
+    <button id="closeJobModalBtn" class="nav-btn" style="background: transparent; border: none; color: var(--text-muted);">${getCommonText("close")}</button>
     </div>
     </div>
     `;
@@ -519,12 +519,18 @@ function showJobDetailsModal(job) {
     };
 
     modal.querySelector("#copyJobBtn").onclick = () => {
-        const reportText = `Projekt: ${job.projectName}\nKalkyl: ${job.calcName}\nDatum: ${job.date}\nAnteckning: ${job.notes || "Ingen"}\nResultat: ${job.resultText}`;
-        navigator.clipboard.writeText(reportText).then(() => { showToast("Rapporten kopierad till urklipp!"); });
+        const reportText =
+			`${getCommonText("project")}: ${job.projectName}
+			${getCommonText("calculation")}: ${job.calcName}
+			${getCommonText("date")}: ${job.date}
+			${getCommonText("note")}: ${job.notes || getCommonText("none")}
+			${getCommonText("result")}: ${job.resultText}`;
+        navigator.clipboard.writeText(reportText).then(() => { showToast(getCommonText("report_copied")); });
     };
 
     modal.querySelector("#deleteJobBtn").onclick = () => {
-        showConfirmModal("Vill du radera detta sparade jobb?", () => {
+        showConfirmModal(
+			getCommonText("confirm_delete_job"), () => {
             let jobs = getSavedJobs();
             jobs = jobs.filter(j => j.id !== job.id);
             localStorage.setItem("saved_jobs", JSON.stringify(jobs));
@@ -541,29 +547,29 @@ function showSaveJobModal(calcId) {
     const resultTextEl = document.getElementById("resultText");
     const resultText = resultTextEl ? resultTextEl.innerText : "";
 
-    if (!resultText || resultText.includes("Fyll i")) {
-        showToast("Fyll i kalkylen först innan du sparar!");
-        return;
-    }
+if (!resultText || resultText.includes(getCommonText("fill_all_fields"))) {
+    showToast(getCommonText("fill_calculation_before_save"));
+    return;
+}
 
     const modal = document.createElement("div");
     modal.className = "confirm-modal";
     modal.innerHTML = `
     <div class="confirm-box" style="max-width: 400px; width: 90%;">
-    <h3 style="margin-top:0;">Spara till fältjobb</h3>
+    <h3 style="margin-top:0;">${getCommonText("save_field_job")}</h3>
     <p style="font-size: 0.85rem; color: var(--text-muted);">${calc.name}</p>
     <div class="input-group" style="margin-bottom: 10px; text-align: left;">
-    <label style="font-size: 0.9rem; font-weight: bold;">Projektnamn / Fastighet:</label>
+    <label style="font-size: 0.9rem; font-weight: bold;">${getCommonText("project_name")}</label>
     <input type="text" id="modalProjectName" placeholder="t.ex. Brf Solbacken Centralen" style="width: 100%; padding: 8px; box-sizing: border-box; border: 1px solid var(--border-color); border-radius: 4px; margin-top: 4px;">
     </div>
     <div class="input-group" style="margin-bottom: 15px; text-align: left;">
-    <label style="font-size: 0.9rem; font-weight: bold;">Anteckning i fält:</label>
+    <label style="font-size: 0.9rem; font-weight: bold;">${getCommonText("field_note")}</label>
     <textarea id="modalNotes" placeholder="t.ex. Mätt på tilloppet..." style="width: 100%; height: 80px; padding: 8px; box-sizing: border-box; border: 1px solid var(--border-color); border-radius: 4px; margin-top: 4px; font-family: inherit;"></textarea>
     </div>
     <div style="font-size: 0.9rem; margin-bottom: 15px; background: rgba(0,0,0,0.03); padding: 8px; border-radius: 4px;">${resultText}</div>
     <div class="confirm-actions" style="display: flex; gap: 8px;">
-    <button id="cancelSaveJob" class="nav-btn" style="flex: 1;">Avbryt</button>
-    <button id="confirmSaveJob" class="nav-btn" style="flex: 1; background: var(--primary-color); color: white;">Spara</button>
+    <button id="cancelSaveJob" class="nav-btn" style="flex: 1;">${getCommonText("cancel")}</button>
+    <button id="confirmSaveJob" class="nav-btn" style="flex: 1; background: var(--primary-color); color: white;">${getCommonText("save")}</button>
     </div>
     </div>
     `;
@@ -573,7 +579,7 @@ function showSaveJobModal(calcId) {
     nameInput.focus();
 
     modal.querySelector("#confirmSaveJob").onclick = () => {
-        const projectName = nameInput.value.trim() || `Jobb - ${calc.name}`;
+        const projectName = nameInput.value.trim() || `${getCommonText("job")} - ${calc.name}`;
         const notes = modal.querySelector("#modalNotes").value.trim();
         const inputsData = JSON.parse(localStorage.getItem(`calc_${calcId}`) || "{}");
 
@@ -593,7 +599,7 @@ function showSaveJobModal(calcId) {
         localStorage.setItem("saved_jobs", JSON.stringify(jobs));
 
         document.body.removeChild(modal);
-        showToast("Jobbet sparades framgångsrikt!");
+        showToast(getCommonText("job_saved"));
     };
 
     modal.querySelector("#cancelSaveJob").onclick = () => { document.body.removeChild(modal); };
@@ -1103,7 +1109,11 @@ window.copyResult = function(copyFull) {
 
     navigator.clipboard.writeText(textToCopy).then(() => {
         document.getElementById("resultDisplay").classList.add("copied");
-        showToast(copyFull ? "Kopierade hela raden" : `Kopierade tal: ${textToCopy}`);
+        showToast(
+			copyFull
+				? getCommonText("copied_full_row")
+				: `${getCommonText("copied_number")}: ${textToCopy}`
+		);
         setTimeout(() => document.getElementById("resultDisplay").classList.remove("copied"), 1000);
     });
 };
@@ -1126,8 +1136,8 @@ function showConfirmModal(message, onConfirm) {
     <div class="confirm-box">
     <p>${message}</p>
     <div class="confirm-actions">
-    <button id="cancelBtn" class="nav-btn">Avbryt</button>
-    <button id="okBtn" class="nav-btn" style="background: var(--primary-color); color: white;">OK</button>
+    <button id="cancelBtn" class="nav-btn">${getCommonText("cancel")}</button>
+    <button id="okBtn" class="nav-btn" style="background: var(--primary-color); color: white;">${getCommonText("ok")}</button>
     </div>
     </div>
     `;
