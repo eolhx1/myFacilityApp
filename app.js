@@ -390,13 +390,8 @@ if (homeCrumb) {
         items.forEach(calc => {
             // Hämta beskrivning från info om den finns
             let description = "";
-            if (calc.info) {
-                if (typeof calc.info === 'string') description = calc.info;
-                else if (calc.info.description) description =
-					calc.info.descriptionKey
-						? getCommonText(calc.info.descriptionKey)
-						: calc.info.description;
-            }
+
+			const description = getCalcDescription(calc);
 
             const card = document.createElement("button");
             card.className = "sub-btn";
@@ -969,6 +964,15 @@ function getCalcName(calc) {
     return calc.nameKey
         ? getCommonText(calc.nameKey)
         : calc.name;
+}
+
+function getCalcDescription(calc) {
+
+    if (!calc?.info) return "";
+
+    return calc.info.descriptionKey
+        ? getCommonText(calc.info.descriptionKey)
+        : calc.info.description || "";
 }
 
 function getFavorites() { return [...new Set(JSON.parse(localStorage.getItem("favorites") || "[]"))]; }
