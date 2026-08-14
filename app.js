@@ -852,14 +852,12 @@ function renderCalc(category, calcId) {
 					  }</p>`
 					: ""
 				}
+
+                ${getCalcDetails(calc)
+					? `<p>${getCalcDetails(calc)}</p>`
+					: ""
+				}
 				
-				
-				
-				
-				
-				
-				
-                ${calc.info?.details ? `<p>${calc.info.details}</p>` : ""}
                 ${calc.info?.formula ? `<p><strong>Formel:</strong> ${calc.info.formula.name} (${calc.info.formula.description})</p>` : ""}
             `
         }
@@ -978,6 +976,16 @@ function getCalcDescription(calc) {
         ? getCommonText(calc.info.descriptionKey)
         : calc.info.description || "";
 }
+
+function getCalcDetails(calc) {
+
+    if (!calc?.info) return "";
+
+    return calc.info.detailsKey
+        ? getCommonText(calc.info.detailsKey)
+        : calc.info.details || "";
+}
+
 
 function getFavorites() { return [...new Set(JSON.parse(localStorage.getItem("favorites") || "[]"))]; }
 function isFavorite(calcId) { return getFavorites().includes(calcId); }
