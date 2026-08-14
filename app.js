@@ -387,28 +387,32 @@ if (homeCrumb) {
 				return;
         }
 
-        items.forEach(calc => {
-            // Hämta beskrivning från info om den finns
-            let description = "";
+		items.forEach(calc => {
 
 			const description = getCalcDescription(calc);
 
-            const card = document.createElement("button");
-            card.className = "sub-btn";
-            card.style.cssText = "display: flex; flex-direction: column; align-items: flex-start; text-align: left; background: var(--card-bg, #fff); border: 1px solid var(--border-color, #ccc); border-radius: 8px; padding: 12px; cursor: pointer; width: 100%; transition: background 0.2s;";
-            
-            card.innerHTML = `
-                <span style="font-weight: bold; font-size: 1rem; color: var(--text-color);">${getCalcName(calc)}</span>
-                ${description ? `<span style="font-size: 0.8rem; color: var(--text-muted, #666); margin-top: 3px; line-height: 1.2;">${description}</span>` : ""}
-            `;
+			const card = document.createElement("button");
+			card.className = "sub-btn";
+			card.style.cssText = "display: flex; flex-direction: column; align-items: flex-start; text-align: left; background: var(--card-bg, #fff); border: 1px solid var(--border-color, #ccc); border-radius: 8px; padding: 12px; cursor: pointer; width: 100%; transition: background 0.2s;";
 
-            card.onclick = () => {
-                triggerHaptic(20);
-                renderCalc(categoryKey, calc.id);
-            };
+			card.innerHTML = `
+				<span style="font-weight: bold; font-size: 1rem; color: var(--text-color);">
+					${getCalcName(calc)}
+				</span>
+				${description
+					? `<span style="font-size: 0.8rem; color: var(--text-muted, #666); margin-top: 3px; line-height: 1.2;">
+						${description}
+					  </span>`
+					: ""}
+			`;
 
-            listContainer.appendChild(card);
-        });
+			card.onclick = () => {
+				triggerHaptic(20);
+				renderCalc(categoryKey, calc.id);
+			};
+
+			listContainer.appendChild(card);
+		});	
     };
 
     // Rita ut från början
