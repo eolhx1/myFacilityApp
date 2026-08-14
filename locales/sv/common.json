@@ -39,10 +39,6 @@
   
   
   "back": "Tillbaka",
-  "data": "Data",
-  "search_in": "Sök i",
-  "search_calculations": "Sök kalkyler",
-  "search_placeholder": "Skriv för att söka...",
   
   "calculation": "Kalkyl",
   "saved": "Sparad",
@@ -67,5 +63,14 @@
   "copied_full_row": "Kopierade hela raden",
   "copied_number": "Kopierade tal",
 
-  "fill_calculation_before_save": "Fyll i kalkylen först innan du sparar"
+  "fill_calculation_before_save": "Fyll i kalkylen först innan du sparar",
+  
+  "controls": "Styr & Regler",
+  "ventilation": "Ventilation",
+  "plumbing": "VS & Värme",
+  "electrical": "Elkraft",
+  "teledata": "Tele & Data",
+  "gas": "Gas",
+  "building": "Bygg",
+  "energy": "Energi"
 }
