@@ -246,14 +246,15 @@ function showMainMenu() {
     clear(state.container);
     clear(state.subNav);
 
-    state.mainNav.classList.remove("hidden");
-    state.subNav.classList.remove("hidden");
-
-    state.mainNav.innerHTML = `
+    state.container.innerHTML = `
         <div class="breadcrumb">
             <span class="crumb-home">🏠 Hem</span>
         </div>
     `;
+
+    state.mainNav.classList.remove("hidden");
+    state.subNav.classList.remove("hidden");
+    state.mainNav.innerHTML = "";
 
     Object.entries(CATEGORIES).forEach(([key, cat]) => {
         const isObject = typeof cat === "object";
@@ -271,7 +272,7 @@ function showMainMenu() {
         state.mainNav.appendChild(btn);
     });
 
-    const homeCrumb = state.mainNav.querySelector(".crumb-home");
+    const homeCrumb = state.container.querySelector(".crumb-home");
 
     if (homeCrumb) {
         homeCrumb.onclick = () => {
