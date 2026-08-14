@@ -378,9 +378,7 @@ button:active {
 
 .reset-btn:active {
     background: var(--btn-secondary);
-    /* Ändra från #6c757d */
     filter: brightness(0.8);
-    /* Lägg till filter för att få "tryck-effekt" */
     transform: scale(0.98);
 }
 
@@ -690,7 +688,7 @@ input:checked + .slider:before {
 .breadcrumb {
     padding: 10px 20px;
     font-size: 14px;
-    color: #0066cc;
+    color: var(--primary-color);
     font-weight: 600;
 	
 	    min-height: 24px;

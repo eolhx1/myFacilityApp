@@ -4,7 +4,10 @@
 // Huvudlogik för applikationen.
 //
 
-import { loadLanguage } from './locales.js';
+import {
+    loadLanguage,
+    getCommonText
+} from './locales.js';
 
 import {
     ALL_CALCULATIONS,
@@ -216,7 +219,7 @@ function runCalc(category, calcId) {
     localStorage.setItem(`calc_${calcId}`, JSON.stringify(values));
 
     if (!allFilled) {
-        document.getElementById("resultText").innerText = "Fyll i alla fält...";
+        document.getElementById("resultText").innerText = getCommonText("fill_all_fields");
         return;
     }
 
@@ -234,7 +237,7 @@ function runCalc(category, calcId) {
             document.getElementById("resultText").innerHTML = `${label}${formattedNum} ${unit}`;
         }
     } catch (err) {
-        resultBox.innerText = "Ett fel uppstod i beräkningen.";
+        resultBox.innerText = getCommonText("calculation_error");
     }
 }
 
@@ -785,7 +788,7 @@ function renderCalc(category, calcId) {
     <button id="resetBtn"
             class="reset-btn"
             data-calc-id="${calcId}">
-        Nollställ
+        ${getCommonText("reset")}
     </button>
 
     <div class="result" id="resultDisplay">
@@ -796,11 +799,11 @@ function renderCalc(category, calcId) {
     <button id="saveJobBtn"
             class="nav-btn"
             style="background: var(--primary-color); color:white; width:100%; margin-top:10px; margin-bottom:5px;">
-        💾 Spara till jobb
+        💾 ${getCommonText("save_job")}
     </button>
 
     <div class="calc-info-title" onclick="toggleInfo()">
-        <span>ℹ️ Info om beräkningen</span>
+        <span>ℹ️ ${getCommonText("info_about_calculation")}</span>
         <span id="infoIcon">▼</span>
     </div>
 
