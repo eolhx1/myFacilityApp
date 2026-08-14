@@ -31,7 +31,8 @@ const state = {
 // ==========================================================================
 document.addEventListener("DOMContentLoaded", async () => {
 
-    await loadLanguage("sv");
+//    await loadLanguage("sv");
+	await loadLanguage("en");
 
     const debouncedRunCalc = debounce((calcId) => {
         runCalc(null, calcId);
