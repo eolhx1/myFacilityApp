@@ -42,5 +42,30 @@
   "data": "Data",
   "search_in": "Sök i",
   "search_calculations": "Sök kalkyler",
-  "search_placeholder": "Skriv för att söka..."
+  "search_placeholder": "Skriv för att söka...",
+  
+  "calculation": "Kalkyl",
+  "saved": "Sparad",
+  "note": "Anteckning",
+  "result": "Resultat",
+  "load_values": "Fyll i värden i kalkyl",
+  "copy_report": "Kopiera rapport",
+  "delete_job": "Ta bort jobb",
+  "close": "Stäng",
+
+  "project": "Projekt",
+  "date": "Datum",
+  "none": "Ingen",
+
+  "save_field_job": "Spara till fältjobb",
+  "project_name": "Projektnamn / Fastighet",
+  "field_note": "Anteckning i fält",
+
+  "save": "Spara",
+  "job": "Jobb",
+
+  "copied_full_row": "Kopierade hela raden",
+  "copied_number": "Kopierade tal",
+
+  "fill_calculation_before_save": "Fyll i kalkylen först innan du sparar"
 }
