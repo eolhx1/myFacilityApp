@@ -72,7 +72,31 @@
   "teledata": "Tele & Data",
   "gas": "Gas",
   "building": "Bygg",
-  "energy": "Energi"
+  "energy": "Energi",
   
-  "current_to_process_value": "Givarskalning 4-20mA"
+	"current_to_process_value": "Givarskalning 4-20mA",
+	"voltage_to_process_value": "Givarskalning 0-10V",
+	"proportional_band": "P-bandsberäkning (Xp)",
+	"system_time_constant": "Tidskonstant (Värme)",
+	"zero_current_process_value": "Teoretiskt värde vid 0 mA",
+	
+	"current_to_process_value_desc":
+	"Omvandlar en analog strömsignal (4-20mA) till ett motsvarande fysiskt processvärde.",
+		
+	"current_to_process_value_desc":
+	"Omvandlar en analog strömsignal (4-20mA) till ett motsvarande fysiskt processvärde.",
+
+	"voltage_to_process_value_desc":
+	"Skalar om en 0-10V styrsignal till fysiskt mätvärde.",
+
+	"proportional_band_desc":
+	"Beräknar regulatorns proportionella band (Xp) baserat på aktuell utsignal och styrfel.",
+
+	"system_time_constant_desc":
+	"Beräknar ett VVS-systems teoretiska tidskonstant (uppehållstid) som mått på tröghet.",
+
+	"zero_current_process_value_desc":
+	"Beräknar vilket processvärde en PLC eller DUC teoretiskt visar om den analoga insignalen faller till 0 mA."		
+		
+		
 }
