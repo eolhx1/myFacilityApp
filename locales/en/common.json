@@ -1,0 +1,144 @@
+{
+  "appName": "myFacilityApp",
+  "about": "myFacilityApp är ett verktyg framtaget för snabba och säkra beräkningar i fält.",
+  "supportText": "För support eller förslag på nya kalkyler, kontakta oss via mail:",
+  "supportEmail": "support@myFacilityApp.se",
+  "version": "1.0.0",
+
+  "home": "Home",
+  "recent": "Recent",
+
+  "fill_all_fields": "Fyll i alla fält...",
+  "calculation_error": "Ett fel uppstod i beräkningen.",
+
+  "reset": "Nollställ",
+  "save_job": "Spara till jobb",
+  "info_about_calculation": "Info om beräkningen",
+
+  "search_calculations": "Search Calculations",
+  "search_placeholder": "Skriv för att söka...",
+  "search_in": "Sök i",
+
+  "no_calculations_found": "Inga kalkyler hittades.",
+  "no_favorites": "Inga favoriter sparade än.",
+  "no_saved_jobs": "Inga sparade jobb ännu.",
+
+  "settings": "Inställningar",
+  "dark_mode": "Mörkt läge",
+  "haptic": "Haptik",
+  "data": "Data",
+
+  "cancel": "Avbryt",
+  "ok": "OK",
+
+  "clear_saved_data": "Rensa all sparad data",
+  "confirm_clear_saved_data": "Är du säker på att du vill rensa all sparad data?",
+
+  "job_saved": "Jobbet sparades framgångsrikt!",
+  "report_copied": "Rapporten kopierad till urklipp!",
+  
+  
+  "back": "Tillbaka",
+  
+  "calculation": "Kalkyl",
+  "saved": "Sparad",
+  "note": "Anteckning",
+  "result": "Resultat",
+  "load_values": "Fyll i värden i kalkyl",
+  "copy_report": "Kopiera rapport",
+  "delete_job": "Ta bort jobb",
+  "close": "Stäng",
+
+  "project": "Projekt",
+  "date": "Datum",
+  "none": "Ingen",
+
+  "save_field_job": "Spara till fältjobb",
+  "project_name": "Projektnamn / Fastighet",
+  "field_note": "Anteckning i fält",
+
+  "save": "Spara",
+  "job": "Jobb",
+
+  "copied_full_row": "Kopierade hela raden",
+  "copied_number": "Kopierade tal",
+
+  "fill_calculation_before_save": "Fyll i kalkylen först innan du sparar",
+  
+  "controls": "Controls",
+  "ventilation": "Ventilation",
+  "plumbing": "VS & Värme",
+  "electrical": "Elkraft",
+  "teledata": "Tele & Data",
+  "gas": "Gas",
+  "building": "Bygg",
+  "energy": "Energi",
+  
+	"current_to_process_value": "Givarskalning 4-20mA",
+	"voltage_to_process_value": "Givarskalning 0-10V",
+	"proportional_band": "P-bandsberäkning (Xp)",
+	"system_time_constant": "Tidskonstant (Värme)",
+	"zero_current_process_value": "Teoretiskt värde vid 0 mA",
+	
+	"current_to_process_value_desc":
+	"Omvandlar en analog strömsignal (4-20mA) till ett motsvarande fysiskt processvärde.",
+		
+	"voltage_to_process_value_desc":
+	"Skalar om en 0-10V styrsignal till fysiskt mätvärde.",
+
+	"proportional_band_desc":
+	"Beräknar regulatorns proportionella band (Xp) baserat på aktuell utsignal och styrfel.",
+
+	"system_time_constant_desc":
+	"Beräknar ett VVS-systems teoretiska tidskonstant (uppehållstid) som mått på tröghet.",
+
+	"zero_current_process_value_desc":
+	"Beräknar vilket processvärde en PLC eller DUC teoretiskt visar om den analoga insignalen faller till 0 mA.",
+
+	"current_to_process_value_details":
+	"Oumbärligt verktyg vid idrifttagning, injustering och felsökning i fält. Verifierar att givarens strömutgång korrelerar korrekt mot det uppmätta värdet i styrsystemet.",
+	
+	"voltage_to_process_value_details":
+	"Används för att verifiera och felsöka givare, regulatorer och styrsystem med 0-10V signaler. Hjälper till att säkerställa att den uppmätta spänningen motsvarar rätt processvärde i DUC eller PLC.",
+
+	"proportional_band_details":
+	"Ger en snabb uppskattning av regulatorns proportionalband (Xp). Användbart vid injustering och felsökning av PI- och PID-regulatorer för att förstå hur känsligt systemet reagerar på avvikelser.",
+
+	"system_time_constant_details":
+	"Hjälper till att uppskatta hur snabbt ett värme- eller kylsystem reagerar på förändringar. Används vid analys av reglerförmåga, injustering och bedömning av systemets dynamik.",
+
+	"zero_current_process_value_details":
+	"Används vid felsökning av analoga mätkretsar för att analysera vad styrsystemet teoretiskt visar vid kabelbrott, givarfel eller förlust av strömsignal. Särskilt användbar vid driftsättning och felanalys.",
+
+	"current_to_process_value_formula_name":
+	"Linjär 4-20mA omvandling",
+
+	"current_to_process_value_formula_desc":
+	"Värde = ((mA - 4) / 16) × (Max - Min) + Min",
+
+	"voltage_to_process_value_formula_name":
+	"Linjär 0-10V omvandling",
+
+	"voltage_to_process_value_formula_desc":
+	"Värde = (V / 10) × (Max - Min) + Min",
+
+	"proportional_band_formula_name":
+	"Proportionalband (Xp)",
+
+	"proportional_band_formula_desc":
+	"Xp = Utsignal / Reglerfel",
+
+	"system_time_constant_formula_name":
+	"Systemets tidskonstant",
+
+	"system_time_constant_formula_desc":
+	"T = (Volym / Flöde) × 60",
+
+	"zero_current_process_value_formula_name":
+	"Linjär extrapolering till 0 mA",
+
+	"zero_current_process_value_formula_desc":
+	"Värde = ((0 - InMin) / (InMax - InMin)) × (FysMax - FysMin) + FysMin"
+		
+		
+}
