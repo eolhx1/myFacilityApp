@@ -96,7 +96,10 @@
 	"Beräknar ett VVS-systems teoretiska tidskonstant (uppehållstid) som mått på tröghet.",
 
 	"zero_current_process_value_desc":
-	"Beräknar vilket processvärde en PLC eller DUC teoretiskt visar om den analoga insignalen faller till 0 mA."		
+	"Beräknar vilket processvärde en PLC eller DUC teoretiskt visar om den analoga insignalen faller till 0 mA.",
+
+	"current_to_process_value_details":
+	"Oumbärligt verktyg vid idrifttagning, injustering och felsökning i fält. Verifierar att givarens strömutgång korrelerar korrekt mot det uppmätta värdet i styrsystemet."	
 		
 		
 }
