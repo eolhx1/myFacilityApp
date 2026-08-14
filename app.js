@@ -32,6 +32,11 @@ const state = {
 document.addEventListener("DOMContentLoaded", async () => {
 
     await loadLanguage("sv");
+
+console.log("controls =", getCommonText("controls"));
+console.log("ventilation =", getCommonText("ventilation"));
+console.log("electrical =", getCommonText("electrical"));
+	
 	
     const debouncedRunCalc = debounce((calcId) => {
         runCalc(null, calcId);
@@ -534,11 +539,7 @@ ${getCommonText("result")}: ${job.resultText}`;
 }
 
 function showSaveJobModal(calcId) {
-    const calc = findCalc(calcId);
-	
-console.log("calcId =", calcId);
-console.log("calc =", calc);	
-	
+    const calc = findCalc(calcId);https://github.com/eolhx1/myFacilityApp/blob/main/locales.js
     const resultTextEl = document.getElementById("resultText");
     const resultText = resultTextEl ? resultTextEl.innerText : "";
 
