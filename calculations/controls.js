@@ -39,10 +39,10 @@ export const controlsCalculations = [
         calc: (v) => !valid(v.currentmA, v.min, v.max) ? "Fyll i alla fält" : calculateProcessValueFromCurrent(v),
         info: {
 			descriptionKey: "current_to_process_value_desc",            
-			details: "Oumbärligt verktyg vid idrifttagning, injustering och felsökning i fält. Verifierar att givarens strömutgång korrelerar korrekt mot det uppmätta värdet i styrsystemet.",
+			detailsKey: "current_to_process_value_details",
             formula: {
-                name: "Linjär 4-20mA omvandling",
-                description: "Värde = ((mA - 4) / (20 - 4)) × (Max - Min) + Min"
+                nameKey: "current_to_process_value_formula_name"
+                descriptionKey: "current_to_process_value_formula_desc"
             }
         }
     },
@@ -62,10 +62,10 @@ export const controlsCalculations = [
         calc: (v) => !valid(v.voltage, v.min, v.max) ? "Fel" : calculateProcessValueFromVoltage(v),
         info: {
             descriptionKey: "voltage_to_process_value_desc",
-            details: "Används vid felsökning och injustering av styr- och reglersystem för att översätta insignaler från givare till korrekta fysiska storheter.",
+			detailsKey: "voltage_to_process_value_details",
             formula: {
-                name: "Linjär skalning",
-                description: "Värde = (Volt / 10) * (Max - Min) + Min"
+                nameKey: "voltage_to_process_value_formula_name"
+                descriptionKey: "voltage_to_process_value_formula_desc"
             }
         }
     },
@@ -82,10 +82,10 @@ export const controlsCalculations = [
         calc: (v) => !valid(v.outputSignal, v.controlError) || v.controlError === 0 ? "Felaktiga värden" : calculateProportionalBand(v),
         info: {
 			descriptionKey: "proportional_band_desc",
-            details: "Används för att analysera eller ställa in P- och PID-regulatorers förstärkning. P-bandet definierar det avvikelseområde där styrsystemets utsignal färdas från 0% till 100%.",
+            detailsKey: "proportional_band_details",
             formula: {
-                name: "Proportionellt band",
-                description: "Xp = (% Utsignal / Δ Ärvärde)"
+                nameKey: "proportional_band_formula_name"
+                descriptionKey: "proportional_band_formula_desc"
             }
         }
     },
@@ -102,10 +102,10 @@ export const controlsCalculations = [
         calc: (v) => !valid(v.volume, v.flow) || v.flow === 0 ? "Fel" : calculateSystemTimeConstant(v),
         info: {
             descriptionKey: "system_time_constant_desc",
-            details: "Används som en snabb tumregel inom styr och regler för att uppskatta hur snabbt ett system (t.ex. en värmeväxlare eller akkumulatortank) reagerar på förändringar.",
+            detailsKey: "system_time_constant_details",
             formula: {
-                name: "Tidskonstant",
-                description: "Tid = (Volym / Flöde) × 60 [minuter]"
+                nameKey: "system_time_constant_formula_name"
+                descriptionKey: "system_time_constant_formula_desc"
             }
         }
     },
@@ -125,10 +125,10 @@ export const controlsCalculations = [
         `PLC KONFIGURATION:\nIn: ${v.inputMinmA}-${v.inputMaxmA}mA\nUt: ${v.physicalMin}-${v.physicalMax}\n\nDIAGNOS VID 0mA:\nPLC visar: ${calculateTheoreticalZeroValue(v.inputMinmA, v.inputMaxmA, v.physicalMin, v.physicalMax).toFixed(2)}`,
         info: {
             descriptionKey: "zero_current_process_value_desc",
-            details: "Används vid felsökning av analoga insignaler och kabelbrott. Kalkylen visar vilket värde styrsystemet kommer att presentera när en transmitter som normalt arbetar inom ett konfigurerat mA-område plötsligt levererar 0 mA.",
+            detailsKey: "zero_current_process_value_details",
             formula: {
-                name: "Teoretiskt värde vid 0 mA",
-                description: "Teoretiskt värde vid 0 mA = ((0 mA − Givarens minström) / (Givarens maxström − Givarens minström)) × (Fysiskt maxvärde − Fysiskt minvärde) + Fysiskt minvärde"
+                nameKey: "zero_current_process_value_formula_name"
+                descriptionKey: "zero_current_process_value_formula_desc"
             }
         }
     }
