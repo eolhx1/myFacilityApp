@@ -18,35 +18,35 @@ export const UNIT_MAP = {
 
 export const CATEGORIES = {
     controls: {
-        name: "Styr & Regler",
+        nameKey: "controls",
         icon: "⚙️"
     },
     ventilation: {
-        name: "Ventilation",
+        nameKey: "ventilation",
         icon: "💨"
     },
     plumbing: {
-        name: "VS & Värme",
+        nameKey: "plumbing",
         icon: "💧"
     },
     electrical: {
-        name: "Elkraft",
+        nameKey: "electrical",
         icon: "⚡"
     },
     telecom: {
-        name: "Tele & Data",
+        nameKey: "teledata",
         icon: "📡"
     },
     gas: {
-        name: "Gas",
+        nameKey: "gas",
         icon: "🔥"
     },
     building: {
-        name: "Bygg",
+        nameKey: "building",
         icon: "🧱"
     },
     energy: {
-        name: "Energi",
+        nameKey: "energy",
         icon: "🔋"
     }
 };
