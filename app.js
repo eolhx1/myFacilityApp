@@ -19,6 +19,7 @@ const state = {
     container: document.getElementById("calcContainer"),
     mainNav: document.getElementById("mainNav"),
     subNav: document.getElementById("subNav"),
+    breadcrumb: document.getElementById("breadcrumbContainer"),
     activeCategory: null,
 };
 
@@ -244,13 +245,14 @@ function showMainMenu() {
     state.activeCategory = null;
 
     clear(state.container);
+	clear(state.breadcrumb);
     clear(state.subNav);
-
-    state.container.innerHTML = `
-        <div class="breadcrumb">
-            <span class="crumb-home">🏠 Hem</span>
-        </div>
-    `;
+	
+	state.breadcrumb.innerHTML = `
+		<div class="breadcrumb">
+			<span class="crumb-home">🏠 Hem</span>
+		</div>
+	`;
 
     state.mainNav.classList.remove("hidden");
     state.subNav.classList.remove("hidden");
@@ -272,19 +274,21 @@ function showMainMenu() {
         state.mainNav.appendChild(btn);
     });
 
-    const homeCrumb = state.container.querySelector(".crumb-home");
+	const categoryCrumb = state.breadcrumb.querySelector(".crumb-category");
 
-    if (homeCrumb) {
-        homeCrumb.onclick = () => {
-            triggerHaptic(20);
-            showMainMenu();
-        };
-    }
+	if (categoryCrumb) {
+		categoryCrumb.onclick = () => {
+			triggerHaptic(20);
+			showSubMenu(categoryKey);
+		};
+	}
 }
 
 
 
 function showSubMenu(categoryKey) {
+	clear(state.breadcrumb);
+	
     state.activeCategory = categoryKey;
 
     state.mainNav.querySelectorAll('.nav-btn').forEach(btn => {
@@ -312,6 +316,15 @@ function showSubMenu(categoryKey) {
     const catData = CATEGORIES[categoryKey] || {};
     const categoryName = catData.name || (categoryKey === "recent" ? "Senaste" : "CATEGORIES");
     const categoryIcon = catData.icon || "";
+	
+	state.breadcrumb.innerHTML = `
+		<div class="breadcrumb">
+			<span class="crumb-home">🏠 Hem</span>
+			/
+			<span class="crumb-category">${categoryName}</span>
+		</div>
+	`;	
+	
 
     // 1. Bygg header med sökfält och rubrik
     const headerDiv = document.createElement("div");
@@ -321,13 +334,6 @@ headerDiv.style.cssText =
     "display:flex;flex-direction:column;margin-bottom:15px;gap:2px;padding:0 4px;";
 
  headerDiv.innerHTML = `
-	
-<div class="breadcrumb">
-    <span class="crumb-home">🏠 Hem</span>
-    /
-    <span class="crumb-category">${categoryName}</span>
-</div>
-
 <h2>
     <span>${categoryIcon}</span> ${categoryName}
 </h2>
@@ -338,7 +344,7 @@ headerDiv.style.cssText =
     `;
     state.subNav.appendChild(headerDiv);
 	
-	const homeCrumb = headerDiv.querySelector(".crumb-home");
+	const homeCrumb = state.breadcrumb.querySelector(".crumb-home");
 
 if (homeCrumb) {
     homeCrumb.onclick = () => {
@@ -357,8 +363,8 @@ if (homeCrumb) {
     } else {
 		kalkylerAttVisa = ALL_CALCULATIONS.filter(c => c.categories.includes(categoryKey))
     }
-console.log("categoryKey =", categoryKey);
-console.log("kalkylerAttVisa =", kalkylerAttVisa);
+	console.log("categoryKey =", categoryKey);
+	console.log("kalkylerAttVisa =", kalkylerAttVisa);
 
     // Container för själva kalkylkorten
     const listContainer = document.createElement("div");
@@ -652,26 +658,39 @@ function moveFavorite(fromIndex, toIndex) {
 
 function renderCalc(category, calcId) {
     addRecent(calcId);
+
     clear(state.container);
+
     state.mainNav.classList.add("hidden");
     state.subNav.classList.add("hidden");
 
     const calc = findCalc(calcId);
+
     if (!calc) return;
 
     const catData = CATEGORIES[category];
-    const categoryName = (typeof catData === 'object') ? catData.name : (catData || "Kalkyl");
-    const savedData = JSON.parse(localStorage.getItem(`calc_${calcId}`) || "{}");
+    const categoryName =
+        (typeof catData === "object")
+            ? catData.name
+            : (catData || "Kalkyl");
 
-state.container.innerHTML = `
-    <div class="breadcrumb">
-        <span class="crumb-home">🏠 Hem</span>
-        /
-        <span class="crumb-category">${categoryName}</span>
-        /
-        <span>${calc.name}</span>
-    </div>
+    const savedData = JSON.parse(
+        localStorage.getItem(`calc_${calcId}`) || "{}"
+    );
 
+    clear(state.breadcrumb);
+
+    state.breadcrumb.innerHTML = `
+        <div class="breadcrumb">
+            <span class="crumb-home">🏠 Hem</span>
+            /
+            <span class="crumb-category">${categoryName}</span>
+            /
+            <span>${calc.name}</span>
+        </div>
+    `;
+
+    state.container.innerHTML = `
 <div class="calc-page" data-calc-id="${calcId}">
 
     <h2>
@@ -798,7 +817,7 @@ state.container.innerHTML = `
 </div>
 `;
 
-const homeCrumb = state.container.querySelector(".crumb-home");
+const homeCrumb = state.breadcrumb.querySelector(".crumb-home");
 
 if (homeCrumb) {
     homeCrumb.onclick = () => {
@@ -807,7 +826,7 @@ if (homeCrumb) {
     };
 }
 
-const categoryCrumb = state.container.querySelector(".crumb-category");
+const categoryCrumb = state.breadcrumb.querySelector(".crumb-category");
 
 if (categoryCrumb) {
     categoryCrumb.onclick = () => {
