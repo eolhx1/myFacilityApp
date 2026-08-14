@@ -109,7 +109,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
 
         if (id === "clearDataBtn") {
-            showConfirmModal("Är du säker på att du vill rensa all sparad data?", () => {
+            showConfirmModal("Är du säker på att du vill ${getCommonText("clear_saved_data")}?", () => {
                 localStorage.clear();
                 location.reload();
             });
@@ -253,7 +253,7 @@ function showMainMenu() {
 	
 	state.breadcrumb.innerHTML = `
 		<div class="breadcrumb">
-			<span class="crumb-home">🏠 Hem</span>
+			<span class="crumb-home">🏠 ${getCommonText("home")}</span>
 		</div>
 	`;
 
@@ -277,14 +277,14 @@ function showMainMenu() {
         state.mainNav.appendChild(btn);
     });
 
-	const categoryCrumb = state.breadcrumb.querySelector(".crumb-category");
+/* 	const categoryCrumb = state.breadcrumb.querySelector(".crumb-category");
 
 	if (categoryCrumb) {
 		categoryCrumb.onclick = () => {
 			triggerHaptic(20);
 			showSubMenu(categoryKey);
 		};
-	}
+	} */
 }
 
 
@@ -320,12 +320,17 @@ function showSubMenu(categoryKey) {
     }
 
     const catData = CATEGORIES[categoryKey] || {};
-    const categoryName = catData.name || (categoryKey === "recent" ? "Senaste" : "CATEGORIES");
+    const categoryName =
+		catData.name ||
+		(categoryKey === "recent"
+			? getCommonText("recent")
+			: "CATEGORIES");
+
     const categoryIcon = catData.icon || "";
 	
 	state.breadcrumb.innerHTML = `
 		<div class="breadcrumb">
-			<span class="crumb-home">🏠 Hem</span>
+			<span class="crumb-home">🏠 ${getCommonText("home")}</span>
 			/
 			<span class="crumb-category">${categoryName}</span>
 		</div>
@@ -345,7 +350,7 @@ headerDiv.style.cssText =
 </h2>
 
     <div class="search-input-wrapper" style="position: relative; margin-top: 5px;">
-        <input type="text" id="categorySearch" placeholder="Sök i ${categoryName.toLowerCase()}..." style="width: 100%; padding: 10px 12px; box-sizing: border-box; border: 1px solid var(--border-color, #ccc); border-radius: 6px; font-size: 0.95rem; background: var(--card-bg, #fff); color: var(--text-color);">
+        <input type="text" id="categorySearch" placeholder="${getCommonText("search_in")} ${categoryName.toLowerCase()}..." style="width: 100%; padding: 10px 12px; box-sizing: border-box; border: 1px solid var(--border-color, #ccc); border-radius: 6px; font-size: 0.95rem; background: var(--card-bg, #fff); color: var(--text-color);">
     </div>
     `;
     state.subNav.appendChild(headerDiv);
@@ -380,7 +385,7 @@ if (homeCrumb) {
     const renderListItems = (items) => {
         listContainer.innerHTML = "";
         if (items.length === 0) {
-            listContainer.innerHTML = "<p style='padding:14px; color:var(--text-muted); text-align: center;'>Inga kalkyler hittades.</p>";
+            listContainer.innerHTML = "<p style='padding:14px; color:var(--text-muted); text-align: center;'>getCommonText("no_calculations_found")</p>";
             return;
         }
 
@@ -441,7 +446,7 @@ function renderSavedJobsList() {
     state.subNav.innerHTML = "";
 
     if (jobs.length === 0) {
-        state.subNav.innerHTML = "<p style='padding:14px; color:var(--text-muted);'>Inga sparade jobb ännu.</p>";
+        state.subNav.innerHTML = "<p style='padding:14px; color:var(--text-muted);'>getCommonText("no_saved_jobs")</p>";
         return;
     }
 
@@ -592,7 +597,7 @@ function renderFavoritesManagement() {
     state.subNav.innerHTML = "";
 
     if (favorites.length === 0) {
-        state.subNav.innerHTML = "<p style='padding:14px; color:var(--text-muted);'>Inga favoriter sparade än.</p>";
+        state.subNav.innerHTML = "<p style='padding:14px; color:var(--text-muted);'>getCommonText("no_favorites")</p>";
         return;
     }
 
@@ -686,7 +691,7 @@ function renderCalc(category, calcId) {
 
     state.breadcrumb.innerHTML = `
         <div class="breadcrumb">
-            <span class="crumb-home">🏠 Hem</span>
+            <span class="crumb-home">🏠 ${getCommonText("home")}</span>
             /
             <span class="crumb-category">${categoryName}</span>
             /
@@ -849,7 +854,7 @@ if (categoryCrumb) {
 }
 
 // ==========================================================================
-// 5. INSTÄLLNINGAR
+// 5. SETTINGS
 // ==========================================================================
 async function showSettings() {
     clear(state.container);
@@ -860,19 +865,19 @@ async function showSettings() {
 
     state.container.innerHTML = `
     <div class="calc-page">
-    <button id="backBtn" class="back-btn">Tillbaka</button>
-    <h2>Inställningar</h2>
+    <button id="backBtn" class="back-btn">${getCommonText("back")}</button>
+    <h2>${getCommonText("settings")}</h2>
     <div class="settings-section">
     <h3>⚙️ App-kontroller</h3>
     <div class="settings-row">
-    <span>🌙 Mörkt läge</span>
+    <span>🌙 ${getCommonText("dark_mode")}</span>
     <label class="switch">
     <input type="checkbox" id="darkModeToggle" ${localStorage.getItem("darkMode") === "enabled" ? "checked" : ""}>
     <span class="slider"></span>
     </label>
     </div>
     <div class="settings-row">
-    <span>📳 Haptik</span>
+    <span>📳 ${getCommonText("haptic")}</span>
     <label class="switch">
     <input type="checkbox" id="hapticToggle" ${localStorage.getItem("hapticEnabled") === "enabled" ? "checked" : ""}>
     <span class="slider"></span>
@@ -880,8 +885,8 @@ async function showSettings() {
     </div>
     </div>
     <div class="settings-section">
-    <h3>💾 Data</h3>
-    <button id="clearDataBtn" class="nav-btn" style="color: var(--primary-color); width: 100%;">🗑️ Rensa all sparad data</button>
+    <h3>💾 ${getCommonText("data")}</h3>
+    <button id="clearDataBtn" class="nav-btn" style="color: var(--primary-color); width: 100%;">🗑️ Rensa all sparad ${getCommonText("data")}</button>
     </div>
     </div>`;
 
@@ -996,11 +1001,11 @@ function showSearchModal() {
     <div class="calc-page">
 	
     <div class="calc-header-nav">
-    <button id="backFromSearch" class="back-btn">Tillbaka</button>
+    <button id="backFromSearch" class="back-btn">${getCommonText("back")}</button>
     </div>
-    <h2>Sök kalkyler</h2>
+    <h2>${getCommonText("search_calculations")}</h2>
     <div class="search-input-wrapper">
-    <input type="text" id="floatingSearch" placeholder="Skriv för att söka...">
+    <input type="text" id="floatingSearch" placeholder="${getCommonText("search_placeholder")}">
     <button id="clearSearch" aria-label="Rensa sökfält" style="display:none;">
     <span aria-hidden="true">&times;</span>
     </button>
