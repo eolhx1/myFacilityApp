@@ -83,9 +83,6 @@
 	"current_to_process_value_desc":
 	"Omvandlar en analog strömsignal (4-20mA) till ett motsvarande fysiskt processvärde.",
 		
-	"current_to_process_value_desc":
-	"Omvandlar en analog strömsignal (4-20mA) till ett motsvarande fysiskt processvärde.",
-
 	"voltage_to_process_value_desc":
 	"Skalar om en 0-10V styrsignal till fysiskt mätvärde.",
 
@@ -99,7 +96,49 @@
 	"Beräknar vilket processvärde en PLC eller DUC teoretiskt visar om den analoga insignalen faller till 0 mA.",
 
 	"current_to_process_value_details":
-	"Oumbärligt verktyg vid idrifttagning, injustering och felsökning i fält. Verifierar att givarens strömutgång korrelerar korrekt mot det uppmätta värdet i styrsystemet."	
+	"Oumbärligt verktyg vid idrifttagning, injustering och felsökning i fält. Verifierar att givarens strömutgång korrelerar korrekt mot det uppmätta värdet i styrsystemet.",
+	
+	"voltage_to_process_value_details":
+	"Används för att verifiera och felsöka givare, regulatorer och styrsystem med 0-10V signaler. Hjälper till att säkerställa att den uppmätta spänningen motsvarar rätt processvärde i DUC eller PLC.",
+
+	"proportional_band_details":
+	"Ger en snabb uppskattning av regulatorns proportionalband (Xp). Användbart vid injustering och felsökning av PI- och PID-regulatorer för att förstå hur känsligt systemet reagerar på avvikelser.",
+
+	"system_time_constant_details":
+	"Hjälper till att uppskatta hur snabbt ett värme- eller kylsystem reagerar på förändringar. Används vid analys av reglerförmåga, injustering och bedömning av systemets dynamik.",
+
+	"zero_current_process_value_details":
+	"Används vid felsökning av analoga mätkretsar för att analysera vad styrsystemet teoretiskt visar vid kabelbrott, givarfel eller förlust av strömsignal. Särskilt användbar vid driftsättning och felanalys.",
+
+	"current_to_process_value_formula_name":
+	"Linjär 4-20mA omvandling",
+
+	"current_to_process_value_formula_desc":
+	"Värde = ((mA - 4) / 16) × (Max - Min) + Min",
+
+	"voltage_to_process_value_formula_name":
+	"Linjär 0-10V omvandling",
+
+	"voltage_to_process_value_formula_desc":
+	"Värde = (V / 10) × (Max - Min) + Min",
+
+	"proportional_band_formula_name":
+	"Proportionalband (Xp)",
+
+	"proportional_band_formula_desc":
+	"Xp = Utsignal / Reglerfel",
+
+	"system_time_constant_formula_name":
+	"Systemets tidskonstant",
+
+	"system_time_constant_formula_desc":
+	"T = (Volym / Flöde) × 60",
+
+	"zero_current_process_value_formula_name":
+	"Linjär extrapolering till 0 mA",
+
+	"zero_current_process_value_formula_desc":
+	"Värde = ((0 - InMin) / (InMax - InMin)) × (FysMax - FysMin) + FysMin"
 		
 		
 }
