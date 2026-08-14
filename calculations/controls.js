@@ -41,7 +41,7 @@ export const controlsCalculations = [
 			descriptionKey: "current_to_process_value_desc",            
 			detailsKey: "current_to_process_value_details",
             formula: {
-                nameKey: "current_to_process_value_formula_name"
+                nameKey: "current_to_process_value_formula_name",
                 descriptionKey: "current_to_process_value_formula_desc"
             }
         }
@@ -64,7 +64,7 @@ export const controlsCalculations = [
             descriptionKey: "voltage_to_process_value_desc",
 			detailsKey: "voltage_to_process_value_details",
             formula: {
-                nameKey: "voltage_to_process_value_formula_name"
+                nameKey: "voltage_to_process_value_formula_name",
                 descriptionKey: "voltage_to_process_value_formula_desc"
             }
         }
@@ -84,7 +84,7 @@ export const controlsCalculations = [
 			descriptionKey: "proportional_band_desc",
             detailsKey: "proportional_band_details",
             formula: {
-                nameKey: "proportional_band_formula_name"
+                nameKey: "proportional_band_formula_name",
                 descriptionKey: "proportional_band_formula_desc"
             }
         }
@@ -104,7 +104,7 @@ export const controlsCalculations = [
             descriptionKey: "system_time_constant_desc",
             detailsKey: "system_time_constant_details",
             formula: {
-                nameKey: "system_time_constant_formula_name"
+                nameKey: "system_time_constant_formula_name",
                 descriptionKey: "system_time_constant_formula_desc"
             }
         }
@@ -127,7 +127,7 @@ export const controlsCalculations = [
             descriptionKey: "zero_current_process_value_desc",
             detailsKey: "zero_current_process_value_details",
             formula: {
-                nameKey: "zero_current_process_value_formula_name"
+                nameKey: "zero_current_process_value_formula_name",
                 descriptionKey: "zero_current_process_value_formula_desc"
             }
         }
