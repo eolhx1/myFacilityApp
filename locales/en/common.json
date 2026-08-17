@@ -297,7 +297,29 @@
 	"step_height": "Step Height",
 	"tread_depth": "Tread Depth",
 	"blondel_measure": "Blondel Value (2H + B)",
-	"status": "Status"
+	"status": "Status",
+	
+	"cylinder_runtime": "Gas Cylinder Runtime",
+	"cylinder_runtime_result": "Runtime",
+	"cylinder_runtime_desc": "Calculates how long a gas cylinder will last for a given gas flow rate.",
+	"cylinder_runtime_details": "Used in medical gases, welding and industry to estimate remaining operating time based on cylinder volume, filling pressure and current gas consumption.",
+	"cylinder_runtime_formula_name": "Gas Cylinder Runtime",
+	"cylinder_runtime_formula_desc": "Time = (Cylinder Volume × Pressure) / (Flow Rate × 60)",
+	"cylinder_volume": "Cylinder Volume",
+	"pressure": "Pressure",
+	"prescribed_flow": "Prescribed Flow Rate", 
+	
+	"ohms_law": "Ohm's Law",
+	"ohms_law_desc": "Calculates voltage (U), current (I), or resistance (R) from two known values using Ohm's Law.",
+	"ohms_law_details": "Used for troubleshooting, design and education in electrical engineering. Select which value to calculate and enter the remaining two quantities.",
+	"ohms_law_formula_name": "Ohm's Law",
+	"ohms_law_formula_desc": "U = I × R, I = U / R, R = U / I",
+	"what_to_calculate": "What do you want to calculate?",
+	"current_i_a": "Current (I) [A]",
+	"resistance_r_ohm": "Resistance (R) [Ω]",
+	"voltage_result": "Voltage (U)",
+	"current_result": "Current (I)",
+	"resistance_result": "Resistance (R)"
 	
 	
 }
