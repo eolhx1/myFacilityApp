@@ -6,80 +6,143 @@
 // ENERGI KALKYLER
 // =================================================================
 import { valid } from './config.js';
+import { getCommonText } from '../locales.js';
 
 const calculateTransmissionHeatLoss = (v) => {
-    if (!valid(v.uValue, v.area, v.indoorTemperature, v.outdoorTemperature)) return "Fel";
-    const deltaT = v.indoorTemperature - v.outdoorTemperature;
-    const heatLossW = v.uValue * v.area * deltaT;
-    const heatLossKW = heatLossW / 1000;
-    
-    return `Effektförlust: ${heatLossW.toFixed(0)} W\n` +
-           `Vilket motsvarar: ${heatLossKW.toFixed(2)} kW`;
+    if (!valid(v.uValue, v.area, v.indoorTemperature, v.outdoorTemperature))
+        return getCommonText("error");
+
+    const deltaT =
+        v.indoorTemperature - v.outdoorTemperature;
+
+    const heatLossW =
+        v.uValue * v.area * deltaT;
+
+    const heatLossKW =
+        heatLossW / 1000;
+
+    return `${getCommonText("power_loss_result")}: ${heatLossW.toFixed(0)} W\n` +
+           `${getCommonText("equivalent_to")}: ${heatLossKW.toFixed(2)} kW`;
 };
 
 const calculateCOP = (v) => {
-    if (!valid(v.heatingOutput, v.electricalInput) || v.electricalInput === 0) return "Fel";
-    const cop = v.heatingOutput / v.electricalInput;
-    return `Värmefaktor (COP): ${cop.toFixed(2)}\n` +
-           `Snabbkoll: För varje kW el får du ut ${cop.toFixed(1)} kW värme.`;
+    if (!valid(v.heatingOutput, v.electricalInput) || v.electricalInput === 0)
+        return getCommonText("error");
+
+    const cop =
+        v.heatingOutput / v.electricalInput;
+
+    return `${getCommonText("cop_result")}: ${cop.toFixed(2)}\n` +
+           `${getCommonText("quick_check_heat")}: ${cop.toFixed(1)} kW ${getCommonText("heat_output_per_kw")}`;
 };
 
 const calculateEER = (v) => {
-    if (!valid(v.coolingOutput, v.electricalInput) || v.electricalInput === 0) return "Fel";
-    const eer = v.coolingOutput / v.electricalInput;
-    return `Kylfaktor (EER): ${eer.toFixed(2)}\n` +
-           `Snabbkoll: För varje kW el får du ut ${eer.toFixed(1)} kW kyla.`;
+    if (!valid(v.coolingOutput, v.electricalInput) || v.electricalInput === 0)
+        return getCommonText("error");
+
+    const eer =
+        v.coolingOutput / v.electricalInput;
+
+    return `${getCommonText("eer_result")}: ${eer.toFixed(2)}\n` +
+           `${getCommonText("quick_check_cooling")}: ${eer.toFixed(1)} kW ${getCommonText("cooling_output_per_kw")}`;
 };
 
 export const energyCalculations = [
     {
         id: "transmission_heat_loss",
-        name: "Värmeförlust (Transmissionsförlust)",
+        nameKey: "transmission_heat_loss",
         categories: ["energy"],
         decimaler: 0,
+
         inputs: [
-            { id: "uValue", label: "U-värde [W/(m²·K)]" },
-            { id: "area", label: "Ytans area [m²]" },
-            { id: "indoorTemperature", label: "Innetemperatur [°C]" },
-            { id: "outdoorTemperature", label: "Utetemperatur (t.ex. DUT) [°C]" }
+            {
+                id: "uValue",
+                labelKey: "u_value"
+            },
+            {
+                id: "area",
+                labelKey: "surface_area"
+            },
+            {
+                id: "indoorTemperature",
+                labelKey: "indoor_temperature"
+            },
+            {
+                id: "outdoorTemperature",
+                labelKey: "outdoor_temperature_dut"
+            }
         ],
+
         calc: calculateTransmissionHeatLoss,
+
         info: {
-            description: "Beräknar värmeeffekt som läcker ut genom byggnadsdelar.",
-            details: "Används för att uppskatta transmissionsförluster genom väggar, tak och fönster baserat på materialets U-värde, ytarea och temperaturskillnad.",
-            formula: { name: "Transmissionsförlust", description: "P = U × A × ΔT" }
+            descriptionKey: "transmission_heat_loss_desc",
+            detailsKey: "transmission_heat_loss_details",
+
+            formula: {
+                nameKey: "transmission_heat_loss_formula_name",
+                descriptionKey: "transmission_heat_loss_formula_desc"
+            }
         }
     },
+
     {
         id: "heat_pump_cop",
-        name: "Värmefaktor (COP)",
+        nameKey: "heat_pump_cop",
         categories: ["energy"],
         decimaler: 2,
+
         inputs: [
-            { id: "heatingOutput", label: "Avgiven värmeeffekt [kW]" },
-            { id: "electricalInput", label: "Tillförd eleffekt [kW]" }
+            {
+                id: "heatingOutput",
+                labelKey: "heating_output_kw"
+            },
+            {
+                id: "electricalInput",
+                labelKey: "electrical_input_kw"
+            }
         ],
+
         calc: calculateCOP,
+
         info: {
-            description: "Beräknar värmepumpens värmefaktor (COP).",
-            details: "Visar förhållandet mellan producerad värmeenergi och tillförd elektrisk energi under driftförhållanden.",
-            formula: { name: "COP", description: "COP = Avgiven värmeeffekt / Tillförd eleffekt" }
+            descriptionKey: "heat_pump_cop_desc",
+            detailsKey: "heat_pump_cop_details",
+
+            formula: {
+                nameKey: "heat_pump_cop_formula_name",
+                descriptionKey: "heat_pump_cop_formula_desc"
+            }
         }
     },
+
     {
         id: "cooling_eer",
-        name: "Kylfaktor (EER)",
+        nameKey: "cooling_eer",
         categories: ["energy"],
         decimaler: 2,
+
         inputs: [
-            { id: "coolingOutput", label: "Avgiven kyleffekt [kW]" },
-            { id: "electricalInput", label: "Tillförd eleffekt [kW]" }
+            {
+                id: "coolingOutput",
+                labelKey: "cooling_output_kw"
+            },
+            {
+                id: "electricalInput",
+                labelKey: "electrical_input_kw"
+            }
         ],
+
         calc: calculateEER,
+
         info: {
-            description: "Beräknar kylanläggningens kylfaktor (EER).",
-            details: "Visar effektiviteten för kylanläggningar genom att ställa levererad kyleffekt i relation till tillförd driftel.",
-            formula: { name: "EER", description: "EER = Avgiven kyleffekt / Tillförd eleffekt" }
+            descriptionKey: "cooling_eer_desc",
+            detailsKey: "cooling_eer_details",
+
+            formula: {
+                nameKey: "cooling_eer_formula_name",
+                descriptionKey: "cooling_eer_formula_desc"
+            }
         }
     }
 ];
