@@ -6,32 +6,49 @@
 // GAS KALKYLER
 // =================================================================
 import { valid } from './config.js';
+import { getCommonText } from '../locales.js';
 
 const calculateCylinderRuntime = (v) => {
-    if (!valid(v.cylinderVolume, v.pressure, v.flowRate) || v.flowRate === 0) return "Fel";
+    if (!valid(v.cylinderVolume, v.pressure, v.flowRate) || v.flowRate === 0)
+        return getCommonText("error");
 
-    const runtimeHours = (v.cylinderVolume * v.pressure) / (v.flowRate * 60);
+    const runtimeHours =
+        (v.cylinderVolume * v.pressure) /
+        (v.flowRate * 60);
 
-    return `Drifttid: ${runtimeHours.toFixed(1)} h`;
+    return `${getCommonText("cylinder_runtime_result")}: ${runtimeHours.toFixed(1)} h`;
 };
 
 export const gasCalculations = [{
     id: "cylinder_runtime",
-    name: "Drifttid gasflaska",
+    nameKey: "cylinder_runtime",
     categories: ["gas"],
     decimaler: 1,
+
     inputs: [
-        { id: "cylinderVolume", label: "Flaskans volym", unit: ["L"] },
-        { id: "pressure", label: "Tryck", unit: ["bar"] },
-        { id: "flowRate", label: "Ordinerat flöde", unit: ["L/min"] }
+        {
+            id: "cylinderVolume",
+            labelKey: "cylinder_volume"
+        },
+        {
+            id: "pressure",
+            labelKey: "pressure"
+        },
+        {
+            id: "flowRate",
+            labelKey: "prescribed_flow"
+        }
     ],
+
     calc: calculateCylinderRuntime,
+
     info: {
-        description: "Beräknar hur länge en gasflaska räcker vid ett givet gasuttag.",
-        details: "Används inom medicinska gaser, svetsning och industri för att uppskatta återstående drifttid baserat på flaskvolym, fyllnadstryck och aktuellt gasuttag.",
-		formula: {
-			name: "Drifttid gasflaska",
-			description: "Tid = (Flaskans volym × Tryck) / (Flöde × 60)"
-		}
+        descriptionKey: "cylinder_runtime_desc",
+        detailsKey: "cylinder_runtime_details",
+
+        formula: {
+            nameKey: "cylinder_runtime_formula_name",
+            descriptionKey: "cylinder_runtime_formula_desc"
+        }
     }
 }];
