@@ -319,7 +319,39 @@
 	"resistance_r_ohm": "Resistance (R) [Ω]",
 	"voltage_result": "Voltage (U)",
 	"current_result": "Current (I)",
-	"resistance_result": "Resistance (R)"
+	"resistance_result": "Resistance (R)",
+	
+	"fiber_loss_budget": "Fiber Link Loss Budget",
+	"fiber_loss_budget_desc": "Calculates the maximum allowable attenuation for a fiber link.",
+	"fiber_loss_budget_details": "Used to verify that optical links meet attenuation requirements based on standard loss values for fiber, splices and connectors.",
+	"fiber_loss_budget_formula_name": "Fiber Link Loss Budget",
+	"fiber_loss_budget_formula_desc": "Total Loss = (Fiber Length × 0.4 dB/km) + (Splices × 0.05 dB) + (Connector Pairs × 0.5 dB)",
+
+	"poe_voltage_drop": "PoE Voltage Drop and Cable Length",
+	"poe_voltage_drop_desc": "Checks voltage drop and cable length for PoE-powered network devices.",
+	"poe_voltage_drop_details": "Calculates voltage drop in copper cable (AWG24) to ensure sufficient voltage reaches the device.",
+	"poe_voltage_drop_formula_name": "Voltage Drop",
+	"poe_voltage_drop_formula_desc": "U_drop = R × (P / U_out)",
+
+	"fiber_length_km": "Fiber Length [km]",
+	"splice_count": "Number of Splices",
+	"connector_pair_count": "Number of Connector Pairs (Male/Female)",
+
+	"cable_length_m": "Cable Length [m]",
+	"device_power_w": "Device Power Consumption [W]",
+
+	"max_allowed_attenuation": "Maximum Allowed Attenuation",
+
+	"fiber": "Fiber",
+	"splices": "Splices",
+	"connectors": "Connectors",
+
+	"voltage_at_device": "Voltage at Device",
+	"voltage_drop": "Voltage Drop",
+
+	"voltage_ok": "OK - Voltage is sufficient for the device.",
+	"ethernet_length_warning": "Warning: Cable length exceeds 100 m (Ethernet limit)!",
+	"voltage_drop_warning": "Warning: Excessive voltage drop! Device may fail to start."
 	
 	
 }
