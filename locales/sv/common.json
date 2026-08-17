@@ -341,7 +341,64 @@
 	"resistance_r_ohm": "Resistans (R) [Ω]",
 	"voltage_result": "Spänning (U)",
 	"current_result": "Ström (I)",
-	"resistance_result": "Resistans (R)"
+	"resistance_result": "Resistans (R)",
+	
+	"fiber_loss_budget": "Dämpningsbudget för Fiberlänk",
+	"fiber_loss_budget_desc": "Beräknar maximalt tillåten dämpning för en fiberlänk.",
+	"fiber_loss_budget_details": "Används för att säkerställa att optiska länkar klarar dämpningskraven baserat på standardvärden för fiberkablar, svetsar och anslutningskontakter.",
+	"fiber_loss_budget_formula_name": "Dämpningsbudget för fiberlänk",
+	"fiber_loss_budget_formula_desc": "Total dämpning = (Fiberlängd × 0,4 dB/km) + (Antal svetsar × 0,05 dB) + (Antal kontaktpar × 0,5 dB)",
+
+	"poe_voltage_drop": "PoE Spänningsfall och Kabellängd",
+	"poe_voltage_drop_desc": "Kontrollerar spänningsfall och kabellängd för PoE-matade nätverksenheter.",
+	"poe_voltage_drop_details": "Beräknar spänningsfallet i kopparkabeln (AWG24) för att säkerställa att spänningen framme vid enheten inte understiger kritiska nivåer.",
+	"poe_voltage_drop_formula_name": "Spänningsfall i tråd",
+	"poe_voltage_drop_formula_desc": "U_fall = R × (P / U_ut)",
+
+	"fiber_length_km": "Fiberlängd [km]",
+	"splice_count": "Antal svetsar",
+	"connector_pair_count": "Antal kontaktpar (hane/hona)",
+
+	"cable_length_m": "Kabellängd [m]",
+	"device_power_w": "Enhetens effektförbrukning [W]",
+
+	"max_allowed_attenuation": "Max tillåten dämpning",
+
+	"fiber": "Fiber",
+	"splices": "Svetsar",
+	"connectors": "Kontakter",
+
+	"voltage_at_device": "Framme vid enhet",
+	"voltage_drop": "Spänningsfall",
+
+	"voltage_ok": "OK - Spänningen räcker till enheten.",
+	"ethernet_length_warning": "Varning: Kabeln är längre än 100 m (Ethernet-gräns)!",
+	"voltage_drop_warning": "Varning: För stort spänningsfall! Enheten riskerar att inte starta.",
+	
+	"transmission_heat_loss": "Värmeförlust (Transmissionsförlust)",
+	"transmission_heat_loss_desc": "Beräknar värmeeffekt som läcker ut genom byggnadsdelar.",
+	"transmission_heat_loss_details": "Används för att uppskatta transmissionsförluster genom väggar, tak och fönster baserat på materialets U-värde, ytarea och temperaturskillnad.",
+	"transmission_heat_loss_formula_name": "Transmissionsförlust",
+	"transmission_heat_loss_formula_desc": "P = U × A × ΔT",
+
+	"heat_pump_cop": "Värmefaktor (COP)",
+	"heat_pump_cop_desc": "Beräknar värmepumpens värmefaktor (COP).",
+	"heat_pump_cop_details": "Visar förhållandet mellan producerad värmeenergi och tillförd elektrisk energi under driftförhållanden.",
+	"heat_pump_cop_formula_name": "COP",
+	"heat_pump_cop_formula_desc": "COP = Avgiven värmeeffekt / Tillförd eleffekt",
+
+	"cooling_eer": "Kylfaktor (EER)",
+	"cooling_eer_desc": "Beräknar kylanläggningens kylfaktor (EER).",
+	"cooling_eer_details": "Visar effektiviteten för kylanläggningar genom att ställa levererad kyleffekt i relation till tillförd driftel.",
+	"cooling_eer_formula_name": "EER",
+	"cooling_eer_formula_desc": "EER = Avgiven kyleffekt / Tillförd eleffekt",
+
+	"u_value": "U-värde [W/(m²·K)]",
+	"surface_area": "Ytans area [m²]",
+	"indoor_temperature": "Innetemperatur [°C]",
+	"outdoor_temperature_dut": "Utetemperatur (t.ex. DUT) [°C]",
+
+	"heating_output_kw": "Avgiven vä
 	
 	
 }
