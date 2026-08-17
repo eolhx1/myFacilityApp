@@ -32,7 +32,11 @@ const state = {
 document.addEventListener("DOMContentLoaded", async () => {
 
 //    await loadLanguage("sv");
-	await loadLanguage("en");
+//	await loadLanguage("en");
+	const currentLanguage =
+		localStorage.getItem("language") || "sv";
+
+	await loadLanguage(currentLanguage);
 
     const debouncedRunCalc = debounce((calcId) => {
         runCalc(null, calcId);
@@ -914,33 +918,52 @@ async function showSettings() {
 
     const info = await getAppInfo();
 
-    state.container.innerHTML = `
-    <div class="calc-page">
-    <button id="backBtn" class="back-btn">${getCommonText("back")}</button>
-    <h2>${getCommonText("settings")}</h2>
-    <div class="settings-section">
-    <h3>⚙️ App-kontroller</h3>
-    <div class="settings-row">
-    <span>🌙 ${getCommonText("dark_mode")}</span>
-    <label class="switch">
-    <input type="checkbox" id="darkModeToggle" ${localStorage.getItem("darkMode") === "enabled" ? "checked" : ""}>
-    <span class="slider"></span>
-    </label>
-    </div>
-    <div class="settings-row">
-    <span>📳 ${getCommonText("haptic")}</span>
-    <label class="switch">
-    <input type="checkbox" id="hapticToggle" ${localStorage.getItem("hapticEnabled") === "enabled" ? "checked" : ""}>
-    <span class="slider"></span>
-    </label>
-    </div>
-    </div>
-    <div class="settings-section">
-    <h3>💾 ${getCommonText("data")}</h3>
-    <button id="clearDataBtn" class="nav-btn" style="color: var(--primary-color); width: 100%;">🗑️ ${getCommonText("clear_saved_data")}
+state.container.innerHTML = `
+<div class="calc-page">
+<button id="backBtn" class="back-btn">${getCommonText("back")}</button>
+<h2>${getCommonText("settings")}</h2>
+
+<div class="settings-section">
+<h3>⚙️ App-kontroller</h3>
+
+<div class="settings-row">
+<span>🌙 ${getCommonText("dark_mode")}</span>
+<label class="switch">
+<input type="checkbox" id="darkModeToggle"
+${localStorage.getItem("darkMode") === "enabled" ? "checked" : ""}>
+<span class="slider"></span>
+</label>
+</div>
+
+<div class="settings-row">
+<span>📳 ${getCommonText("haptic")}</span>
+<label class="switch">
+<input type="checkbox" id="hapticToggle"
+${localStorage.getItem("hapticEnabled") === "enabled" ? "checked" : ""}>
+<span class="slider"></span>
+</label>
+</div>
+
+</div>
+
+<div class="settings-section">
+<h3>🌍 ${getCommonText("language")}</h3>
+<select id="languageSelector">
+<option value="sv">Svenska</option>
+<option value="en">English</option>
+</select>
+</div>
+
+<div class="settings-section">
+<h3>💾 ${getCommonText("data")}</h3>
+<button id="clearDataBtn"
+class="nav-btn"
+style="color: var(--primary-color); width: 100%;">
+🗑️ ${getCommonText("clear_saved_data")}
 </button>
-    </div>
-    </div>`;
+</div>
+
+</div>`;
 
     setupSettingsListeners();
 }
@@ -1169,9 +1192,28 @@ function setupSettingsListeners() {
     if (darkToggle) {
         darkToggle.addEventListener("change", () => { toggleDarkMode(); triggerHaptic(20); });
     }
+	
     if (hapticToggle) {
         hapticToggle.addEventListener("change", () => { toggleHaptic(); });
     }
+	
+	const languageSelector = document.getElementById("languageSelector");
+
+	if (languageSelector) {
+
+		languageSelector.value =
+			localStorage.getItem("language") || "sv";
+
+		languageSelector.addEventListener("change", async (e) => {
+
+			localStorage.setItem(
+				"language",
+				e.target.value
+			);
+
+			location.reload();
+		});
+	}
 }
 
 // ==========================================================================
