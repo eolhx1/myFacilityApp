@@ -319,7 +319,29 @@
 	"step_height": "Steghöjd",
 	"tread_depth": "Stegdjup",
 	"blondel_measure": "Blondels mått (2H + B)",
-	"status": "Status"
+	"status": "Status",
+	
+	"cylinder_runtime": "Drifttid gasflaska",
+	"cylinder_runtime_result": "Drifttid",
+	"cylinder_runtime_desc": "Beräknar hur länge en gasflaska räcker vid ett givet gasuttag.",
+	"cylinder_runtime_details": "Används inom medicinska gaser, svetsning och industri för att uppskatta återstående drifttid baserat på flaskvolym, fyllnadstryck och aktuellt gasuttag.",
+	"cylinder_runtime_formula_name": "Drifttid gasflaska",
+	"cylinder_runtime_formula_desc": "Tid = (Flaskans volym × Tryck) / (Flöde × 60)",
+	"cylinder_volume": "Flaskans volym",
+	"pressure": "Tryck",
+	"prescribed_flow": "Ordinerat flöde",
+	
+	"ohms_law": "Ohms lag",
+	"ohms_law_desc": "Beräknar spänning (U), ström (I) eller resistans (R) utifrån två kända värden enligt Ohms lag.",
+	"ohms_law_details": "Används vid felsökning, dimensionering och utbildning inom elteknik. Välj vilket värde som ska beräknas och ange de två återstående storheterna.",
+	"ohms_law_formula_name": "Ohms lag",
+	"ohms_law_formula_desc": "U = I × R, I = U / R, R = U / I",
+	"what_to_calculate": "Vad vill du räkna ut?",
+	"current_i_a": "Ström (I) [A]",
+	"resistance_r_ohm": "Resistans (R) [Ω]",
+	"voltage_result": "Spänning (U)",
+	"current_result": "Ström (I)",
+	"resistance_result": "Resistans (R)"
 	
 	
 }
