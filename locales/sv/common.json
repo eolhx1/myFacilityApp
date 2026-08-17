@@ -188,7 +188,11 @@
 	"input_min_ma": "In Min (mA)",
 	"input_max_ma": "In Max (mA)",
 	"physical_min": "Fys Min",
-	"physical_max": "Fys Max"
+	"physical_max": "Fys Max",
+	
+	"minimum": "Min",
+	"maximum": "Max",
+	"current_ma": "mA"
 	
 	
 	
