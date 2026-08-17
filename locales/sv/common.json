@@ -140,7 +140,27 @@
 	"Linjär extrapolering till 0 mA",
 
 	"zero_current_process_value_formula_desc":
-	"Värde = ((0 - InMin) / (InMax - InMin)) × (FysMax - FysMin) + FysMin"
-		
-		
+	"Värde = ((0 - InMin) / (InMax - InMin)) × (FysMax - FysMin) + FysMin",
+
+	"voltage_u": "Spänning (U)",
+	"current_i": "Ström (I)",
+	"resistance_r": "Resistans (R)",
+
+	"voltage_u_v": "Spänning (U) [V]",
+	"current_i_a": "Ström (I) [A]",
+	"resistance_r_ohm": "Resistans (R) [Ω]",
+	
+	"formula": "Formel",
+	
+	"example_project": "t.ex. Brf Solbacken Centralen",
+	"example_note": "t.ex. Mätt på tilloppet...",
+	
+	"confirm_delete_job": "Är du säker på att du vill ta bort jobbet?",
+	
+	"app_controls": "App-kontroller",
+	
+	"clear_search": "Rensa sökfält"
+	
+	
+	
 }
