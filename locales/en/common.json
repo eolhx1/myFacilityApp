@@ -140,6 +140,34 @@
 	
 	"clear_search": "Clear search field",
 	
+	"value": "Value",
+	"proportional_band_result": "Proportional Band (Xp)",
+	"time_constant": "Time Constant",
+	"minutes": "minutes",
+
+	"plc_configuration": "PLC CONFIGURATION",
+	"input": "Input",
+	"output": "Output",
+	"diagnosis_at_0ma": "DIAGNOSIS AT 0mA",
+	"plc_shows": "PLC indicates",
+	
+	"error": "Error",
+	"invalid_values": "Invalid values",
+
+	"measured_voltage_v": "Measured voltage (V)",
+	"min_value": "Minimum value",
+	"max_value": "Maximum value",
+
+	"output_signal_percent": "% Output signal",
+	"control_error": "Δ Control error",
+
+	"volume_m3": "Volume (m³)",
+	"flow_m3h": "Flow (m³/h)",
+
+	"input_min_ma": "Input Min (mA)",
+	"input_max_ma": "Input Max (mA)",
+	"physical_min": "Physical Min",
+	"physical_max": "Physical Max"
 
 	
 	
