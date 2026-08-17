@@ -351,7 +351,46 @@
 
 	"voltage_ok": "OK - Voltage is sufficient for the device.",
 	"ethernet_length_warning": "Warning: Cable length exceeds 100 m (Ethernet limit)!",
-	"voltage_drop_warning": "Warning: Excessive voltage drop! Device may fail to start."
+	"voltage_drop_warning": "Warning: Excessive voltage drop! Device may fail to start.",
+	
+	"transmission_heat_loss": "Transmission Heat Loss",
+	"transmission_heat_loss_desc": "Calculates heat loss through building components.",
+	"transmission_heat_loss_details": "Used to estimate heat losses through walls, roofs and windows based on U-value, area and temperature difference.",
+	"transmission_heat_loss_formula_name": "Transmission Heat Loss",
+	"transmission_heat_loss_formula_desc": "P = U × A × ΔT",
+
+	"heat_pump_cop": "Coefficient of Performance (COP)",
+	"heat_pump_cop_desc": "Calculates the heat pump coefficient of performance (COP).",
+	"heat_pump_cop_details": "Shows the relationship between delivered heating energy and supplied electrical energy.",
+	"heat_pump_cop_formula_name": "COP",
+	"heat_pump_cop_formula_desc": "COP = Heating Output / Electrical Input",
+
+	"cooling_eer": "Energy Efficiency Ratio (EER)",
+	"cooling_eer_desc": "Calculates the cooling system energy efficiency ratio (EER).",
+	"cooling_eer_details": "Shows cooling efficiency by comparing delivered cooling capacity with electrical power input.",
+	"cooling_eer_formula_name": "EER",
+	"cooling_eer_formula_desc": "EER = Cooling Output / Electrical Input",
+
+	"u_value": "U-value [W/(m²·K)]",
+	"surface_area": "Surface Area [m²]",
+	"indoor_temperature": "Indoor Temperature [°C]",
+	"outdoor_temperature_dut": "Outdoor Temperature (e.g. Design Temperature) [°C]",
+
+	"heating_output_kw": "Heating Output [kW]",
+	"cooling_output_kw": "Cooling Output [kW]",
+	"electrical_input_kw": "Electrical Input [kW]",
+
+	"power_loss_result": "Power Loss",
+	"equivalent_to": "Equivalent To",
+
+	"cop_result": "Coefficient of Performance (COP)",
+	"eer_result": "Energy Efficiency Ratio (EER)",
+
+	"quick_check_heat": "Quick Check",
+	"quick_check_cooling": "Quick Check",
+
+	"heat_output_per_kw": "heating per kW electrical input.",
+	"cooling_output_per_kw": "cooling per kW electrical input."
 	
 	
 }
