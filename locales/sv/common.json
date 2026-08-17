@@ -192,8 +192,114 @@
 	
 	"minimum": "Min",
 	"maximum": "Max",
-	"current_ma": "mA"
+	"current_ma": "mA",
 	
+	"air_change_rate": "Luftomsättning",
+	"air_change_rate_desc": "Beräknar hur många gånger per timme rumsvolymen byts ut.",
+	"air_change_rate_details": "Används för att kontrollera att ett rum eller utrymme uppfyller gällande krav på luftväxling per timme.",
+	"air_change_rate_formula_name": "Luftomsättning",
+	"air_change_rate_formula_desc": "n = Flöde / Volym",
+
+	"supply_air_cooling_capacity": "Kyleffekt luft",
+	"supply_air_cooling_capacity_desc": "Beräknar tilluftsventilationens kyleffekt baserat på flöde och ΔT.",
+	"supply_air_cooling_capacity_details": "Visar hur mycket kyla som tillförs lokalen via tilluften vid en viss temperaturskillnad mellan rum och tilluft.",
+	"supply_air_cooling_capacity_formula_name": "Kyleffekt luft",
+	"supply_air_cooling_capacity_formula_desc": "P = 1,2 × q × ΔT",
+
+	"airflow_from_velocity": "Flöde & Lufthastighet",
+	"airflow_from_velocity_desc": "Beräknar luftflöde utifrån lufthastighet och kanalarea.",
+	"airflow_from_velocity_details": "Används vid injustering och flödesmätningar i kanaler baserat på kontinuitetsekvationen.",
+	"airflow_from_velocity_formula_name": "Kontinuitetsekvationen",
+	"airflow_from_velocity_formula_desc": "Flöde = Hastighet × Area",
+	
+	"airflow_from_k_factor": "K-faktor flödesberäkning",
+	"airflow_from_k_factor_desc": "Beräknar luftflöde genom don med känd K-faktor och mätt tryck.",
+	"airflow_from_k_factor_details": "Standardberäkning vid mätning på mätuttag i ventilationsdon.",
+	"airflow_from_k_factor_formula_name": "K-faktor",
+	"airflow_from_k_factor_formula_desc": "Flöde = K × √Δp",
+
+	"ventilation_balancing_ratio": "Proportionalitetsmetoden",
+	"ventilation_balancing_ratio_desc": "Beräknar injusteringskvot för ventilationsgrenar.",
+	"ventilation_balancing_ratio_details": "Används vid injustering av ventilationssystem för att beräkna flödesförhållanden mellan uppmätta och projekterade värden.",
+
+	"specific_fan_power": "Specifik Fläkteffekt (SFP)",
+	"specific_fan_power_desc": "Beräknar fläktarnas specifika energianvändning (SFP-tal).",
+	"specific_fan_power_details": "Visar hur mycket eleffekt fläktarna kräver per flödesenhet, vilket är en viktig energiparameter vid OVK och dimensionering.",
+	"specific_fan_power_formula_name": "SFP",
+	"specific_fan_power_formula_desc": "SFP = Total tillförd effekt / Flöde (m³/s)",
+
+	"fan_affinity_laws": "Affinitetslagar (Fläkt)",
+	"fan_affinity_laws_desc": "Beräknar nytt flöde, tryck och effekt vid ändrat varvtal för fläktar.",
+	"fan_affinity_laws_details": "Baserat på fläktarnas affinitetslagar vid varvtalsändring, exempelvis med frekvensomriktare.",
+	"fan_affinity_laws_formula_name": "Affinitetslagarna",
+	"fan_affinity_laws_formula_desc": "Nytt flöde = Befintligt flöde × (Nytt varvtal / Befintligt varvtal), Nytt tryck = Befintligt tryck × faktor², Ny effekt = Befintlig effekt × faktor³",
+	
+	"equivalent_duct_diameter": "Ekvivalent kanaldiameter",
+	"equivalent_duct_diameter_desc": "Beräknar hydraulisk/ekvivalent diameter för rektangulära kanaler.",
+	"equivalent_duct_diameter_details": "Används för att omvandla rektangulära kanaldimensioner till motsvarande cirkulär diameter vid tryckfallsberäkningar.",
+	"equivalent_duct_diameter_formula_name": "Hydraulisk diameter",
+	"equivalent_duct_diameter_formula_desc": "D = (2 × a × b) / (a + b)",
+
+	"airflow_from_effective_area": "Flöde via effektiv area (Don/Galler)",
+	"airflow_from_effective_area_desc": "Beräknar flöde genom don eller galler baserat på uppmätt hastighet och effektiv area.",
+	"airflow_from_effective_area_details": "Används vid mätning med mätvinge eller tratt direkt mot donets effektiva area.",
+	"airflow_from_effective_area_formula_name": "Flöde via area",
+	"airflow_from_effective_area_formula_desc": "Flöde = Hastighet × Effektiv area",
+
+	"heat_recovery_efficiency": "Temperaturverkningsgrad (Värmeväxlare)",
+	"heat_recovery_efficiency_desc": "Beräknar värmeväxlarens temperaturverkningsgrad.",
+	"heat_recovery_efficiency_details": "Visar hur effektivt värmeåtervinningsaggregatet överför värme från frånluften till uteluften.",
+	"heat_recovery_efficiency_formula_name": "Verkningsgrad",
+	"heat_recovery_efficiency_formula_desc": "η = (t_till - t_ute) / (t_från - t_ute)",
+
+	"mixed_air_temperature": "Blandningstemperatur (Recirkulation)",
+	"mixed_air_temperature_desc": "Beräknar sluttemperatur vid blandning av uteluft och återluft.",
+	"mixed_air_temperature_details": "Används för att beräkna temperaturen efter spjäll eller återluftskammare.",
+	"mixed_air_temperature_formula_name": "Blandningstemperatur",
+	"mixed_air_temperature_formula_desc": "T = ((q1 × T1) + (q2 × T2)) / q_total",
+	
+	"room_volume_m3": "Rumsvolym (m³)",
+	"airflow": "Flöde",
+
+	"room_temperature_c": "Rumstemperatur (°C)",
+	"supply_air_temperature_c": "Tilluftstemperatur (°C)",
+
+	"air_velocity": "Lufthastighet",
+	"duct_area": "Kanalarea",
+
+	"k_factor": "K-faktor (k)",
+	"pressure_difference": "Differenstryck (Δp)",
+
+	"measured_flow": "Uppmätt flöde",
+	"design_flow": "Projekterat flöde",
+
+	"total_power": "Total tillförd effekt",
+	"largest_airflow": "Största flöde",
+
+	"current_speed": "Nuvarande varvtal / frekvens [varv/min eller Hz]",
+	"new_speed": "Nytt varvtal / frekvens [varv/min eller Hz]",
+	"current_flow": "Nuvarande flöde [m³/s]",
+	"current_pressure": "Nuvarande tryck [Pa]",
+	"current_power": "Nuvarande effekt [kW]",
+
+	"duct_width": "Kanalens bredd (a)",
+	"duct_height": "Kanalens höjd (b)",
+
+	"average_air_velocity": "Uppmätt medelhastighet (v_medel)",
+	"effective_area": "Effektiv area (A_eff)",
+
+	"supply_air_after_hex": "Tilluft efter växlare (t_till)",
+	"outdoor_air_before_hex": "Uteluft före växlare (t_ute)",
+	"extract_air_before_hex": "Frånluft före växlare (t_från)",
+
+	"outdoor_airflow": "Uteluftsflöde",
+	"outdoor_air_temperature": "Uteluftstemperatur (t_ute)",
+	"return_airflow": "Återluftsflöde (q_åter)",
+	"return_air_temperature": "Återluftstemperatur",
+	"total_mixed_airflow": "Totalt blandningsflöde",
+	
+	"ventilation_balancing_ratio_formula_name": "Proportionalitetsmetoden",
+	"ventilation_balancing_ratio_formula_desc": "Kvot = Uppmätt flöde / Projekterat flöde"
 	
 	
 }
