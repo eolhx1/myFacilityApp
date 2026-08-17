@@ -299,7 +299,27 @@
 	"total_mixed_airflow": "Totalt blandningsflöde",
 	
 	"ventilation_balancing_ratio_formula_name": "Proportionalitetsmetoden",
-	"ventilation_balancing_ratio_formula_desc": "Kvot = Uppmätt flöde / Projekterat flöde"
+	"ventilation_balancing_ratio_formula_desc": "Kvot = Uppmätt flöde / Projekterat flöde",
+	
+	"stair_design": "Trappberäkning (Stigning & Steg)",
+
+	"stair_design_desc": "Beräknar steghöjd och komfort för trappor enligt Blondels formel.",
+	"stair_design_details": "Hjälper till att dimensionera bekväma och säkra trappor genom att beräkna antal steg, exakt stigningshöjd och kontrollera mot ergonomiska standarder.",
+	"stair_design_formula_name": "Blondels formel",
+	"stair_design_formula_desc": "2 × Steghöjd (H) + Stegdjup (B) bör ligga mellan 600 och 630 mm.",
+	"total_floor_height_mm": "Total höjd (golv till golv) [mm]",
+	"tread_depth_b_mm": "Plansteg / Stegdjup (B) [mm]",
+	"dimensions_must_be_greater_than_zero": "Måtten måste vara större än 0",
+	"approved_comfortable_stair": "Godkänd / Bekväm trappa",
+	"unusual_step_height": "⚠️ Ovanlig steghöjd",
+	"stair_too_steep": "⚠️ Trappan kan upplevas som brant / korta steg",
+	"stair_too_long": "⚠️ Trappan kan upplevas som långsam / långa steg",
+	"number_of_steps": "Antal steg",
+	"pieces": "st",
+	"step_height": "Steghöjd",
+	"tread_depth": "Stegdjup",
+	"blondel_measure": "Blondels mått (2H + B)",
+	"status": "Status"
 	
 	
 }
