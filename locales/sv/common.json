@@ -159,7 +159,36 @@
 	
 	"app_controls": "App-kontroller",
 	
-	"clear_search": "Rensa sökfält"
+	"clear_search": "Rensa sökfält",
+	
+	"value": "Värde",
+	"proportional_band_result": "P-band (Xp)",
+	"time_constant": "Tidskonstant",
+	"minutes": "minuter",
+
+	"plc_configuration": "PLC KONFIGURATION",
+	"input": "In",
+	"output": "Ut",
+	"diagnosis_at_0ma": "DIAGNOS VID 0mA",
+	"plc_shows": "PLC visar",
+	
+	"error": "Fel",
+	"invalid_values": "Felaktiga värden",
+
+	"measured_voltage_v": "Uppmätt spänning (V)",
+	"min_value": "Minvärde",
+	"max_value": "Maxvärde",
+
+	"output_signal_percent": "% Utsignal",
+	"control_error": "Δ Ärvärde",
+
+	"volume_m3": "Volym (m³)",
+	"flow_m3h": "Flöde (m³/h)",
+
+	"input_min_ma": "In Min (mA)",
+	"input_max_ma": "In Max (mA)",
+	"physical_min": "Fys Min",
+	"physical_max": "Fys Max"
 	
 	
 	
