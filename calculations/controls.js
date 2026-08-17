@@ -9,18 +9,23 @@ import {
     valid
 } from './config.js';
 
+import {
+    getCommonText
+} from '../locales.js';
+
+
 const calculateProcessValueFromVoltage = (v) =>
-    `Värde: ${(((v.voltage / 10) * (v.max - v.min) + v.min)).toFixed(2)}`;
+    `${getCommonText("value")}: ${(((v.voltage / 10) * (v.max - v.min) + v.min)).toFixed(2)}`;
+
+const calculateProcessValueFromCurrent = (v) =>
+    `${getCommonText("value")}: ${(((v.currentmA - 4) / 16) * (v.max - v.min) + v.min).toFixed(2)}`;
+
+const calculateProportionalBand = (v) =>
+    `${getCommonText("proportional_band_result")}: ${(v.outputSignal / v.controlError).toFixed(2)}`;
 	
-const calculateProcessValueFromCurrent = (v) => 
-	`Värde: ${(((v.currentmA - 4) / 16) * (v.max - v.min) + v.min).toFixed(2)}`;
-
-const calculateProportionalBand = (v) => 
-	`P-band (Xp): ${(v.outputSignal / v.controlError).toFixed(2)}`;
-
-const calculateSystemTimeConstant = (v) => 
-	`Tidskonstant: ${((v.volume / v.flow) * 60).toFixed(1)} minuter`;
-
+const calculateSystemTimeConstant = (v) =>
+    `${getCommonText("time_constant")}: ${((v.volume / v.flow) * 60).toFixed(1)} ${getCommonText("minutes")}`;
+	
 const calculateTheoreticalZeroValue = (inMin, inMax, physicalMin, physicalMax) => {
     return ((0 - inMin) / (inMax - inMin)) * (physicalMax - physicalMin) + physicalMin;
 };
@@ -36,7 +41,7 @@ export const controlsCalculations = [
             { id: "min", label: "Min" },
             { id: "max", label: "Max" }
         ],
-        calc: (v) => !valid(v.currentmA, v.min, v.max) ? "Fyll i alla fält" : calculateProcessValueFromCurrent(v),
+        calc: (v) => !valid(v.currentmA, v.min, v.max) ? getCommonText("fill_all_fields") : calculateProcessValueFromCurrent(v),
         info: {
 			descriptionKey: "current_to_process_value_desc",            
 			detailsKey: "current_to_process_value_details",
@@ -55,11 +60,11 @@ export const controlsCalculations = [
         unit: "",
         decimaler: 2,
         inputs: [
-            { id: "voltage", label: "Uppmätt spänning (V)" },
-            { id: "min", label: "Minvärde" },
-            { id: "max", label: "Maxvärde" }
+            { id: "voltage", labelKey: "measured_voltage_v" },
+			{ id: "min", labelKey: "min_value" },
+			{ id: "max", labelKey: "max_value" }
         ],
-        calc: (v) => !valid(v.voltage, v.min, v.max) ? "Fel" : calculateProcessValueFromVoltage(v),
+        calc: (v) => !valid(v.voltage, v.min, v.max) ? getCommonText("error") : calculateProcessValueFromVoltage(v),
         info: {
             descriptionKey: "voltage_to_process_value_desc",
 			detailsKey: "voltage_to_process_value_details",
@@ -75,11 +80,13 @@ export const controlsCalculations = [
         nameKey: "proportional_band",
         categories: ["controls"],
         decimaler: 2,
+		
         inputs: [
-            { id: "outputSignal", label: "% Utsignal" },
-            { id: "controlError", label: "Δ Ärvärde" }
+            { id: "outputSignal", labelKey: "output_signal_percent" },
+			{ id: "controlError", labelKey: "control_error" }
         ],
-        calc: (v) => !valid(v.outputSignal, v.controlError) || v.controlError === 0 ? "Felaktiga värden" : calculateProportionalBand(v),
+		
+        calc: (v) => !valid(v.outputSignal, v.controlError) || v.controlError === 0 ? getCommonText("invalid_values") : calculateProportionalBand(v),
         info: {
 			descriptionKey: "proportional_band_desc",
             detailsKey: "proportional_band_details",
@@ -95,11 +102,13 @@ export const controlsCalculations = [
         nameKey: "system_time_constant",
         categories: ["controls"],
         decimaler: 1,
+		
         inputs: [
-            { id: "volume", label: "Volym (m³)" },
-            { id: "flow", label: "Flöde (m³/h)" }
+			{ id: "volume", labelKey: "volume_m3" },
+			{ id: "flow", labelKey: "flow_m3h" }
         ],
-        calc: (v) => !valid(v.volume, v.flow) || v.flow === 0 ? "Fel" : calculateSystemTimeConstant(v),
+		
+        calc: (v) => !valid(v.volume, v.flow) || v.flow === 0 ? getCommonText("error") : calculateSystemTimeConstant(v),
         info: {
             descriptionKey: "system_time_constant_desc",
             detailsKey: "system_time_constant_details",
@@ -115,14 +124,26 @@ export const controlsCalculations = [
         nameKey: "zero_current_process_value",
         categories: ["controls"],
         decimaler: 2,
+		
         inputs: [
-            { id: "inputMinmA", label: "In Min (mA)" },
-            { id: "inputMaxmA", label: "In Max (mA)" },
-            { id: "physicalMin", label: "Fys Min" },
-            { id: "physicalMax", label: "Fys Max" }
+			{ id: "inputMinmA", labelKey: "input_min_ma" },
+			{ id: "inputMaxmA", labelKey: "input_max_ma" },
+			{ id: "physicalMin", labelKey: "physical_min" },
+			{ id: "physicalMax", labelKey: "physical_max" }
         ],
-        calc: (v) => !valid(v.inputMinmA, v.inputMaxmA, v.physicalMin, v.physicalMax) ? "Fyll i fält" :
-        `PLC KONFIGURATION:\nIn: ${v.inputMinmA}-${v.inputMaxmA}mA\nUt: ${v.physicalMin}-${v.physicalMax}\n\nDIAGNOS VID 0mA:\nPLC visar: ${calculateTheoreticalZeroValue(v.inputMinmA, v.inputMaxmA, v.physicalMin, v.physicalMax).toFixed(2)}`,
+		
+        calc: (v) => !valid(v.inputMinmA, v.inputMaxmA, v.physicalMin, v.physicalMax) ? getCommonText("fill_all_fields") :
+        `${getCommonText("plc_configuration")}:
+${getCommonText("input")}: ${v.inputMinmA}-${v.inputMaxmA}mA
+${getCommonText("output")}: ${v.physicalMin}-${v.physicalMax}
+
+${getCommonText("diagnosis_at_0ma")}:
+${getCommonText("plc_shows")}: ${calculateTheoreticalZeroValue(
+    v.inputMinmA,
+    v.inputMaxmA,
+    v.physicalMin,
+    v.physicalMax
+).toFixed(2)}`,
         info: {
             descriptionKey: "zero_current_process_value_desc",
             detailsKey: "zero_current_process_value_details",
