@@ -6,49 +6,79 @@
 // BYGG KALKYLER
 // =================================================================
 import { valid } from './config.js';
+import { getCommonText } from '../locales.js';
+
 
 const calculateStairDesign = (v) => {
-    if (!valid(v.totalHeight, v.treadDepth)) return "Fel";
-    if (v.totalHeight <= 0 || v.treadDepth <= 0) return "Måtten måste vara större än 0";
+    if (!valid(v.totalHeight, v.treadDepth))
+        return getCommonText("error");
 
-    const estimatedStepCount = Math.round(v.totalHeight / 180);
-    const stepCount = estimatedStepCount > 0 ? estimatedStepCount : 1;
+    if (v.totalHeight <= 0 || v.treadDepth <= 0)
+        return getCommonText("dimensions_must_be_greater_than_zero");
 
-const stepHeight = v.totalHeight / stepCount;
-const blondelValue = (2 * stepHeight) + v.treadDepth;
+    const estimatedStepCount =
+        Math.round(v.totalHeight / 180);
 
-let comfortRating = "Godkänd / Bekväm trappa";
+    const stepCount =
+        estimatedStepCount > 0
+            ? estimatedStepCount
+            : 1;
 
-if (stepHeight < 120 || stepHeight > 220) {
-    comfortRating = "⚠️ Ovanlig steghöjd";
-}
+    const stepHeight =
+        v.totalHeight / stepCount;
 
-if (blondelValue < 600) {
-    comfortRating = "⚠️ Trappan kan upplevas som brant / korta steg";
-} else if (blondelValue > 630) {
-    comfortRating = "⚠️ Trappan kan upplevas som långsam / långa steg";
-}
+    const blondelValue =
+        (2 * stepHeight) + v.treadDepth;
 
-    return `Antal steg: ${stepCount} st
-Steghöjd: ${stepHeight.toFixed(1)} mm
-Stegdjup: ${v.treadDepth} mm
-Blondels mått (2H + B): ${blondelValue.toFixed(0)} mm
-Status: ${comfortRating}`;
+    let comfortRating =
+        getCommonText("approved_comfortable_stair");
+
+    if (stepHeight < 120 || stepHeight > 220) {
+        comfortRating =
+            getCommonText("unusual_step_height");
+    }
+
+    if (blondelValue < 600) {
+        comfortRating =
+            getCommonText("stair_too_steep");
+    } else if (blondelValue > 630) {
+        comfortRating =
+            getCommonText("stair_too_long");
+    }
+
+    return `${getCommonText("number_of_steps")}: ${stepCount} ${getCommonText("pieces")}
+${getCommonText("step_height")}: ${stepHeight.toFixed(1)} mm
+${getCommonText("tread_depth")}: ${v.treadDepth} mm
+${getCommonText("blondel_measure")}: ${blondelValue.toFixed(0)} mm
+${getCommonText("status")}: ${comfortRating}`;
 };
 
 export const buildingCalculations = [{
     id: "stair_design",
-    name: "Trappberäkning (Stigning & Steg)",
+    nameKey: "stair_design",
     categories: ["building"],
     decimaler: 1,
+
     inputs: [
-{ id: "totalHeight", label: "Total höjd (golv till golv) [mm]" },
-{ id: "treadDepth", label: "Plansteg / Stegdjup (B) [mm]" }
+        {
+            id: "totalHeight",
+            labelKey: "total_floor_height_mm"
+        },
+        {
+            id: "treadDepth",
+            labelKey: "tread_depth_b_mm"
+        }
     ],
+
     calc: calculateStairDesign,
+
     info: {
-        description: "Beräknar steghöjd och komfort för trappor enligt Blondels formel.",
-        details: "Hjälper till att dimensionera bekväma och säkra trappor genom att beräkna antal steg, exakt stigningshöjd och kontrollera mot ergonomiska standarder.",
-        formula: { name: "Blondels formel", description: "2 × Steghöjd (H) + Stegdjup (B) bör ligga mellan 600 och 630 mm." }
+        descriptionKey: "stair_design_desc",
+        detailsKey: "stair_design_details",
+
+        formula: {
+            nameKey: "stair_design_formula_name",
+            descriptionKey: "stair_design_formula_desc"
+        }
     }
 }];
