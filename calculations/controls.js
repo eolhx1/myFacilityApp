@@ -13,7 +13,6 @@ import {
     getCommonText
 } from '../locales.js';
 
-
 const calculateProcessValueFromVoltage = (v) =>
     `${getCommonText("value")}: ${(((v.voltage / 10) * (v.max - v.min) + v.min)).toFixed(2)}`;
 
@@ -36,11 +35,13 @@ export const controlsCalculations = [
 		nameKey: "current_to_process_value",
 		categories: ["controls"],
         decimaler: 2,
-        inputs: [
-            { id: "currentmA", label: "mA" },
-            { id: "min", label: "Min" },
-            { id: "max", label: "Max" }
-        ],
+		
+		inputs: [
+			{ id: "currentmA", labelKey: "current_ma" },
+			{ id: "min", labelKey: "minimum" },
+			{ id: "max", labelKey: "maximum" }
+		],
+
         calc: (v) => !valid(v.currentmA, v.min, v.max) ? getCommonText("fill_all_fields") : calculateProcessValueFromCurrent(v),
         info: {
 			descriptionKey: "current_to_process_value_desc",            
@@ -56,7 +57,6 @@ export const controlsCalculations = [
 		id: "voltage_to_process_value",
 		nameKey: "voltage_to_process_value",
         categories: ["controls"],
-        label: "Resultat",
         unit: "",
         decimaler: 2,
         inputs: [
@@ -136,7 +136,6 @@ export const controlsCalculations = [
         `${getCommonText("plc_configuration")}:
 ${getCommonText("input")}: ${v.inputMinmA}-${v.inputMaxmA}mA
 ${getCommonText("output")}: ${v.physicalMin}-${v.physicalMax}
-
 ${getCommonText("diagnosis_at_0ma")}:
 ${getCommonText("plc_shows")}: ${calculateTheoreticalZeroValue(
     v.inputMinmA,
