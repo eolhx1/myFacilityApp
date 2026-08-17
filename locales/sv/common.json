@@ -1,19 +1,21 @@
 {
-  "appName": "myFacilityApp",
-  "about": "myFacilityApp är ett verktyg framtaget för snabba och säkra beräkningar i fält.",
-  "supportText": "För support eller förslag på nya kalkyler, kontakta oss via mail:",
-  "supportEmail": "support@myFacilityApp.se",
-  "version": "1.0.0",
+	"appName": "myFacilityApp",
+	"about": "myFacilityApp är ett verktyg framtaget för snabba och säkra beräkningar i fält.",
+	"supportText": "För support eller förslag på nya kalkyler, kontakta oss via mail:",
+	"supportEmail": "support@myFacilityApp.se",
+	"version": "1.0.0",
 
-  "home": "Hem",
-  "recent": "Senaste",
+	"language": "Språk" 
 
-  "fill_all_fields": "Fyll i alla fält...",
-  "calculation_error": "Ett fel uppstod i beräkningen.",
+	"home": "Hem",
+	"recent": "Senaste",
 
-  "reset": "Nollställ",
-  "save_job": "Spara till jobb",
-  "info_about_calculation": "Info om beräkningen",
+	"fill_all_fields": "Fyll i alla fält...",
+	"calculation_error": "Ett fel uppstod i beräkningen.",
+
+	"reset": "Nollställ",
+	"save_job": "Spara till jobb",
+	"info_about_calculation": "Info om beräkningen",
 
   "search_calculations": "Sök kalkyler",
   "search_placeholder": "Skriv för att söka...",
