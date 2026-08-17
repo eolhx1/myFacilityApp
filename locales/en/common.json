@@ -1,146 +1,123 @@
 {
-	"appName": "myFacilityApp",
-	"about": "myFacilityApp är ett verktyg framtaget för snabba och säkra beräkningar i fält.",
-	"supportText": "För support eller förslag på nya kalkyler, kontakta oss via mail:",
-	"supportEmail": "support@myFacilityApp.se",
-	"version": "1.0.0",
+  "appName": "myFacilityApp",
+  "about": "myFacilityApp is a tool developed for fast and reliable calculations in the field.",
+  "supportText": "For support or suggestions for new calculations, contact us by email:",
+  "supportEmail": "support@myFacilityApp.se",
+  "version": "1.0.0",
 
-	"language": "Language",
+  "language": "Language",
 
-	"home": "Home",
-	"recent": "Recent",
+  "home": "Home",
+  "recent": "Recent",
 
-	"fill_all_fields": "Fyll i alla fält...",
-	"calculation_error": "Ett fel uppstod i beräkningen.",
+  "fill_all_fields": "Fill in all fields...",
+  "calculation_error": "An error occurred during the calculation.",
 
-	"reset": "Nollställ",
-	"save_job": "Spara till jobb",
-	"info_about_calculation": "Info om beräkningen",
+  "reset": "Reset",
+  "save_job": "Save Job",
+  "info_about_calculation": "Calculation Information",
 
-	"search_calculations": "Search Calculations",
-	"search_placeholder": "Skriv för att söka...",
-	"search_in": "Sök i",
+  "search_calculations": "Search Calculations",
+  "search_placeholder": "Start typing to search...",
+  "search_in": "Search in",
 
-	"no_calculations_found": "Inga kalkyler hittades.",
-	"no_favorites": "Inga favoriter sparade än.",
-	"no_saved_jobs": "Inga sparade jobb ännu.",
+  "no_calculations_found": "No calculations found.",
+  "no_favorites": "No favorites saved yet.",
+  "no_saved_jobs": "No saved jobs yet.",
 
-	"settings": "Inställningar",
-	"dark_mode": "Mörkt läge",
-	"haptic": "Haptik",
-	"data": "Data",
+  "settings": "Settings",
+  "dark_mode": "Dark Mode",
+  "haptic": "Haptic Feedback",
+  "data": "Data",
 
-	"cancel": "Avbryt",
-	"ok": "OK",
+  "cancel": "Cancel",
+  "ok": "OK",
 
-	"clear_saved_data": "Rensa all sparad data",
-	"confirm_clear_saved_data": "Är du säker på att du vill rensa all sparad data?",
+  "clear_saved_data": "Clear All Saved Data",
+  "confirm_clear_saved_data": "Are you sure you want to clear all saved data?",
 
-	"job_saved": "Jobbet sparades framgångsrikt!",
-	"report_copied": "Rapporten kopierad till urklipp!",
-  
-  
-	"back": "Tillbaka",
-  
-	"calculation": "Kalkyl",
-	"saved": "Sparad",
-	"note": "Anteckning",
-	"result": "Resultat",
-	"load_values": "Fyll i värden i kalkyl",
-	"copy_report": "Kopiera rapport",
-	"delete_job": "Ta bort jobb",
-	"close": "Stäng",
+  "job_saved": "Job saved successfully!",
+  "report_copied": "Report copied to clipboard!",
 
-	"project": "Projekt",
-	"date": "Datum",
-	"none": "Ingen",
+  "back": "Back",
 
-	"save_field_job": "Spara till fältjobb",
-	"project_name": "Projektnamn / Fastighet",
-	"field_note": "Anteckning i fält",
+  "calculation": "Calculation",
+  "saved": "Saved",
+  "note": "Note",
+  "result": "Result",
+  "load_values": "Load Values into Calculation",
+  "copy_report": "Copy Report",
+  "delete_job": "Delete Job",
+  "close": "Close",
 
-	"save": "Spara",
-	"job": "Jobb",
+  "project": "Project",
+  "date": "Date",
+  "none": "None",
 
-	"copied_full_row": "Kopierade hela raden",
-	"copied_number": "Kopierade tal",
+  "save_field_job": "Save Field Job",
+  "project_name": "Project Name / Property",
+  "field_note": "Field Notes",
 
-	"fill_calculation_before_save": "Fyll i kalkylen först innan du sparar",
-  
-	"controls": "Controls",
-	"ventilation": "Ventilation",
-	"plumbing": "VS & Värme",
-	"electrical": "Elkraft",
-	"teledata": "Tele & Data",
-	"gas": "Gas",
-	"building": "Bygg",
-	"energy": "Energi",
-  
-	"current_to_process_value": "Givarskalning 4-20mA",
-	"voltage_to_process_value": "Givarskalning 0-10V",
-	"proportional_band": "P-bandsberäkning (Xp)",
-	"system_time_constant": "Tidskonstant (Värme)",
-	"zero_current_process_value": "Teoretiskt värde vid 0 mA",
-	
-	"current_to_process_value_desc":
-	"Omvandlar en analog strömsignal (4-20mA) till ett motsvarande fysiskt processvärde.",
-		
-	"voltage_to_process_value_desc":
-	"Skalar om en 0-10V styrsignal till fysiskt mätvärde.",
+  "save": "Save",
+  "job": "Job",
 
-	"proportional_band_desc":
-	"Beräknar regulatorns proportionella band (Xp) baserat på aktuell utsignal och styrfel.",
+  "copied_full_row": "Copied full row",
+  "copied_number": "Copied value",
 
-	"system_time_constant_desc":
-	"Beräknar ett VVS-systems teoretiska tidskonstant (uppehållstid) som mått på tröghet.",
+  "fill_calculation_before_save": "Complete the calculation before saving",
 
-	"zero_current_process_value_desc":
-	"Beräknar vilket processvärde en PLC eller DUC teoretiskt visar om den analoga insignalen faller till 0 mA.",
+  "controls": "Controls",
+  "ventilation": "Ventilation",
+  "plumbing": "Plumbing & Heating",
+  "electrical": "Electrical",
+  "teledata": "Telecom & Data",
+  "gas": "Gas",
+  "building": "Building",
+  "energy": "Energy",
 
-	"current_to_process_value_details":
-	"Oumbärligt verktyg vid idrifttagning, injustering och felsökning i fält. Verifierar att givarens strömutgång korrelerar korrekt mot det uppmätta värdet i styrsystemet.",
-	
-	"voltage_to_process_value_details":
-	"Används för att verifiera och felsöka givare, regulatorer och styrsystem med 0-10V signaler. Hjälper till att säkerställa att den uppmätta spänningen motsvarar rätt processvärde i DUC eller PLC.",
+  "current_to_process_value": "4-20mA Signal Scaling",
+  "voltage_to_process_value": "0-10V Signal Scaling",
+  "proportional_band": "Proportional Band Calculation (Xp)",
+  "system_time_constant": "System Time Constant (Heating)",
+  "zero_current_process_value": "Theoretical Value at 0 mA",
 
-	"proportional_band_details":
-	"Ger en snabb uppskattning av regulatorns proportionalband (Xp). Användbart vid injustering och felsökning av PI- och PID-regulatorer för att förstå hur känsligt systemet reagerar på avvikelser.",
+  "current_to_process_value_desc": "Converts an analog current signal (4-20mA) into a corresponding physical process value.",
 
-	"system_time_constant_details":
-	"Hjälper till att uppskatta hur snabbt ett värme- eller kylsystem reagerar på förändringar. Används vid analys av reglerförmåga, injustering och bedömning av systemets dynamik.",
+  "voltage_to_process_value_desc": "Scales a 0-10V control signal into a physical measurement value.",
 
-	"zero_current_process_value_details":
-	"Används vid felsökning av analoga mätkretsar för att analysera vad styrsystemet teoretiskt visar vid kabelbrott, givarfel eller förlust av strömsignal. Särskilt användbar vid driftsättning och felanalys.",
+  "proportional_band_desc": "Calculates the controller's proportional band (Xp) based on current output signal and control error.",
 
-	"current_to_process_value_formula_name":
-	"Linjär 4-20mA omvandling",
+  "system_time_constant_desc": "Calculates the theoretical time constant (residence time) of an HVAC system as a measure of system inertia.",
 
-	"current_to_process_value_formula_desc":
-	"Värde = ((mA - 4) / 16) × (Max - Min) + Min",
+  "zero_current_process_value_desc": "Calculates the process value that a PLC or controller would theoretically display if the analog input signal drops to 0 mA.",
 
-	"voltage_to_process_value_formula_name":
-	"Linjär 0-10V omvandling",
+  "current_to_process_value_details": "An essential tool for commissioning, balancing and troubleshooting in the field. Verifies that the transmitter output current corresponds correctly to the measured value in the control system.",
 
-	"voltage_to_process_value_formula_desc":
-	"Värde = (V / 10) × (Max - Min) + Min",
+  "voltage_to_process_value_details": "Used to verify and troubleshoot sensors, controllers and automation systems using 0-10V signals. Helps ensure that the measured voltage corresponds to the correct process value in the PLC or controller.",
 
-	"proportional_band_formula_name":
-	"Proportionalband (Xp)",
+  "proportional_band_details": "Provides a quick estimate of the controller's proportional band (Xp). Useful when tuning and troubleshooting PI and PID controllers to understand how sensitively the system reacts to deviations.",
 
-	"proportional_band_formula_desc":
-	"Xp = Utsignal / Reglerfel",
+  "system_time_constant_details": "Helps estimate how quickly a heating or cooling system responds to changes. Used for control analysis, tuning and evaluation of system dynamics.",
 
-	"system_time_constant_formula_name":
-	"Systemets tidskonstant",
+  "zero_current_process_value_details": "Used when troubleshooting analog measurement circuits to analyze what a control system would theoretically display during cable breaks, sensor failures or loss of current signal. Particularly useful during commissioning and fault analysis.",
 
-	"system_time_constant_formula_desc":
-	"T = (Volym / Flöde) × 60",
+  "current_to_process_value_formula_name": "Linear 4-20mA Conversion",
 
-	"zero_current_process_value_formula_name":
-	"Linjär extrapolering till 0 mA",
+  "current_to_process_value_formula_desc": "Value = ((mA - 4) / 16) × (Max - Min) + Min",
 
-	"zero_current_process_value_formula_desc":
-	"Värde = ((0 - InMin) / (InMax - InMin)) × (FysMax - FysMin) + FysMin"
-		
-		
+  "voltage_to_process_value_formula_name": "Linear 0-10V Conversion",
+
+  "voltage_to_process_value_formula_desc": "Value = (V / 10) × (Max - Min) + Min",
+
+  "proportional_band_formula_name": "Proportional Band (Xp)",
+
+  "proportional_band_formula_desc": "Xp = Output Signal / Control Error",
+
+  "system_time_constant_formula_name": "System Time Constant",
+
+  "system_time_constant_formula_desc": "T = (Volume / Flow) × 60",
+
+  "zero_current_process_value_formula_name": "Linear Extrapolation to 0 mA",
+
+  "zero_current_process_value_formula_desc": "Value = ((0 - InputMin) / (InputMax - InputMin)) × (PhysicalMax - PhysicalMin) + PhysicalMin"
 }
