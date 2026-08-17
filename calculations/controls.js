@@ -136,6 +136,7 @@ export const controlsCalculations = [
         `${getCommonText("plc_configuration")}:
 ${getCommonText("input")}: ${v.inputMinmA}-${v.inputMaxmA}mA
 ${getCommonText("output")}: ${v.physicalMin}-${v.physicalMax}
+
 ${getCommonText("diagnosis_at_0ma")}:
 ${getCommonText("plc_shows")}: ${calculateTheoreticalZeroValue(
     v.inputMinmA,
