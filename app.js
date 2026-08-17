@@ -132,12 +132,12 @@ document.addEventListener("DOMContentLoaded", async () => {
             smartReset(calcId);
         }
 
-if (id === "saveJobBtn") {
-    const pageCalcId =
-        state.container.querySelector("[data-calc-id]")?.dataset.calcId;
+		if (id === "saveJobBtn") {
+			const pageCalcId =
+				state.container.querySelector("[data-calc-id]")?.dataset.calcId;
 
-    showSaveJobModal(pageCalcId);
-}
+			showSaveJobModal(pageCalcId);
+		}
     });
 
     state.container.addEventListener("focus", (e) => {
@@ -146,32 +146,28 @@ if (id === "saveJobBtn") {
         }
     }, true);
 
-    state.container.addEventListener("input", (e) => {
-        if (e.target.matches("input, select")) {
-            const calcId = state.container.querySelector("[data-calc-id]")?.dataset.calcId;
-            if (!calcId) return;
+		if (calcId === "ohms_law") {
 
-            // Rättat till "ohms_law" här i enlighet med ID i kalkyler.js
-            if (calcId === "ohms_law") {
-                const page = state.container.querySelector(".calc-page");
-                const valjare = page.querySelector('select[data-unit="calculationMode"]');
-				const label1 = page.querySelector('label[for-id="value1"]');
-				const label2 = page.querySelector('label[for-id="value2"]');
+			const page = state.container.querySelector(".calc-page");
+			const selector = page.querySelector('select[data-unit="calculationMode"]');
+			const label1 = page.querySelector('label[for-id="value1"]');
+			const label2 = page.querySelector('label[for-id="value2"]');
 
-                if (valjare && label1 && label2) {
-                    const val = valjare.value;
-                    if (val === "U") {
-                        label1.textContent = "Ström (I) [A]";
-                        label2.textContent = "Resistans (R) [Ω]";
-                    } else if (val === "I") {
-                        label1.textContent = "Spänning (U) [V]";
-                        label2.textContent = "Resistans (R) [Ω]";
-                    } else if (val === "R") {
-                        label1.textContent = "Spänning (U) [V]";
-                        label2.textContent = "Ström (I) [A]";
-                    }
-                }
-            }
+			if (selector && label1 && label2) {
+				const val = selector.value;
+				
+				if (val === "U") {
+					label1.textContent = getCommonText("current_i_a");
+					label2.textContent = getCommonText("resistance_r_ohm");
+				} else if (val === "I") {
+					label1.textContent = getCommonText("voltage_u_v");
+					label2.textContent = getCommonText("resistance_r_ohm");
+				} else if (val === "R") {
+					label1.textContent = getCommonText("voltage_u_v");
+					label2.textContent = getCommonText("current_i_a");
+				}
+			}
+		}
 
             debouncedRunCalc(calcId);
         }
@@ -366,12 +362,12 @@ if (homeCrumb) {
 
     // 2. Hämta kalkyler för denna kategori
     const list = (categoryKey === "recent") ? getRecent() : null;
-    let kalkylerAttVisa = [];
+    let calculationsToShow = [];
 
     if (list) {
-        kalkylerAttVisa = list.map(calcId => findCalc(calcId)).filter(Boolean);
+        calculationsToShow = list.map(calcId => findCalc(calcId)).filter(Boolean);
     } else {
-		kalkylerAttVisa = ALL_CALCULATIONS.filter(c => c.categories.includes(categoryKey))
+		calculationsToShow = ALL_CALCULATIONS.filter(c => c.categories.includes(categoryKey))
     }
 	
     // Container för själva kalkylkorten
@@ -421,18 +417,18 @@ if (homeCrumb) {
     };
 
     // Rita ut från början
-    renderListItems(kalkylerAttVisa);
+    renderListItems(calculationsToShow);
 
     // 3. Koppla sökfältets händelselyssnare
     const searchInput = document.getElementById("categorySearch");
     searchInput.addEventListener("input", (e) => {
         const query = e.target.value.toLowerCase().trim();
         if (!query) {
-            renderListItems(kalkylerAttVisa);
+            renderListItems(calculationsToShow);
             return;
         }
 
-        const filtered = kalkylerAttVisa.filter(calc => {
+        const filtered = calculationsToShow.filter(calc => {
 
 			let searchableText =
 				getCalcName(calc).toLowerCase();
@@ -482,7 +478,8 @@ function renderSavedJobsList() {
         <div style="font-size: 0.85rem; color: var(--primary-color); margin-top: 2px;">${job.calcName}</div>
         <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">📅 ${job.date}</div>
         ${job.notes ? `<div style="font-size: 0.85rem; color: var(--text-color); margin-top: 6px; font-style: italic; background: rgba(0,0,0,0.03); padding: 6px; border-radius: 4px;">"${job.notes}"</div>` : ""}
-        <div style="font-size: 0.9rem; font-weight: bold; margin-top: 8px; color: var(--text-color);">Resultat: ${job.resultText}</div>
+        <div style="font-size: 0.9rem; font-weight: bold; margin-top: 8px; color: var(--text-color);">${getCommonText("result")}: ${job.resultText}
+``</div>
         `;
 
         card.onclick = () => { showJobDetailsModal(job); };
@@ -564,11 +561,11 @@ if (!resultText || resultText.includes(getCommonText("fill_all_fields"))) {
 	</p>
     <div class="input-group" style="margin-bottom: 10px; text-align: left;">
     <label style="font-size: 0.9rem; font-weight: bold;">${getCommonText("project_name")}</label>
-    <input type="text" id="modalProjectName" placeholder="t.ex. Brf Solbacken Centralen" style="width: 100%; padding: 8px; box-sizing: border-box; border: 1px solid var(--border-color); border-radius: 4px; margin-top: 4px;">
+    <input type="text" id="modalProjectName" placeholder="${getCommonText("example_project")}" style="width: 100%; padding: 8px; box-sizing: border-box; border: 1px solid var(--border-color); border-radius: 4px; margin-top: 4px;">
     </div>
     <div class="input-group" style="margin-bottom: 15px; text-align: left;">
     <label style="font-size: 0.9rem; font-weight: bold;">${getCommonText("field_note")}</label>
-    <textarea id="modalNotes" placeholder="t.ex. Mätt på tilloppet..." style="width: 100%; height: 80px; padding: 8px; box-sizing: border-box; border: 1px solid var(--border-color); border-radius: 4px; margin-top: 4px; font-family: inherit;"></textarea>
+    <textarea id="modalNotes" placeholder="${getCommonText("example_note")}" style="width: 100%; height: 80px; padding: 8px; box-sizing: border-box; border: 1px solid var(--border-color); border-radius: 4px; margin-top: 4px; font-family: inherit;"></textarea>
     </div>
     <div style="font-size: 0.9rem; margin-bottom: 15px; background: rgba(0,0,0,0.03); padding: 8px; border-radius: 4px;">${resultText}</div>
     <div class="confirm-actions" style="display: flex; gap: 8px;">
@@ -589,6 +586,12 @@ if (!resultText || resultText.includes(getCommonText("fill_all_fields"))) {
         const notes = modal.querySelector("#modalNotes").value.trim();
         const inputsData = JSON.parse(localStorage.getItem(`calc_${calcId}`) || "{}");
 
+const locale =
+    localStorage.getItem("language") === "en"
+        ? "en-GB"
+        : "sv-SE";
+
+
         const newJob = {
             id: 'job_' + Date.now(),
             calcId: calcId,
@@ -597,7 +600,13 @@ if (!resultText || resultText.includes(getCommonText("fill_all_fields"))) {
             notes: notes,
             resultText: resultText,
             inputs: inputsData,
-            date: new Date().toLocaleDateString('sv-SE') + ' ' + new Date().toLocaleTimeString('sv-SE', { hour: '2-digit', minute: '2-digit' })
+			
+            date: new Date().toLocaleDateString(locale) +
+			' ' +
+			new Date().toLocaleTimeString(locale, {
+				hour: '2-digit',
+				minute: '2-digit'
+			})
         };
 
         const jobs = getSavedJobs();
@@ -747,28 +756,29 @@ function renderCalc(category, calcId) {
 
         let currentLabel = i.label;
 
-        if (calcId === "ohms_law") {
-            const currentMode = savedData["calculationMode_unit"] || "U";
+		if (calcId === "ohms_law") {
+			const currentMode =
+				savedData["calculationMode_unit"] || "U";
 
-            if (i.id === "value1") {
-                currentLabel =
-                    currentMode === "U"
-                        ? "Ström (I) [A]"
-                        : "Spänning (U) [V]";
-            } else if (i.id === "value2") {
-                currentLabel =
-                    currentMode === "R"
-                        ? "Ström (I) [A]"
-                        : "Resistans (R) [Ω]";
-            }
-        }
+			if (i.id === "value1") {
+				currentLabel =
+					currentMode === "U"
+						? getCommonText("current_i_a")
+						: getCommonText("voltage_u_v");
+			} else if (i.id === "value2") {
+				currentLabel =
+					currentMode === "R"
+						? getCommonText("current_i_a")
+						: getCommonText("resistance_r_ohm");
+			}
+		}
 
         if (i.unit && i.unit.length > 1 && i.requiresInput === false) {
 
             const getDisplayNames = (u) => {
-                if (u === "U") return "Spänning (U)";
-                if (u === "I") return "Ström (I)";
-                if (u === "R") return "Resistans (R)";
+                if (u === "U") return getCommonText("voltage_u");
+				if (u === "I") return getCommonText("current_i");
+				if (u === "R") return getCommonText("resistance_r");
                 return UNIT_MAP[u] || u;
             };
 
@@ -868,7 +878,7 @@ function renderCalc(category, calcId) {
 				}
 				
 				${getFormulaName(calc)
-					? `<p><strong>Formel:</strong>
+					? `<p><strong>${getCommonText("formula")}:</strong>
 					   ${getFormulaName(calc)}
 					   (${getFormulaDescription(calc)})
 					   </p>`
@@ -916,15 +926,13 @@ async function showSettings() {
     state.mainNav.classList.add("hidden");
     state.subNav.classList.add("hidden");
 
-    const info = await getAppInfo();
-
 state.container.innerHTML = `
 <div class="calc-page">
 <button id="backBtn" class="back-btn">${getCommonText("back")}</button>
 <h2>${getCommonText("settings")}</h2>
 
 <div class="settings-section">
-<h3>⚙️ App-kontroller</h3>
+<h3>⚙️ ${getCommonText("app_controls")}</h3>
 
 <div class="settings-row">
 <span>🌙 ${getCommonText("dark_mode")}</span>
@@ -1128,7 +1136,7 @@ function showSearchModal() {
     <h2>${getCommonText("search_calculations")}</h2>
     <div class="search-input-wrapper">
     <input type="text" id="floatingSearch" placeholder="${getCommonText("search_placeholder")}">
-    <button id="clearSearch" aria-label="Rensa sökfält" style="display:none;">
+    <button id="clearSearch" aria-label="${getCommonText("clear_search")}" style="display:none;">
     <span aria-hidden="true">&times;</span>
     </button>
     </div>
