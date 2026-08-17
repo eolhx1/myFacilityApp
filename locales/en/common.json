@@ -278,7 +278,26 @@
 	"total_mixed_airflow": "Total Mixed Airflow",
 	
 	"ventilation_balancing_ratio_formula_name": "Balancing Ratio",
-	"ventilation_balancing_ratio_formula_desc": "Ratio = Measured Airflow / Design Airflow"
+	"ventilation_balancing_ratio_formula_desc": "Ratio = Measured Airflow / Design Airflow",
+	
+	"stair_design": "Stair Design (Rise & Tread)",
+	"stair_design_desc": "Calculates step height and stair comfort using Blondel's formula.",
+	"stair_design_details": "Helps design comfortable and safe staircases by calculating the number of steps, exact rise height and checking ergonomic guidelines.",
+	"stair_design_formula_name": "Blondel Formula",
+	"stair_design_formula_desc": "2 × Rise Height (H) + Tread Depth (B) should be between 600 and 630 mm.",
+	"total_floor_height_mm": "Total Height (Floor to Floor) [mm]",
+	"tread_depth_b_mm": "Tread Depth (B) [mm]",
+	"dimensions_must_be_greater_than_zero": "Dimensions must be greater than 0",
+	"approved_comfortable_stair": "Approved / Comfortable Stair",
+	"unusual_step_height": "⚠️ Unusual step height",
+	"stair_too_steep": "⚠️ Stair may feel steep / short steps",
+	"stair_too_long": "⚠️ Stair may feel slow / long steps",
+	"number_of_steps": "Number of Steps",
+	"pieces": "pcs",
+	"step_height": "Step Height",
+	"tread_depth": "Tread Depth",
+	"blondel_measure": "Blondel Value (2H + B)",
+	"status": "Status"
 	
 	
 }
