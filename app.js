@@ -146,32 +146,71 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     }, true);
 
-		if (calcId === "ohms_law") {
+state.container.addEventListener("input", (e) => {
 
-			const page = state.container.querySelector(".calc-page");
-			const selector = page.querySelector('select[data-unit="calculationMode"]');
-			const label1 = page.querySelector('label[for-id="value1"]');
-			const label2 = page.querySelector('label[for-id="value2"]');
+    if (e.target.matches("input, select")) {
 
-			if (selector && label1 && label2) {
-				const val = selector.value;
-				
-				if (val === "U") {
-					label1.textContent = getCommonText("current_i_a");
-					label2.textContent = getCommonText("resistance_r_ohm");
-				} else if (val === "I") {
-					label1.textContent = getCommonText("voltage_u_v");
-					label2.textContent = getCommonText("resistance_r_ohm");
-				} else if (val === "R") {
-					label1.textContent = getCommonText("voltage_u_v");
-					label2.textContent = getCommonText("current_i_a");
-				}
-			}
-		}
+        const calcId =
+            state.container
+                .querySelector("[data-calc-id]")
+                ?.dataset.calcId;
 
-            debouncedRunCalc(calcId);
+        if (!calcId) return;
+
+        if (calcId === "ohms_law") {
+
+            const page =
+                state.container.querySelector(".calc-page");
+
+            const selector =
+                page.querySelector(
+                    'select[data-unit="calculationMode"]'
+                );
+
+            const label1 =
+                page.querySelector(
+                    'label[for-id="value1"]'
+                );
+
+            const label2 =
+                page.querySelector(
+                    'label[for-id="value2"]'
+                );
+
+            if (selector && label1 && label2) {
+
+                const val = selector.value;
+
+                if (val === "U") {
+
+                    label1.textContent =
+                        getCommonText("current_i_a");
+
+                    label2.textContent =
+                        getCommonText("resistance_r_ohm");
+
+                } else if (val === "I") {
+
+                    label1.textContent =
+                        getCommonText("voltage_u_v");
+
+                    label2.textContent =
+                        getCommonText("resistance_r_ohm");
+
+                } else if (val === "R") {
+
+                    label1.textContent =
+                        getCommonText("voltage_u_v");
+
+                    label2.textContent =
+                        getCommonText("current_i_a");
+                }
+            }
         }
-    });
+
+        debouncedRunCalc(calcId);
+    }
+});
 
     const appTitle = document.getElementById("appTitle");
     if (appTitle) {
