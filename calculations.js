@@ -6,13 +6,7 @@
 // IMPORTS
 // =================================================================
 
-console.log(controlsCalculations);
-
-import {
-    UNIT_MAP,
-    CATEGORIES
-} from './calculations/config.js';
-
+import { UNIT_MAP, CATEGORIES } from './calculations/config.js';
 import { controlsCalculations } from './calculations/controls.js';
 import { ventilationCalculations } from './calculations/ventilation.js';
 import { plumbingCalculations } from './calculations/plumbing.js';
@@ -36,15 +30,6 @@ export const ALL_CALCULATIONS = [
     ...buildingCalculations,
     ...energyCalculations
 ];
-
-console.log(
-    "Controls:",
-    ALL_CALCULATIONS.filter(c => c.categories.includes("controls"))
-);
-
-console.log(
-    ALL_CALCULATIONS.filter(c => c.categories.includes("controls"))
-);
 
 // =================================================================
 // EXPORTS
