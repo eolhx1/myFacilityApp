@@ -149,7 +149,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 state.container.addEventListener("input", (e) => {
 
     if (e.target.matches("input, select")) {
-
         const calcId =
             state.container
                 .querySelector("[data-calc-id]")
@@ -158,52 +157,23 @@ state.container.addEventListener("input", (e) => {
         if (!calcId) return;
 
         if (calcId === "ohms_law") {
-
-            const page =
-                state.container.querySelector(".calc-page");
-
-            const selector =
-                page.querySelector(
-                    'select[data-unit="calculationMode"]'
-                );
-
-            const label1 =
-                page.querySelector(
-                    'label[for-id="value1"]'
-                );
-
-            const label2 =
-                page.querySelector(
-                    'label[for-id="value2"]'
-                );
-
+            const page = state.container.querySelector(".calc-page");
+            const selector =page.querySelector( 'select[data-unit="calculationMode"]' );
+            const label1 = page.querySelector( 'label[for-id="value1"]' );
+            const label2 = page.querySelector( 'label[for-id="value2"]' );
+			
             if (selector && label1 && label2) {
-
                 const val = selector.value;
 
                 if (val === "U") {
-
-                    label1.textContent =
-                        getCommonText("current_i_a");
-
-                    label2.textContent =
-                        getCommonText("resistance_r_ohm");
-
+                    label1.textContent = getCommonText("current_i_a");
+                    label2.textContent = getCommonText("resistance_r_ohm");
                 } else if (val === "I") {
-
-                    label1.textContent =
-                        getCommonText("voltage_u_v");
-
-                    label2.textContent =
-                        getCommonText("resistance_r_ohm");
-
+                    label1.textContent = getCommonText("voltage_u_v");
+                    label2.textContent = getCommonText("resistance_r_ohm");
                 } else if (val === "R") {
-
-                    label1.textContent =
-                        getCommonText("voltage_u_v");
-
-                    label2.textContent =
-                        getCommonText("current_i_a");
+                    label1.textContent = getCommonText("voltage_u_v");
+                    label2.textContent = getCommonText("current_i_a");
                 }
             }
         }
@@ -518,7 +488,7 @@ function renderSavedJobsList() {
         <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">📅 ${job.date}</div>
         ${job.notes ? `<div style="font-size: 0.85rem; color: var(--text-color); margin-top: 6px; font-style: italic; background: rgba(0,0,0,0.03); padding: 6px; border-radius: 4px;">"${job.notes}"</div>` : ""}
         <div style="font-size: 0.9rem; font-weight: bold; margin-top: 8px; color: var(--text-color);">${getCommonText("result")}: ${job.resultText}
-``</div>
+		</div>
         `;
 
         card.onclick = () => { showJobDetailsModal(job); };
@@ -793,7 +763,10 @@ function renderCalc(category, calcId) {
         const savedUnit =
             savedData[i.id + "_unit"] || (i.unit ? i.unit[0] : "");
 
-        let currentLabel = i.label;
+        let currentLabel =
+			i.labelKey
+				? getCommonText(i.labelKey)
+				: i.label;
 
 		if (calcId === "ohms_law") {
 			const currentMode =
@@ -821,17 +794,17 @@ function renderCalc(category, calcId) {
                 return UNIT_MAP[u] || u;
             };
 
-            return `
-            <div class="input-group">
-                <label>${i.label}</label>
-                <select data-unit="${i.id}" style="width:100%; padding-right:30px; box-sizing:border-box;">
-                    ${i.unit.map(u =>
-                        `<option value="${u}" ${savedUnit === u ? "selected" : ""}>
-                            ${getDisplayNames(u)}
-                        </option>`
-                    ).join("")}
-                </select>
-            </div>`;
+			return `
+				<div class="input-group">
+					<label>${currentLabel}</label>
+					<select data-unit="${i.id}" style="width:100%; padding-right:30px; box-sizing:border-box;">
+						${i.unit.map(u =>
+							`<option value="${u}" ${savedUnit === u ? "selected" : ""}>
+								${getDisplayNames(u)}
+							</option>`
+						).join("")}
+					</select>
+				</div>`;			
         }
 
         return i.unit ? `
