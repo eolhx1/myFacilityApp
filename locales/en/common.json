@@ -171,8 +171,114 @@
 	
 	"minimum": "Min",
 	"maximum": "Max",
-	"current_ma": "mA"
+	"current_ma": "mA",
+	
+	"air_change_rate": "Air Change Rate",
+	"air_change_rate_desc": "Calculates how many times per hour the room air is replaced.",
+	"air_change_rate_details": "Used to verify that a room meets required ventilation air change rates.",
+	"air_change_rate_formula_name": "Air Change Rate",
+	"air_change_rate_formula_desc": "n = Airflow / Volume",
 
+	"supply_air_cooling_capacity": "Supply Air Cooling Capacity",
+	"supply_air_cooling_capacity_desc": "Calculates the cooling capacity supplied through ventilation air.",
+	"supply_air_cooling_capacity_details": "Shows the amount of cooling delivered to the room through the supply air.",
+	"supply_air_cooling_capacity_formula_name": "Cooling Capacity",
+	"supply_air_cooling_capacity_formula_desc": "P = 1.2 × q × ΔT",
+
+	"airflow_from_velocity": "Airflow from Velocity",
+	"airflow_from_velocity_desc": "Calculates airflow based on air velocity and duct area.",
+	"airflow_from_velocity_details": "Used during balancing and airflow measurements based on the continuity equation.",
+	"airflow_from_velocity_formula_name": "Continuity Equation",
+	"airflow_from_velocity_formula_desc": "Airflow = Velocity × Area",
+	
+	"airflow_from_k_factor": "K-factor Airflow Calculation",
+	"airflow_from_k_factor_desc": "Calculates airflow using a known K-factor and measured pressure difference.",
+	"airflow_from_k_factor_details": "Standard calculation used when measuring airflow through terminal devices.",
+	"airflow_from_k_factor_formula_name": "K-factor",
+	"airflow_from_k_factor_formula_desc": "Airflow = K × √Δp",
+
+	"ventilation_balancing_ratio": "Proportional Balancing Method",
+	"ventilation_balancing_ratio_desc": "Calculates balancing ratio for ventilation branches.",
+	"ventilation_balancing_ratio_details": "Used during balancing of ventilation systems to compare measured and design airflow rates.",
+
+	"specific_fan_power": "Specific Fan Power (SFP)",
+	"specific_fan_power_desc": "Calculates the specific energy use of ventilation fans.",
+	"specific_fan_power_details": "Shows how much electrical power the fans require per airflow unit.",
+	"specific_fan_power_formula_name": "SFP",
+	"specific_fan_power_formula_desc": "SFP = Total Power / Airflow (m³/s)",
+
+	"fan_affinity_laws": "Fan Affinity Laws",
+	"fan_affinity_laws_desc": "Calculates new airflow, pressure and power at a changed fan speed.",
+	"fan_affinity_laws_details": "Based on the fan affinity laws when speed is changed, for example through a frequency inverter.",
+	"fan_affinity_laws_formula_name": "Fan Affinity Laws",
+	"fan_affinity_laws_formula_desc": "New Flow = Existing Flow × Speed Ratio, New Pressure = Existing Pressure × Speed Ratio², New Power = Existing Power × Speed Ratio³",
+	
+	"equivalent_duct_diameter": "Equivalent Duct Diameter",
+	"equivalent_duct_diameter_desc": "Calculates the hydraulic diameter of rectangular ducts.",
+	"equivalent_duct_diameter_details": "Used to convert rectangular duct dimensions into an equivalent circular diameter.",
+	"equivalent_duct_diameter_formula_name": "Hydraulic Diameter",
+	"equivalent_duct_diameter_formula_desc": "D = (2 × a × b) / (a + b)",
+
+	"airflow_from_effective_area": "Airflow from Effective Area",
+	"airflow_from_effective_area_desc": "Calculates airflow through terminals or grilles using measured velocity and effective area.",
+	"airflow_from_effective_area_details": "Used with vane anemometers or flow hoods directly at the diffuser.",
+	"airflow_from_effective_area_formula_name": "Airflow Through Area",
+	"airflow_from_effective_area_formula_desc": "Airflow = Velocity × Effective Area",
+
+	"heat_recovery_efficiency": "Heat Recovery Temperature Efficiency",
+	"heat_recovery_efficiency_desc": "Calculates the temperature efficiency of a heat exchanger.",
+	"heat_recovery_efficiency_details": "Shows how efficiently the heat recovery unit transfers heat from exhaust air to outdoor air.",
+	"heat_recovery_efficiency_formula_name": "Efficiency",
+	"heat_recovery_efficiency_formula_desc": "η = (t_supply - t_outdoor) / (t_extract - t_outdoor)",
+
+	"mixed_air_temperature": "Mixed Air Temperature (Recirculation)",
+	"mixed_air_temperature_desc": "Calculates the final temperature when outdoor and return air are mixed.",
+	"mixed_air_temperature_details": "Used to calculate air temperature after dampers or mixing chambers.",
+	"mixed_air_temperature_formula_name": "Mixed Air Temperature",
+	"mixed_air_temperature_formula_desc": "T = ((q1 × T1) + (q2 × T2)) / q_total",
+	
+	"room_volume_m3": "Room Volume (m³)",
+	"airflow": "Airflow",
+
+	"room_temperature_c": "Room Temperature (°C)",
+	"supply_air_temperature_c": "Supply Air Temperature (°C)",
+
+	"air_velocity": "Air Velocity",
+	"duct_area": "Duct Area",
+
+	"k_factor": "K-factor (k)",
+	"pressure_difference": "Pressure Difference (Δp)",
+
+	"measured_flow": "Measured Airflow",
+	"design_flow": "Design Airflow",
+
+	"total_power": "Total Input Power",
+	"largest_airflow": "Maximum Airflow",
+
+	"current_speed": "Current Speed / Frequency [rpm or Hz]",
+	"new_speed": "New Speed / Frequency [rpm or Hz]",
+	"current_flow": "Current Airflow [m³/s]",
+	"current_pressure": "Current Pressure [Pa]",
+	"current_power": "Current Power [kW]",
+
+	"duct_width": "Duct Width (a)",
+	"duct_height": "Duct Height (b)",
+
+	"average_air_velocity": "Average Measured Velocity (v_avg)",
+	"effective_area": "Effective Area (A_eff)",
+
+	"supply_air_after_hex": "Supply Air After Heat Exchanger (t_supply)",
+	"outdoor_air_before_hex": "Outdoor Air Before Heat Exchanger (t_outdoor)",
+	"extract_air_before_hex": "Extract Air Before Heat Exchanger (t_extract)",
+
+	"outdoor_airflow": "Outdoor Airflow",
+	"outdoor_air_temperature": "Outdoor Air Temperature (t_outdoor)",
+	"return_airflow": "Return Airflow (q_return)",
+	"return_air_temperature": "Return Air Temperature",
+	"total_mixed_airflow": "Total Mixed Airflow",
+	
+	"ventilation_balancing_ratio_formula_name": "Balancing Ratio",
+	"ventilation_balancing_ratio_formula_desc": "Ratio = Measured Airflow / Design Airflow"
 	
 	
 }
