@@ -41,22 +41,27 @@ const calculateKvValue = (v) => {
 };
 
 const calculateRadiatorOutputAtNewTemperature = (v) => {
-    if (!valid(
-        v.designHeatOutput,
-        v.newTemperatureDifference,
-        v.oldTemperatureDifference,
-        v.radiatorExponent
-    ) || v.oldTemperatureDifference === 0)
-        return getCommonText("error");
+	if (
+		!valid(
+			v.designHeatOutput,
+			v.newTemperatureDifference,
+			v.oldTemperatureDifference,
+			v.radiatorExponent
+		)
+	)
+		return getCommonText("error");
 
-    const newHeatOutput =
-        v.designHeatOutput *
-        Math.pow(
-            v.newTemperatureDifference / v.oldTemperatureDifference,
-            v.radiatorExponent
-        );
+	if (v.oldTemperatureDifference === 0)
+		return getCommonText("division_by_zero_error");
+	
+		const newHeatOutput = v.designHeatOutput *
+		
+		Math.pow(
+			v.newTemperatureDifference / v.oldTemperatureDifference,
+			v.radiatorExponent
+		);
 
-    return `${getCommonText("new_radiator_output")}: ${newHeatOutput.toFixed(0)} W`;
+		return `${getCommonText("new_radiator_output")}: ${newHeatOutput.toFixed(0)} W`;
 };
 
 const calculateBalancingRatio = (v) => {
@@ -91,7 +96,12 @@ const calculatePipePressureDrop = (v) => {
 
 // Affinitetslagar för Pumpar
 const calculatePumpAffinityLaws = (v) => {
-    if (!valid(v.currentSpeed, v.newSpeed, v.currentFlow, v.currentPressure, v.currentPower)) return "Fel";
+	if (
+		!valid(v.currentSpeed, v.newSpeed, v.currentFlow,
+			   v.currentPressure, v.currentPower)
+		|| v.currentSpeed === 0
+	)
+    return getCommonText("error");
     
 const speedRatio = v.newSpeed / v.currentSpeed;
 const newFlow = v.currentFlow * speedRatio;
@@ -119,13 +129,15 @@ const calculateOnePipeTemperatureDrop = (v) => {
 };
 
 const calculateHeatOutputFromFlow = (v) => {
-    if (!valid(v.flowRateLs, v.temperatureDifference)) return "Fel";
+    if (!valid(v.flowRateLs, v.temperatureDifference))
+		return getCommonText("error");
     const heatOutputKw = v.flowRateLs * 4.19 * v.temperatureDifference;
     return `${getCommonText("transferred_power")}: ${heatOutputKw.toFixed(2)} kW`;
 };
 
 const calculateWaterExpansion = (v) => {
-    if (!valid(v.systemVolumeM3, v.coldTemperature, v.hotTemperature)) return "Fel";
+    if (!valid(v.systemVolumeM3, v.coldTemperature, v.hotTemperature))
+		return getCommonText("error");
     const expansionFactor = (v.hotTemperature - v.coldTemperature) * 0.00035; 
     const expansionVolumeLiters = v.systemVolumeM3 * 1000 * expansionFactor;
     
@@ -135,7 +147,8 @@ const calculateWaterExpansion = (v) => {
 };
 
 const calculateBrineHeatTransfer = (v) => {
-    if (!valid(v.flowRateLs, v.temperatureDifference)) return "Fel";
+    if (!valid(v.flowRateLs, v.temperatureDifference))
+		return getCommonText("error");
     const heatOutputKw = v.flowRateLs * 4.0 * v.temperatureDifference;
     return `${getCommonText("brine_heat_transfer_result")}: ${heatOutputKw.toFixed(2)} kW`;
 };
@@ -174,14 +187,14 @@ export const plumbingCalculations = [
 			{ id: "pressureDrop", labelKey: "valve_pressure_drop", unit: ["bar"] }
 		],
         calc: calculateKvValue,
-        info: {
-            description: "Beräknar ventilens K<sub>v</sub>-värde för flödesinställning.",
-            details: "K<sub>v</sub>-värdet definieras som det flöde i m³/h som passerar ventilen vid ett tryckfall på 1 bar. Viktigt verktyg vid injustering av stam- och radiatordon.",
+		info: {
+			descriptionKey: "valve_kv_value_desc",
+			detailsKey: "valve_kv_value_details",
 			formula: {
-				name: "Kv-värde",
-				description: "Kv = Flöde / √Tryckfall"
+				nameKey: "valve_kv_value_formula_name",
+				descriptionKey: "valve_kv_value_formula_desc"
 			}
-        }
+		}
     },
 	
     {
