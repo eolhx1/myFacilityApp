@@ -168,12 +168,36 @@ export async function getFavorites() {
 
 export async function isFavorite(calcId) {
 
-	if (!db) {
-		throw new Error("Database not initialized");
-	}
+    if (!db) {
+        throw new Error("Database not initialized");
+    }
 
-    const favorites =
-        await getFavorites();
+    return new Promise((resolve, reject) => {
 
-    return favorites.includes(calcId);
+        const tx =
+            db.transaction(
+                "favorites",
+                "readonly"
+            );
+
+        const store =
+            tx.objectStore("favorites");
+
+        const request =
+            store.get(calcId);
+
+        request.onsuccess =
+            () => resolve(!!request.result);
+
+        request.onerror =
+            () => reject(request.error);
+    });
 }
+
+db.onclose = () => {
+    db = null;
+};
+
+db.onerror = (event) => {
+    console.error(event);
+};
