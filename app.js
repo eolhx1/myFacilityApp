@@ -5,6 +5,10 @@
 //
 
 import {
+    initDB
+} from './db.js';
+
+import {
     loadLanguage,
     getCommonText
 } from './locales.js';
@@ -39,6 +43,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 		localStorage.getItem("language") || "sv";
 
 	await loadLanguage(currentLanguage);
+	
+	await initDB();
 
     const debouncedRunCalc = debounce((calcId) => {
         runCalc(null, calcId);
