@@ -24,6 +24,8 @@ const state = {
     subNav: document.getElementById("subNav"),
     breadcrumb: document.getElementById("breadcrumbContainer"),
     activeCategory: null,
+
+    previousCategory: null
 };
 
 // ==========================================================================
@@ -47,12 +49,17 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     const settingsBtn = document.getElementById("settingsBtn");
-    if (settingsBtn) {
-        settingsBtn.addEventListener("click", () => {
-            triggerHaptic(20);
-            showSettings();
-        });
-    }
+	if (settingsBtn) {
+		settingsBtn.addEventListener("click", () => {
+			triggerHaptic(20);
+
+			state.previousCategory =
+				state.activeCategory;
+
+			showSettings();
+		});
+	}
+
 
     const navHome = document.getElementById("navHome");
     const navFav = document.getElementById("navFav");
@@ -266,8 +273,6 @@ function showMainMenu() {
 			<span class="crumb-home">🏠 ${getCommonText("home")}</span>
 		</div>
 	`;
-
-	setupHomeBreadcrumb();
 
     state.mainNav.classList.remove("hidden");
     state.subNav.classList.remove("hidden");
@@ -921,6 +926,54 @@ async function showSettings() {
     clear(state.container);
     state.mainNav.classList.add("hidden");
     state.subNav.classList.add("hidden");
+
+    clear(state.breadcrumb);
+
+    if (state.previousCategory) {
+
+        const catData =
+            CATEGORIES[state.previousCategory];
+
+        const categoryName =
+            getCommonText(catData.nameKey);
+
+        state.breadcrumb.innerHTML = `
+            <div class="breadcrumb">
+                <span class="crumb-home">
+                    🏠 ${getCommonText("home")}
+                </span>
+                /
+                <span class="crumb-back">
+                    ${categoryName}
+                </span>
+            </div>
+        `;
+
+    } else {
+
+        state.breadcrumb.innerHTML = `
+            <div class="breadcrumb">
+                <span class="crumb-home">
+                    🏠 ${getCommonText("home")}
+                </span>
+            </div>
+        `;
+    }
+
+    setupHomeBreadcrumb();
+	
+	const backCrumb = state.breadcrumb.querySelector(".crumb-back");
+
+	if (backCrumb) {
+
+		backCrumb.onclick = () => {
+			triggerHaptic(20);
+
+			showSubMenu(
+				state.previousCategory
+			);
+		};
+	}
 
     const appInfo = await getAppInfo();
 	
