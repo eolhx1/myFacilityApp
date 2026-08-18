@@ -263,6 +263,7 @@ function runCalc(category, calcId) {
 // ==========================================================================
 function showMainMenu() {
     state.activeCategory = null;
+	state.previousCategory = null;
 
     clear(state.container);
 	clear(state.breadcrumb);
@@ -273,6 +274,8 @@ function showMainMenu() {
 			<span class="crumb-home">🏠 ${getCommonText("home")}</span>
 		</div>
 	`;
+	
+	setupHomeBreadcrumb();
 
     state.mainNav.classList.remove("hidden");
     state.subNav.classList.remove("hidden");
@@ -1023,25 +1026,23 @@ style="color: var(--primary-color); width: 100%;">
 </div>
 
 <div class="settings-section">
-    <h3>ℹ️ Om appen</h3>
+    <h3>ℹ️ ${getCommonText("about_app")}</h3>
 
-    <p>${appInfo.om_appen}</p>
+    <p>${getCommonText("app_description")}</p>
 
     <p>
-        <strong>Version:</strong>
+        <strong>${getCommonText("version")}:</strong>
         ${appInfo.version}
     </p>
 
     <p>
-        <strong>E-post:</strong>
-        ${appInfo.kontakt.email}
+        <strong>${getCommonText("email")}:</strong>
+        ${appInfo.kontakt?.email || ""}
     </p>
-</div>
-
 
 </div>`;
 
-    setupSettingsListeners();
+setupSettingsListeners();
 }
 
 async function getAppInfo() {

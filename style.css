@@ -708,3 +708,11 @@ input:checked + .slider:before {
 .submenu-header-bar h2 {
     margin: 4px 0 8px 0;
 }
+
+.crumb-back {
+    cursor: pointer;
+}
+
+.crumb-back:hover {
+    text-decoration: underline;
+}
