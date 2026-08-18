@@ -9,6 +9,13 @@ import {
 } from './db.js';
 
 import {
+    addFavorite,
+    removeFavorite,
+    getFavorites,
+    isFavorite
+} from './db.js';
+
+import {
     loadLanguage,
     getCommonText
 } from './locales.js';
@@ -124,16 +131,17 @@ document.addEventListener("DOMContentLoaded", async () => {
 			);
         }
 
-        if (id === "favoriteBtn") {
-
-			toggleFavorite(calcId);
-
+	if (id === "favoriteBtn") {
+		(async () => { await toggleFavorite(calcId);
 			const calc = findCalc(calcId);
-
 			if (calc) {
-				renderCalc(calc.categories[0], calcId);
+				await renderCalc(
+					calc.categories[0],
+					calcId
+				);
 			}
-		}
+		})();
+	}
 
         if (id === "resetBtn") {
             smartReset(calcId);
@@ -203,9 +211,20 @@ state.container.addEventListener("input", (e) => {
     setActiveNav("navHome");
 });
 
-window.addEventListener("popstate", (event) => {
-    if (!event.state || event.state.page === "home") showMainMenu();
-    else if (event.state.category && event.state.calcId) renderCalc(event.state.category, event.state.calcId);
+window.addEventListener("popstate", async (event) => {
+
+    if (!event.state || event.state.page === "home") {
+        showMainMenu();
+    }
+    else if (
+        event.state.category &&
+        event.state.calcId
+    ) {
+        await renderCalc(
+            event.state.category,
+            event.state.calcId
+        );
+    }
 });
 
 // ==========================================================================
@@ -638,8 +657,9 @@ function getSavedJobs() {
     return JSON.parse(localStorage.getItem("saved_jobs") || "[]");
 }
 
-function renderFavoritesManagement() {
-    const favorites = getFavorites();
+async function renderFavoritesManagement() {
+    const favorites = 
+		await getFavorites();
     state.subNav.innerHTML = "";
 
     if (favorites.length === 0) {
@@ -658,65 +678,37 @@ function renderFavoritesManagement() {
     listContainer.style.gap = "8px";
     listContainer.style.padding = "4px";
 
-    favorites.forEach((calcId, index) => {
-        const calc = findCalc(calcId);
-        if (!calc) return;
+	favorites.forEach((calcId) => {
+		const calc = findCalc(calcId);
+		if (!calc) return;
 
-        const row = document.createElement("div");
-        row.style.display = "flex";
-        row.style.alignItems = "center";
-        row.style.gap = "4px";
+		const row = document.createElement("div");
+		row.style.display = "flex";
+		row.style.alignItems = "center";
+		row.style.gap = "4px";
 
-        const calcBtn = createButton(getCalcName(calc), "sub-btn", () => { renderCalc("favoriter", calc.id); });
-        calcBtn.style.flexGrow = "1";
-        calcBtn.style.margin = "0";
+		const calcBtn = createButton(
+			getCalcName(calc),
+			"sub-btn",
+			() => {
+				renderCalc(calc.categories[0], calc.id);
+			}
+		);
 
-        const btnStyle = "background:var(--card-bg, #fff); border:1px solid var(--border-color, #ccc); border-radius:4px; padding:8px; cursor:pointer; font-size:0.9rem;";
+		calcBtn.style.flexGrow = "1";
+		calcBtn.style.margin = "0";
 
-        const upBtn = document.createElement("button");
-        upBtn.innerHTML = "⬆️";
-        upBtn.style = btnStyle;
-        upBtn.disabled = index === 0;
-        if (index === 0) upBtn.style.opacity = "0.3";
-        upBtn.onclick = () => { moveFavorite(index, index - 1); };
-
-        const downBtn = document.createElement("button");
-        downBtn.innerHTML = "⬇️";
-        downBtn.style = btnStyle;
-        downBtn.disabled = index === favorites.length - 1;
-        if (index === favorites.length - 1) downBtn.style.opacity = "0.3";
-        downBtn.onclick = () => { moveFavorite(index, index + 1); };
-
-        const removeBtn = document.createElement("button");
-        removeBtn.innerHTML = "❌";
-        removeBtn.onclick = () => {
-            let favs = getFavorites();
-            favs = favs.filter(id => id !== calcId);
-            localStorage.setItem("favorites", JSON.stringify(favs));
-            renderFavoritesManagement();
-        };
-
-        row.appendChild(calcBtn);
-        row.appendChild(upBtn);
-        row.appendChild(downBtn);
-        row.appendChild(removeBtn);
-        listContainer.appendChild(row);
-    });
+		row.appendChild(calcBtn);
+		listContainer.appendChild(row);
+	});
 
     state.subNav.appendChild(listContainer);
 }
 
-function moveFavorite(fromIndex, toIndex) {
-    let favorites = getFavorites();
-    if (toIndex < 0 || toIndex >= favorites.length) return;
-    const item = favorites.splice(fromIndex, 1)[0];
-    favorites.splice(toIndex, 0, item);
-    localStorage.setItem("favorites", JSON.stringify(favorites));
-    renderFavoritesManagement();
-}
-
-function renderCalc(category, calcId) {
+async function renderCalc(category, calcId) {
     addRecent(calcId);
+	
+	const favorite = await isFavorite(calcId);
 
     clear(state.container);
 
@@ -755,7 +747,7 @@ function renderCalc(category, calcId) {
     <h2>
 		${getCalcName(calc)}
         <button id="favoriteBtn" class="favorite-btn" data-calc-id="${calcId}">
-            ${isFavorite(calcId) ? "⭐" : "☆"}
+            ${favorite ? "⭐" : "☆"}
         </button>
     </h2>
 
@@ -1136,16 +1128,14 @@ function getFormulaDescription(calc) {
 }
 
 
-function getFavorites() { return [...new Set(JSON.parse(localStorage.getItem("favorites") || "[]"))]; }
-function isFavorite(calcId) { return getFavorites().includes(calcId); }
 
-function toggleFavorite(calcId) {
-    let fav = getFavorites();
-    if (fav.includes(calcId))
-        fav = fav.filter(id => id !== calcId);
-    else
-        fav.push(calcId);
-    localStorage.setItem("favorites", JSON.stringify(fav));
+
+async function toggleFavorite(calcId) {
+    if (await isFavorite(calcId)) {
+        await removeFavorite(calcId);
+    } else {
+        await addFavorite(calcId);
+    }
 }
 
 function getRecent() { return JSON.parse(localStorage.getItem("recent") || "[]"); }

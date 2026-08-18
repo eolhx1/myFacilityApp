@@ -12,10 +12,7 @@ export async function initDB() {
     return new Promise((resolve, reject) => {
 
         const request =
-            indexedDB.open(
-                DB_NAME,
-                DB_VERSION
-            );
+            indexedDB.open(DB_NAME, DB_VERSION);
 
         request.onupgradeneeded = (event) => {
 
@@ -58,21 +55,125 @@ export async function initDB() {
             db = request.result;
 
             console.log(
-                "IndexedDB ready"
+                "IndexedDB initialized"
             );
 
-            resolve(db);
+            resolve();
         };
 
         request.onerror = () => {
 
-            reject(
-                request.error
-            );
+            reject(request.error);
         };
     });
 }
 
+// Används denna
 export function getDB() {
     return db;
+}
+
+// ==========================================================================
+// Favoriter
+// ==========================================================================
+export async function addFavorite(calcId) {
+
+    if (!db) {
+        throw new Error("Database not initialized");
+    }
+
+    return new Promise((resolve, reject) => {
+
+        const tx =
+            db.transaction(
+                "favorites",
+                "readwrite"
+            );
+
+        const store =
+            tx.objectStore("favorites");
+
+        const request =
+            store.put({
+                calcId
+            });
+
+        request.onsuccess =
+            () => resolve();
+
+        request.onerror =
+            () => reject(request.error);
+    });
+}
+
+export async function removeFavorite(calcId) {
+
+	if (!db) {
+		throw new Error("Database not initialized");
+	}
+	
+    return new Promise((resolve, reject) => {
+
+        const tx =
+            db.transaction(
+                "favorites",
+                "readwrite"
+            );
+
+        const store =
+            tx.objectStore("favorites");
+
+        const request =
+            store.delete(calcId);
+
+        request.onsuccess =
+            () => resolve();
+
+        request.onerror =
+            () => reject(request.error);
+    });
+}
+
+export async function getFavorites() {
+	
+	if (!db) {
+		throw new Error("Database not initialized");
+	}
+
+    return new Promise((resolve, reject) => {
+
+        const tx =
+            db.transaction(
+                "favorites",
+                "readonly"
+            );
+
+        const store =
+            tx.objectStore("favorites");
+
+        const request =
+            store.getAll();
+
+        request.onsuccess =
+            () => resolve(
+                request.result.map(
+                    item => item.calcId
+                )
+            );
+
+        request.onerror =
+            () => reject(request.error);
+    });
+}
+
+export async function isFavorite(calcId) {
+
+	if (!db) {
+		throw new Error("Database not initialized");
+	}
+
+    const favorites =
+        await getFavorites();
+
+    return favorites.includes(calcId);
 }
