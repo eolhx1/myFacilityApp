@@ -101,18 +101,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (!id) return;
         triggerHaptic(20);
 
-        if (id === "backBtn") {
-            const targetCategory = event.target.dataset.category;
-            if (targetCategory && targetCategory !== "undefined" && CATEGORIES[targetCategory]) {
-                state.container.innerHTML = "";
-                state.mainNav.classList.add("hidden");
-                state.subNav.classList.remove("hidden");
-                showSubMenu(targetCategory);
-            } else {
-                showMainMenu();
-            }
-        }
-
         if (id === "clearDataBtn") {
             showConfirmModal(
 				getCommonText("confirm_clear_saved_data"),
@@ -124,9 +112,15 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
 
         if (id === "favoriteBtn") {
-            toggleFavorite(calcId);
-            renderCalc("favoriter", calcId);
-        }
+
+			toggleFavorite(calcId);
+
+			const calc = findCalc(calcId);
+
+			if (calc) {
+				renderCalc(calc.categories[0], calcId);
+			}
+		}
 
         if (id === "resetBtn") {
             smartReset(calcId);
@@ -273,15 +267,7 @@ function showMainMenu() {
 		</div>
 	`;
 
-	const homeCrumb = state.breadcrumb.querySelector(".crumb-home");
-
-	if (homeCrumb) {
-		homeCrumb.onclick = () => {
-			triggerHaptic(20);
-			showMainMenu();
-			setActiveNav("navHome");
-		};
-	}
+	setupHomeBreadcrumb();
 
     state.mainNav.classList.remove("hidden");
     state.subNav.classList.remove("hidden");
@@ -371,14 +357,7 @@ headerDiv.style.cssText =
     `;
     state.subNav.appendChild(headerDiv);
 	
-	const homeCrumb = state.breadcrumb.querySelector(".crumb-home");
-
-if (homeCrumb) {
-    homeCrumb.onclick = () => {
-        triggerHaptic(20);
-        showMainMenu();
-    };
-}
+	setupHomeBreadcrumb();
 
 
     // 2. Hämta kalkyler för denna kategori
@@ -915,14 +894,7 @@ function renderCalc(category, calcId) {
 </div>
 `;
 
-const homeCrumb = state.breadcrumb.querySelector(".crumb-home");
-
-if (homeCrumb) {
-    homeCrumb.onclick = () => {
-        triggerHaptic(20);
-        showMainMenu();
-    };
-}
+setupHomeBreadcrumb();
 
 const categoryCrumb = state.breadcrumb.querySelector(".crumb-category");
 
@@ -950,9 +922,11 @@ async function showSettings() {
     state.mainNav.classList.add("hidden");
     state.subNav.classList.add("hidden");
 
+    const appInfo = await getAppInfo();
+	
 state.container.innerHTML = `
 <div class="calc-page">
-<button id="backBtn" class="back-btn">${getCommonText("back")}</button>
+
 <h2>${getCommonText("settings")}</h2>
 
 <div class="settings-section">
@@ -995,6 +969,23 @@ style="color: var(--primary-color); width: 100%;">
 </button>
 </div>
 
+<div class="settings-section">
+    <h3>ℹ️ Om appen</h3>
+
+    <p>${appInfo.om_appen}</p>
+
+    <p>
+        <strong>Version:</strong>
+        ${appInfo.version}
+    </p>
+
+    <p>
+        <strong>E-post:</strong>
+        ${appInfo.kontakt.email}
+    </p>
+</div>
+
+
 </div>`;
 
     setupSettingsListeners();
@@ -1014,6 +1005,20 @@ async function getAppInfo() {
 // 6. HJÄLPFUNKTIONER
 // ==========================================================================
 function clear(el) { if (el) el.innerHTML = ""; }
+
+function setupHomeBreadcrumb() {
+
+    const homeCrumb =
+        state.breadcrumb.querySelector(".crumb-home");
+
+    if (!homeCrumb) return;
+
+    homeCrumb.onclick = () => {
+        triggerHaptic(20);
+        showMainMenu();
+        setActiveNav("navHome");
+    };
+}
 
 function createButton(text, className, onClick) {
     const btn = document.createElement("button");
@@ -1076,10 +1081,11 @@ function isFavorite(calcId) { return getFavorites().includes(calcId); }
 
 function toggleFavorite(calcId) {
     let fav = getFavorites();
-    if (fav.includes(calcId)) fav = fav.filter(id => id !== calcId);
-    else fav.push(calcId);
+    if (fav.includes(calcId))
+        fav = fav.filter(id => id !== calcId);
+    else
+        fav.push(calcId);
     localStorage.setItem("favorites", JSON.stringify(fav));
-    renderFavoritesManagement();
 }
 
 function getRecent() { return JSON.parse(localStorage.getItem("recent") || "[]"); }
@@ -1090,8 +1096,18 @@ function addRecent(calcId) {
 }
 
 function smartReset(calcId) {
-    state.container.querySelectorAll("input").forEach(i => i.value = "");
-    state.container.querySelector(".result").innerHTML = "";
+
+    state.container
+        .querySelectorAll("input")
+        .forEach(i => i.value = "");
+
+    const resultText =
+        document.getElementById("resultText");
+
+    if (resultText) {
+        resultText.textContent = "";
+    }
+
     localStorage.removeItem(`calc_${calcId}`);
 }
 
