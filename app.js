@@ -273,6 +273,16 @@ function showMainMenu() {
 		</div>
 	`;
 
+	const homeCrumb = state.breadcrumb.querySelector(".crumb-home");
+
+	if (homeCrumb) {
+		homeCrumb.onclick = () => {
+			triggerHaptic(20);
+			showMainMenu();
+			setActiveNav("navHome");
+		};
+	}
+
     state.mainNav.classList.remove("hidden");
     state.subNav.classList.remove("hidden");
     state.mainNav.innerHTML = "";
@@ -290,6 +300,8 @@ function showMainMenu() {
         btn.dataset.category = key;
         state.mainNav.appendChild(btn);
     });
+	
+	
 }
 
 function showSubMenu(categoryKey) {
