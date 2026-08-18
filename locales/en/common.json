@@ -1,8 +1,5 @@
 {
   "appName": "myFacilityApp",
-  "about": "myFacilityApp is a tool developed for fast and reliable calculations in the field.",
-  "supportText": "For support or suggestions for new calculations, contact us by email:",
-  "supportEmail": "support@myFacilityApp.se",
   "version": "1.0.0",
 
   "language": "Language",
@@ -490,7 +487,12 @@
 	"brine_heat_transfer_desc": "Calculates heat transfer in brine and secondary fluid systems.",
 	"brine_heat_transfer_details": "Adapted for brine systems where heat capacity differs slightly from pure water, such as glycol mixtures.",
 	"brine_heat_transfer_formula_name": "Brine Heat Transfer",
-	"brine_heat_transfer_formula_desc": "P = q × 4.0 × ΔT"
+	"brine_heat_transfer_formula_desc": "P = q × 4.0 × ΔT",
+	
+	"about_app": "About app",
+	"email": "Email",
+
+	"app_description": "A collection of useful calculators for operations and technology.",
 
 }
 
