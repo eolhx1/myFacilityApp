@@ -1221,20 +1221,50 @@ function setupSettingsListeners() {
 
 	if (languageSelector) {
 
-		languageSelector.value =
-			localStorage.getItem("language") || "sv";
+		languageSelector.value = localStorage.getItem("language") || "sv";
 
 		languageSelector.addEventListener("change", async (e) => {
 
-			localStorage.setItem(
-				"language",
-				e.target.value
-			);
+			const lang = e.target.value;
 
-			location.reload();
+			localStorage.setItem("language", lang);
+
+			await loadLanguage(lang);
+
+			refreshCurrentView();
 		});
 	}
 }
+
+function refreshCurrentView() {
+
+    // Kalkyl öppen
+    const calcPage =
+        state.container.querySelector("[data-calc-id]");
+
+    if (calcPage) {
+
+        const calcId = calcPage.dataset.calcId;
+        const calc = findCalc(calcId);
+        const category = calc?.categories?.[0];
+
+        if (category) {
+            renderCalc(category, calcId);
+        }
+
+        return;
+    }
+
+    // Kategori öppen
+    if (state.activeCategory) {
+        showSubMenu(state.activeCategory);
+        return;
+    }
+
+    // Annars visa aktuell settings-sida igen
+    showSettings();
+}
+
 
 // ==========================================================================
 // 7. KOPIERINGSFUNKTION & TOAST
