@@ -12,7 +12,7 @@ export async function loadLanguage(lang = "sv") {
     try {
         const [common, calculations, info] = await Promise.all([
             fetch(`./locales/${lang}/common.json`).then(r => r.json()),
-            fetch(`./locales/${lang}/calculations.json`).then(r => r.json()),
+//            fetch(`./locales/${lang}/calculations.json`).then(r => r.json()),
             fetch(`./locales/${lang}/info.json`).then(r => r.json())
         ]);
 
