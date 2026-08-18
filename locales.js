@@ -4,20 +4,17 @@
 
 let translations = {
     common: {},
-    calculations: {},
     info: {}
 };
 
 export async function loadLanguage(lang = "sv") {
     try {
-        const [common, calculations, info] = await Promise.all([
+        const [common, info] = await Promise.all([
             fetch(`./locales/${lang}/common.json`).then(r => r.json()),
-//            fetch(`./locales/${lang}/calculations.json`).then(r => r.json()),
-            fetch(`./locales/${lang}/info.json`).then(r => r.json())
+            fetch('./info.json').then(r => r.json())
         ]);
 
         translations.common = common;
-        translations.calculations = calculations;
         translations.info = info;
 
         return true;
@@ -30,10 +27,6 @@ export async function loadLanguage(lang = "sv") {
 
 export function getTranslations() {
     return translations;
-}
-
-export function getCalculationTitle(key) {
-    return translations.calculations?.[key]?.title || key;
 }
 
 export function getCalculationInfo(key) {
