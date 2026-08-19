@@ -1,19 +1,30 @@
 //
 // filename: ./db.js
 //
+// IndexedDB-hantering för applikationen.
+//
+
+// ==========================================================================
+// 1. KONSTANTER & GLOBAL STATE
+// ==========================================================================
 
 const DB_NAME = "myFacilityAppDB";
 const DB_VERSION = 1;
 
 let db = null;
 
+// ==========================================================================
+// 2. INITIERING
+// ==========================================================================
 export async function initDB() {
 
     return new Promise((resolve, reject) => {
 
-        const request =
-            indexedDB.open(DB_NAME, DB_VERSION);
+        const request = indexedDB.open(DB_NAME, DB_VERSION);
 
+		// ----------------------------------
+		// Skapa object stores
+		// ----------------------------------
         request.onupgradeneeded = (event) => {
 
             const database =
@@ -69,13 +80,15 @@ export async function initDB() {
 }
 
 // ==========================================================================
-// Favoriter
+// 3. FAVORITER
 // ==========================================================================
-export async function addFavorite(calcId) {
 
-    if (!db) {
-        throw new Error("Database not initialized");
-    }
+// ----------------------------------
+// Lägg till favorit
+// ----------------------------------
+
+export async function addFavorite(calcId) {
+    ensureDB();
 
     return new Promise((resolve, reject) => {
 
@@ -101,12 +114,13 @@ export async function addFavorite(calcId) {
     });
 }
 
-export async function removeFavorite(calcId) {
+// ----------------------------------
+// Ta bort favorit
+// ----------------------------------
 
-	if (!db) {
-		throw new Error("Database not initialized");
-	}
-	
+export async function removeFavorite(calcId) {
+    ensureDB();
+
     return new Promise((resolve, reject) => {
 
         const tx =
@@ -129,11 +143,12 @@ export async function removeFavorite(calcId) {
     });
 }
 
+// ----------------------------------
+// Hämta favoriter
+// ----------------------------------
+
 export async function getFavorites() {
-	
-	if (!db) {
-		throw new Error("Database not initialized");
-	}
+    ensureDB();
 
     return new Promise((resolve, reject) => {
 
@@ -161,11 +176,12 @@ export async function getFavorites() {
     });
 }
 
-export async function isFavorite(calcId) {
+// ----------------------------------
+// Kontrollera favoritstatus
+// ----------------------------------
 
-    if (!db) {
-        throw new Error("Database not initialized");
-    }
+export async function isFavorite(calcId) {
+    ensureDB();
 
     return new Promise((resolve, reject) => {
 
@@ -189,3 +205,12 @@ export async function isFavorite(calcId) {
     });
 }
 
+// ==========================================================================
+// 4. HJÄLPFUNKTIONER
+// ==========================================================================
+
+function ensureDB() {
+    if (!db) {
+        throw new Error("Database not initialized");
+    }
+}
