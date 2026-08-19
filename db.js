@@ -194,10 +194,19 @@ export async function isFavorite(calcId) {
     });
 }
 
-db.onclose = () => {
-    db = null;
-};
+request.onsuccess = () => {
 
-db.onerror = (event) => {
-    console.error(event);
+    db = request.result;
+
+    db.onclose = () => {
+        db = null;
+    };
+
+    db.onerror = (event) => {
+        console.error(event);
+    };
+
+    console.log("IndexedDB initialized");
+
+    resolve();
 };
