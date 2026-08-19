@@ -5,10 +5,7 @@
 //
 
 import {
-    initDB
-} from './db.js';
-
-import {
+    initDB,
     addFavorite,
     removeFavorite,
     getFavorites,
@@ -131,17 +128,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 			);
         }
 
-	if (id === "favoriteBtn") {
-		(async () => { await toggleFavorite(calcId);
-			const calc = findCalc(calcId);
-			if (calc) {
-				await renderCalc(
-					calc.categories[0],
-					calcId
-				);
-			}
-		})();
-	}
+		if (id === "favoriteBtn") {
+			handleFavoriteClick(calcId);
+		}
 
         if (id === "resetBtn") {
             smartReset(calcId);
@@ -1127,17 +1116,6 @@ function getFormulaDescription(calc) {
         : calc.info.formula.description || "";
 }
 
-
-
-
-async function toggleFavorite(calcId) {
-    if (await isFavorite(calcId)) {
-        await removeFavorite(calcId);
-    } else {
-        await addFavorite(calcId);
-    }
-}
-
 function getRecent() { return JSON.parse(localStorage.getItem("recent") || "[]"); }
 function addRecent(calcId) {
     let recent = getRecent().filter(id => id !== calcId);
@@ -1343,15 +1321,39 @@ function refreshCurrentView() {
     showSettings();
 }
 
+async function toggleFavorite(calcId) {
+    if (await isFavorite(calcId)) {
+        await removeFavorite(calcId);
+    } else {
+        await addFavorite(calcId);
+    }
+}
+
+async function handleFavoriteClick(calcId) {
+
+    await toggleFavorite(calcId);
+
+    const calc = findCalc(calcId);
+
+    if (calc) {
+        await renderCalc(
+            calc.categories[0],
+            calcId
+        );
+    }
+}
 
 // ==========================================================================
 // 7. KOPIERINGSFUNKTION & TOAST
 // ==========================================================================
 window.copyResult = function(copyFull) {
-    const resultTextEl = document.getElementById("resultText");
-    const fullText = resultTextEl.innerText;
+const resultTextEl =
+    document.getElementById("resultText");
 
-    if (!resultTextEl || fullText.includes(getCommonText("fill_all_fields"))) return;
+if (!resultTextEl) return;
+
+const fullText =
+    resultTextEl.innerText;
 
     let textToCopy = fullText;
     if (!copyFull) {

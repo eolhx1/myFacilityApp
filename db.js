@@ -68,11 +68,6 @@ export async function initDB() {
     });
 }
 
-// Används denna
-export function getDB() {
-    return db;
-}
-
 // ==========================================================================
 // Favoriter
 // ==========================================================================
@@ -194,19 +189,3 @@ export async function isFavorite(calcId) {
     });
 }
 
-request.onsuccess = () => {
-
-    db = request.result;
-
-    db.onclose = () => {
-        db = null;
-    };
-
-    db.onerror = (event) => {
-        console.error(event);
-    };
-
-    console.log("IndexedDB initialized");
-
-    resolve();
-};
