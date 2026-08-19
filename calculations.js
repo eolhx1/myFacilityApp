@@ -51,7 +51,6 @@ import {
 // ==========================================================================
 
 export const ALL_CALCULATIONS = [
-export const ALL_CALCULATIONS = [
     ...controlsCalculations,
     ...ventilationCalculations,
     ...plumbingCalculations,
