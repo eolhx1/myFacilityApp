@@ -26,6 +26,7 @@ import {
 // ==========================================================================
 // 1. GLOBAL STATE & DOM-REFERENSER
 // ==========================================================================
+
 const state = {
     container: document.getElementById("calcContainer"),
     mainNav: document.getElementById("mainNav"),
@@ -39,17 +40,18 @@ const state = {
 // ==========================================================================
 // 2. INITIALISERING & Händelselyssnare vid start
 // ==========================================================================
+
 document.addEventListener("DOMContentLoaded", async () => {
 
-//    await loadLanguage("sv");
-//	await loadLanguage("en");
-	const currentLanguage =
-		localStorage.getItem("language") || "sv";
+// --------------------------------------------------
+// Ladda språk och databas
+// --------------------------------------------------
+
+	const currentLanguage = localStorage.getItem("language") || "sv";
 
 	await loadLanguage(currentLanguage);
-	
 	await initDB();
-
+	
     const debouncedRunCalc = debounce((calcId) => {
         runCalc(null, calcId);
     }, 250);
@@ -57,6 +59,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (localStorage.getItem("darkMode") === "enabled") {
         document.body.classList.add("dark-mode");
     }
+	
+// --------------------------------------------------
+// Inställningsknapp
+// --------------------------------------------------
 
     const settingsBtn = document.getElementById("settingsBtn");
 	if (settingsBtn) {
@@ -70,6 +76,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 		});
 	}
 
+// --------------------------------------------------
+// Navigationsknappar
+// --------------------------------------------------
 
     const navHome = document.getElementById("navHome");
     const navFav = document.getElementById("navFav");
@@ -110,6 +119,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         setActiveNav("navSearch");
         showSearchModal();
     });
+
+// --------------------------------------------------
+// Container events
+// --------------------------------------------------
 
     state.container.addEventListener("click", (event) => {
         const id = event.target.id;
@@ -162,7 +175,7 @@ state.container.addEventListener("input", (e) => {
 
         if (calcId === "ohms_law") {
             const page = state.container.querySelector(".calc-page");
-            const selector =page.querySelector( 'select[data-unit="calculationMode"]' );
+            const selector = page.querySelector( 'select[data-unit="calculationMode"]' );
             const label1 = page.querySelector( 'label[for-id="value1"]' );
             const label2 = page.querySelector( 'label[for-id="value2"]' );
 			
@@ -186,6 +199,10 @@ state.container.addEventListener("input", (e) => {
     }
 });
 
+// --------------------------------------------------
+// App-rubrik
+// --------------------------------------------------
+
     const appTitle = document.getElementById("appTitle");
     if (appTitle) {
         appTitle.addEventListener("click", (e) => {
@@ -196,9 +213,17 @@ state.container.addEventListener("input", (e) => {
         });
     }
 
+// --------------------------------------------------
+// Visa startsida
+// --------------------------------------------------
+
     showMainMenu();
     setActiveNav("navHome");
 });
+
+// ==========================================================================
+// 3. NAVIGERINGSHISTORIK
+// ==========================================================================
 
 window.addEventListener("popstate", async (event) => {
 
@@ -217,8 +242,9 @@ window.addEventListener("popstate", async (event) => {
 });
 
 // ==========================================================================
-// 3. BERÄKNINGSMOTOR
+// 4. BERÄKNINGSMOTOR
 // ==========================================================================
+
 function runCalc(category, calcId) {
     const calc = findCalc(calcId);
     const page = state.container.querySelector(".calc-page");
@@ -273,8 +299,9 @@ function runCalc(category, calcId) {
 }
 
 // ==========================================================================
-// 4. MENYHANTERING & RENDERING
+// 5. MENYHANTERING
 // ==========================================================================
+
 function showMainMenu() {
     state.activeCategory = null;
 	state.previousCategory = null;
@@ -360,18 +387,19 @@ function showSubMenu(categoryKey) {
 		</div>
 	`;	
 	
-
-    // 1. Bygg header med sökfält och rubrik
+// ----------------------------------
+// Bygg header med sökfält
+// ----------------------------------
     const headerDiv = document.createElement("div");
     headerDiv.className = "submenu-header-bar";
 	
-headerDiv.style.cssText =
-    "display:flex;flex-direction:column;margin-bottom:15px;gap:2px;padding:0 4px;";
+	headerDiv.style.cssText =
+		"display:flex;flex-direction:column;margin-bottom:15px;gap:2px;padding:0 4px;";
 
- headerDiv.innerHTML = `
-<h2>
-    <span>${categoryIcon}</span> ${categoryName}
-</h2>
+	 headerDiv.innerHTML = `
+	<h2>
+		<span>${categoryIcon}</span> ${categoryName}
+	</h2>
 
     <div class="search-input-wrapper" style="position: relative; margin-top: 5px;">
         <input type="text" id="categorySearch" placeholder="${getCommonText("search_in")} ${categoryName.toLowerCase()}..." style="width: 100%; padding: 10px 12px; box-sizing: border-box; border: 1px solid var(--border-color, #ccc); border-radius: 6px; font-size: 0.95rem; background: var(--card-bg, #fff); color: var(--text-color);">
@@ -382,7 +410,9 @@ headerDiv.style.cssText =
 	setupHomeBreadcrumb();
 
 
-    // 2. Hämta kalkyler för denna kategori
+// ----------------------------------
+// Hämta kategorins kalkyler
+// ----------------------------------
     const list = (categoryKey === "recent") ? getRecent() : null;
     let calculationsToShow = [];
 
@@ -392,13 +422,17 @@ headerDiv.style.cssText =
 		calculationsToShow = ALL_CALCULATIONS.filter(c => c.categories.includes(categoryKey))
     }
 	
-    // Container för själva kalkylkorten
+// ----------------------------------
+// Kalkyllista
+// ----------------------------------
     const listContainer = document.createElement("div");
     listContainer.id = "calcListContainer";
     listContainer.style.cssText = "display: flex; flex-direction: column; gap: 8px; padding: 4px;";
     state.subNav.appendChild(listContainer);
 
-    // Funktion för att rita ut listan (används även vid sökning)
+// ----------------------------------
+// Rendera kalkyllista
+// ----------------------------------
     const renderListItems = (items) => {
         listContainer.innerHTML = "";
         if (items.length === 0) {
@@ -438,10 +472,11 @@ headerDiv.style.cssText =
 		});	
     };
 
-    // Rita ut från början
     renderListItems(calculationsToShow);
 
-    // 3. Koppla sökfältets händelselyssnare
+// ----------------------------------
+// Aktivera sökning
+// ----------------------------------
     const searchInput = document.getElementById("categorySearch");
     searchInput.addEventListener("input", (e) => {
         const query = e.target.value.toLowerCase().trim();
@@ -467,6 +502,9 @@ headerDiv.style.cssText =
     });
 }
 
+// ==========================================================================
+// 6. JOBBHANTERING
+// ==========================================================================
 
 function renderSavedJobsList() {
     const jobs = getSavedJobs();
@@ -613,7 +651,6 @@ const locale =
         ? "en-GB"
         : "sv-SE";
 
-
         const newJob = {
             id: 'job_' + Date.now(),
             calcId: calcId,
@@ -645,6 +682,10 @@ const locale =
 function getSavedJobs() {
     return JSON.parse(localStorage.getItem("saved_jobs") || "[]");
 }
+
+// ==========================================================================
+// 7. KALKYLRENDERING
+// ==========================================================================
 
 async function renderFavoritesManagement() {
     const favorites = 
@@ -910,8 +951,19 @@ if (categoryCrumb) {
 }
 
 // ==========================================================================
-// 5. SETTINGS
+// 8. SETTINGS
 // ==========================================================================
+
+async function getAppInfo() {
+    try {
+        const response = await fetch('./info.json');
+        if (!response.ok) throw new Error("Kunde inte ladda info.json");
+        return await response.json();
+    } catch (error) {
+        return { om_appen: "Information saknas.", kontakt: { email: "" }, version: "N/A" };
+    }
+}
+
 async function showSettings() {
     clear(state.container);
     state.mainNav.classList.add("hidden");
@@ -1032,52 +1084,21 @@ style="color: var(--primary-color); width: 100%;">
 setupSettingsListeners();
 }
 
-async function getAppInfo() {
-    try {
-        const response = await fetch('./info.json');
-        if (!response.ok) throw new Error("Kunde inte ladda info.json");
-        return await response.json();
-    } catch (error) {
-        return { om_appen: "Information saknas.", kontakt: { email: "" }, version: "N/A" };
-    }
-}
 
 // ==========================================================================
-// 6. HJÄLPFUNKTIONER
+// 9. HJÄLPFUNKTIONER
 // ==========================================================================
-function clear(el) { if (el) el.innerHTML = ""; }
 
-function setupHomeBreadcrumb() {
-
-    const homeCrumb =
-        state.breadcrumb.querySelector(".crumb-home");
-
-    if (!homeCrumb) return;
-
-    homeCrumb.onclick = () => {
-        triggerHaptic(20);
-        showMainMenu();
-        setActiveNav("navHome");
-    };
-}
-
-function createButton(text, className, onClick) {
-    const btn = document.createElement("button");
-    btn.textContent = text;
-    btn.className = className;
-    btn.onclick = () => { triggerHaptic(20); onClick(); };
-    return btn;
-}
+// ----------------------------------------------------------------
+// Kalkylhjälpare
+// ----------------------------------------------------------------
 
 function findCalc(calcId) { return ALL_CALCULATIONS.find(c => c.id === calcId); }
 
-// innan alla kalkyler är ändrade, ska appen kunna hantera både:
 function getCalcName(calc) {
     if (!calc) return "";
 
-    return calc.nameKey
-        ? getCommonText(calc.nameKey)
-        : calc.name;
+    return getCommonText(calc.nameKey);
 }
 
 function getCalcDescription(calc) {
@@ -1116,13 +1137,6 @@ function getFormulaDescription(calc) {
         : calc.info.formula.description || "";
 }
 
-function getRecent() { return JSON.parse(localStorage.getItem("recent") || "[]"); }
-function addRecent(calcId) {
-    let recent = getRecent().filter(id => id !== calcId);
-    recent.unshift(calcId);
-    localStorage.setItem("recent", JSON.stringify(recent.slice(0, 10)));
-}
-
 function smartReset(calcId) {
 
     state.container
@@ -1139,12 +1153,32 @@ function smartReset(calcId) {
     localStorage.removeItem(`calc_${calcId}`);
 }
 
-function debounce(func, delay) {
-    let timeoutId;
-    return (...args) => {
-        clearTimeout(timeoutId);
-        timeoutId = setTimeout(() => func.apply(this, args), delay);
-    };
+// ----------------------------------------------------------------
+// UI-hjälpare
+// ----------------------------------------------------------------
+
+function clear(el) { if (el) el.innerHTML = ""; }
+
+function createButton(text, className, onClick) {
+    const btn = document.createElement("button");
+    btn.textContent = text;
+    btn.className = className;
+    btn.onclick = () => { triggerHaptic(20); onClick(); };
+    return btn;
+}
+
+function setActiveNav(id) {
+    document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+    const target = document.getElementById(id);
+    if (target) target.classList.add('active');
+}
+
+function showToast(message) {
+    const toast = document.getElementById("toast");
+    if (!toast) return;
+    toast.textContent = message;
+    toast.style.opacity = "1";
+    setTimeout(() => { toast.style.opacity = "0"; }, 2000);
 }
 
 window.toggleInfo = function () {
@@ -1161,12 +1195,61 @@ window.toggleInfo = function () {
     }
 };
 
-function toggleDarkMode() {
-    const isDark = document.body.classList.toggle("dark-mode");
-    localStorage.setItem("darkMode", isDark ? "enabled" : "disabled");
-    const toggle = document.getElementById("darkModeToggle");
-    if (toggle) toggle.checked = isDark;
+// ----------------------------------------------------------------
+// Favoriter
+// ----------------------------------------------------------------
+
+async function toggleFavorite(calcId) {
+    if (await isFavorite(calcId)) {
+        await removeFavorite(calcId);
+    } else {
+        await addFavorite(calcId);
+    }
 }
+
+async function handleFavoriteClick(calcId) {
+
+    await toggleFavorite(calcId);
+
+    const calc = findCalc(calcId);
+
+    if (calc) {
+        await renderCalc(
+            calc.categories[0],
+            calcId
+        );
+    }
+}
+
+// ----------------------------------------------------------------
+// Navigation & breadcrumb
+// ----------------------------------------------------------------
+
+function setupHomeBreadcrumb() {
+
+    const homeCrumb =
+        state.breadcrumb.querySelector(".crumb-home");
+
+    if (!homeCrumb) return;
+
+    homeCrumb.onclick = () => {
+        triggerHaptic(20);
+        showMainMenu();
+        setActiveNav("navHome");
+    };
+}
+
+function getRecent() { return JSON.parse(localStorage.getItem("recent") || "[]"); }
+
+function addRecent(calcId) {
+    let recent = getRecent().filter(id => id !== calcId);
+    recent.unshift(calcId);
+    localStorage.setItem("recent", JSON.stringify(recent.slice(0, 10)));
+}
+
+// ----------------------------------------------------------------
+// Inställningar
+// ----------------------------------------------------------------
 
 function triggerHaptic(duration = 20) {
     const hapticSetting = localStorage.getItem("hapticEnabled") || "enabled";
@@ -1184,81 +1267,11 @@ function toggleHaptic() {
     triggerHaptic(50);
 }
 
-function setActiveNav(id) {
-    document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-    const target = document.getElementById(id);
-    if (target) target.classList.add('active');
-}
-
-function showSearchModal() {
-    clear(state.container);
-    state.mainNav.classList.add("hidden");
-    state.subNav.classList.add("hidden");
-
-    state.container.innerHTML = `
-    <div class="calc-page">
-	
-    <div class="calc-header-nav">
-    <button id="backFromSearch" class="back-btn">${getCommonText("back")}</button>
-    </div>
-    <h2>${getCommonText("search_calculations")}</h2>
-    <div class="search-input-wrapper">
-    <input type="text" id="floatingSearch" placeholder="${getCommonText("search_placeholder")}">
-    <button id="clearSearch" aria-label="${getCommonText("clear_search")}" style="display:none;">
-    <span aria-hidden="true">&times;</span>
-    </button>
-    </div>
-    <div id="searchResults" style="margin-top: 15px;"></div>
-    </div>
-    `;
-
-    const searchInput = document.getElementById("floatingSearch");
-    const clearBtn = document.getElementById("clearSearch");
-    const resultsContainer = document.getElementById("searchResults");
-
-    document.getElementById("backFromSearch").addEventListener("click", () => {
-        showMainMenu();
-        setActiveNav("navHome");
-    });
-
-    searchInput.focus();
-
-    searchInput.addEventListener("input", (e) => {
-        const query = e.target.value.toLowerCase().trim();
-        clearBtn.style.display = query ? "block" : "none";
-        resultsContainer.innerHTML = "";
-        if (!query) return;
-
-		const searchWords = query.split(/\s+/);
-
-		const matches = ALL_CALCULATIONS.filter(calc => {
-
-			let searchableText =
-				getCalcName(calc).toLowerCase();
-
-			searchableText +=
-				" " + getCalcDescription(calc).toLowerCase();
-
-			return searchWords.every(word =>
-				searchableText.includes(word)
-			);
-		});
-
-        matches.forEach(calc => {
-            const btn = createButton(getCalcName(calc), "sub-btn", () => {
-//              renderCalc(calc.CATEGORIES[0], calc.id);
-				renderCalc(calc.categories[0], calc.id);
-            });
-            resultsContainer.appendChild(btn);
-        });
-    });
-
-    clearBtn.addEventListener("click", () => {
-        searchInput.value = "";
-        searchInput.focus();
-        clearBtn.style.display = "none";
-        resultsContainer.innerHTML = "";
-    });
+function toggleDarkMode() {
+    const isDark = document.body.classList.toggle("dark-mode");
+    localStorage.setItem("darkMode", isDark ? "enabled" : "disabled");
+    const toggle = document.getElementById("darkModeToggle");
+    if (toggle) toggle.checked = isDark;
 }
 
 function setupSettingsListeners() {
@@ -1293,8 +1306,6 @@ function setupSettingsListeners() {
 }
 
 function refreshCurrentView() {
-
-    // Kalkyl öppen
     const calcPage =
         state.container.querySelector("[data-calc-id]");
 
@@ -1311,49 +1322,129 @@ function refreshCurrentView() {
         return;
     }
 
-    // Kategori öppen
     if (state.activeCategory) {
         showSubMenu(state.activeCategory);
         return;
     }
 
-    // Annars visa aktuell settings-sida igen
     showSettings();
 }
 
-async function toggleFavorite(calcId) {
-    if (await isFavorite(calcId)) {
-        await removeFavorite(calcId);
-    } else {
-        await addFavorite(calcId);
-    }
+// ----------------------------------------------------------------
+// Sökning
+// ----------------------------------------------------------------
+
+function showSearchModal() {
+	
+    // ----------------------------------
+    // Bygg sökvy
+    // ----------------------------------
+
+    clear(state.container);
+    state.mainNav.classList.add("hidden");
+    state.subNav.classList.add("hidden");
+
+    state.container.innerHTML = `
+    <div class="calc-page">
+	
+    <div class="calc-header-nav">
+    <button id="backFromSearch" class="back-btn">${getCommonText("back")}</button>
+    </div>
+    <h2>${getCommonText("search_calculations")}</h2>
+    <div class="search-input-wrapper">
+    <input type="text" id="floatingSearch" placeholder="${getCommonText("search_placeholder")}">
+    <button id="clearSearch" aria-label="${getCommonText("clear_search")}" style="display:none;">
+    <span aria-hidden="true">&times;</span>
+    </button>
+    </div>
+    <div id="searchResults" style="margin-top: 15px;"></div>
+    </div>
+    `;
+
+    // ----------------------------------
+    // Referenser till DOM-element
+    // ----------------------------------
+    const searchInput = document.getElementById("floatingSearch");
+    const clearBtn = document.getElementById("clearSearch");
+    const resultsContainer = document.getElementById("searchResults");
+
+    // ----------------------------------
+    // Tillbaka-knapp
+    // ----------------------------------
+
+	document.getElementById("backFromSearch").addEventListener("click", () => {
+			showMainMenu();
+			setActiveNav("navHome");
+	});
+
+    // ----------------------------------
+    // Sökning
+    // ----------------------------------
+
+    searchInput.focus();
+
+    searchInput.addEventListener("input", (e) => {
+        const query = e.target.value.toLowerCase().trim();
+        clearBtn.style.display = query ? "block" : "none";
+        resultsContainer.innerHTML = "";
+        if (!query) return;
+
+		const searchWords = query.split(/\s+/);
+
+		const matches = ALL_CALCULATIONS.filter(calc => {
+
+			let searchableText =
+				getCalcName(calc).toLowerCase();
+
+			searchableText +=
+				" " + getCalcDescription(calc).toLowerCase();
+
+			return searchWords.every(word =>
+				searchableText.includes(word)
+			);
+		});
+
+        matches.forEach(calc => {
+            const btn = createButton(getCalcName(calc), "sub-btn", () => {
+				renderCalc(calc.categories[0], calc.id);
+            });
+            resultsContainer.appendChild(btn);
+        });
+    });
+
+    // ----------------------------------
+    // Rensa sökning
+    // ----------------------------------
+	
+	clearBtn.addEventListener("click", () => {
+        searchInput.value = "";
+        searchInput.focus();
+        clearBtn.style.display = "none";
+        resultsContainer.innerHTML = "";
+    });
 }
 
-async function handleFavoriteClick(calcId) {
+// ----------------------------------------------------------------
+// Verktygsfunktioner
+// ----------------------------------------------------------------
 
-    await toggleFavorite(calcId);
-
-    const calc = findCalc(calcId);
-
-    if (calc) {
-        await renderCalc(
-            calc.categories[0],
-            calcId
-        );
-    }
+function debounce(func, delay) {
+    let timeoutId;
+    return (...args) => {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => func.apply(this, args), delay);
+    };
 }
 
 // ==========================================================================
-// 7. KOPIERINGSFUNKTION & TOAST
+// 10. KOPIERINGSFUNKTION & TOAST
 // ==========================================================================
-window.copyResult = function(copyFull) {
-const resultTextEl =
-    document.getElementById("resultText");
+window.copyResult = function (copyFull) {
+	const resultTextEl = document.getElementById("resultText");
 
-if (!resultTextEl) return;
+	if (!resultTextEl) return;
 
-const fullText =
-    resultTextEl.innerText;
+	const fullText = resultTextEl.innerText;
 
     let textToCopy = fullText;
     if (!copyFull) {
@@ -1373,16 +1464,8 @@ const fullText =
     });
 };
 
-function showToast(message) {
-    const toast = document.getElementById("toast");
-    if (!toast) return;
-    toast.textContent = message;
-    toast.style.opacity = "1";
-    setTimeout(() => { toast.style.opacity = "0"; }, 2000);
-}
-
 // ==========================================================================
-// 8. BEKRÄFTELSE-MODAL
+// 11. BEKRÄFTELSE-MODAL
 // ==========================================================================
 function showConfirmModal(message, onConfirm) {
     const modal = document.createElement("div");
