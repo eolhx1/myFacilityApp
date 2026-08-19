@@ -1,48 +1,132 @@
 <!DOCTYPE html>
 <html lang="sv">
+
 <head>
+	<!-- 
+	==================================================================
+	1. META & GRUNDINSTÄLLNINGAR
+	==================================================================
+	-->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#ffffff">
 
-    <link rel="manifest" href="manifest.json">
-    <link rel="stylesheet" href="style.css">
+    <title>myFacilityApp</title>
+	<!-- 
+	==================================================================
+	2. PWA & APP-INSTÄLLNINGAR
+	==================================================================
+	-->
+    <meta name="theme-color" content="#0066cc">
 
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#0066cc">
+    <meta name="apple-mobile-web-app-status-bar-style"
+          content="black-translucent">
 
-    <title>myFacilityApp</title>
+    <link rel="manifest" href="manifest.json">
+	<!-- 
+	==================================================================
+	3. STILAR
+	================================================================== 
+	-->
+    <link rel="stylesheet" href="style.css">
 
 </head>
 
 <body>
+	<!-- 
+	==================================================================
+	4. APPLIKATIONENS HUVUDLAYOUT
+	================================================================== 
+	-->
     <div class="wrapper">
-<header class="app-header">
-    <h1 id="appTitle" class="app-title" translate="no" style="cursor: pointer;">
-        myFacilityApp
-    </h1>
-    <button id="settingsBtn" class="settings-btn">⚙️</button>
-</header>
 
-<div id="breadcrumbContainer"></div>
+		<!-- 
+		--------------------------------------------------
+		Header
+		-------------------------------------------------- 
+		-->
+        <header class="app-header">
 
-<nav id="mainNav" class="main-nav" aria-label="Huvudkategorier"></nav>
-<nav id="subNav" class="sub-nav" aria-label="Underkategorier"></nav>
-<div id="calcContainer"></div>
+            <h1 id="appTitle"
+                class="app-title"
+                translate="no"
+                style="cursor: pointer;">
+                myFacilityApp
+            </h1>
+
+            <button id="settingsBtn"
+                    class="settings-btn">
+                ⚙️
+            </button>
+
+        </header>
+		<!-- 
+		--------------------------------------------------
+		Breadcrumb
+		-------------------------------------------------- 
+		-->
+        <div id="breadcrumbContainer"></div>
+		<!-- 
+		--------------------------------------------------
+		Huvudnavigation
+		-------------------------------------------------- 
+		-->
+        <nav id="mainNav"
+             class="main-nav"
+             aria-label="Huvudkategorier"></nav>
+
+        <nav id="subNav"
+             class="sub-nav"
+             aria-label="Underkategorier"></nav>
+		<!-- 
+		--------------------------------------------------
+		Kalkylinnehåll
+		-------------------------------------------------- 
+		-->
+        <div id="calcContainer"></div>
+		
     </div>
-
-    <!-- Bottenmenyn -->
+	<!-- 
+	==================================================================
+	5. BOTTENNAVIGATION
+	================================================================== 
+	-->
     <nav id="bottomNav" class="bottom-nav">
-        <button id="navHome" class="nav-item active">🏠 Hem</button>
-        <button id="navFav" class="nav-item">⭐ Favoriter</button>
-        <button id="navJobs" class="nav-item">💼 Jobb</button>
-        <button id="navRecent" class="nav-item">🕒 Senaste</button>
-        <button id="navSearch" class="nav-item">🔍 Sök</button>
-    </nav>
 
+        <button id="navHome"
+                class="nav-item active">
+            🏠 Hem
+        </button>
+
+        <button id="navFav"
+                class="nav-item">
+            ⭐ Favoriter
+        </button>
+
+        <button id="navJobs"
+                class="nav-item">
+            💼 Jobb
+        </button>
+
+        <button id="navRecent"
+                class="nav-item">
+            🕒 Senaste
+        </button>
+
+        <button id="navSearch"
+                class="nav-item">
+            🔍 Sök
+        </button>
+
+    </nav>
+	<!-- 
+	==================================================================
+	6. SCRIPT
+	================================================================== 
+	-->
     <script type="module" src="app.js"></script>
+
 </body>
 
 </html>
