@@ -12,7 +12,8 @@
     --text-dark: #333;
     --border-color: #ccc;
     --btn-secondary: #6c757d;
-    /* Standardgrå */
+	--text-muted: #666;
+	--result-bg: #f8fbff;
 
     /* Färger som inte ändras behöver inte ens finnas i dark-mode */
     --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
@@ -91,11 +92,13 @@ h1, h2, label {
     font-size: 1.2rem;
     margin: 0;
     user-select: none;
-    /* Gör att texten inte går att markera */
     -webkit-user-select: none;
-    /* För Safari/Chrome */
     cursor: pointer;
-    /* Visar att det är en länk/knapp */
+}
+
+#appTitle:active {
+    transform: scale(0.95);
+    transition: transform 0.1s;
 }
 
 .settings-btn {
@@ -203,13 +206,7 @@ Undermenyer
     transition: all 0.2s ease;
 }
 
-/* ----------------------------------
-TODO: var skall denna vara?
----------------------------------- */
-#appTitle:active {
-    transform: scale(0.95);
-    transition: transform 0.1s;
-}
+
 
 /* Bottenmeny */
 .bottom-nav {
@@ -266,35 +263,29 @@ TODO: var skall denna vara?
    6. FORMUL*R & INMATNING
    ========================================================================== */
 
-input, select {
+input,
+select {
     width: 100%;
-    padding: 12px;
     border-radius: 10px;
     border: 1px solid var(--border-color);
     background: var(--bg-color);
     color: var(--text-dark);
     font-size: 16px !important;
-    /* Förhindrar att iOS zoomar in */
+}
+
+input {
+    padding: 12px;
 }
 
 .calc-page select {
     width: 100%;
     padding: 8px 32px 8px 10px;
-    /* Extra utrymme till höger (32px) för pilen */
     box-sizing: border-box;
     appearance: none;
-    /* Ger en renare standardlook i många mobila webbläsare */
-    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.364%22%20height%3D%22292.364%22%3E%3Cpath%20fill%3D%22%23007CB2%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
-    background-repeat: no-repeat;
-    background-position: right 10px center;
-    background-size: 10px auto;
-}
 
-select {
-    appearance: none;
     background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23888%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-13%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2013l128.8%20128.8c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
     background-repeat: no-repeat;
-    background-position: right 10px top 50%;
+    background-position: right 10px center;
     background-size: 10px auto;
 }
 
@@ -349,10 +340,8 @@ button:active {
     text-align: center;
     box-shadow: var(--shadow-sm);
     cursor: pointer;
-    transition: background 0.2s, opacity 0.2s;
     position: relative;
-    /* Viktigt för att ikonen ska kunna placeras */
-    transition: background 0.3s ease;
+    transition: background 0.3s ease, opacity 0.2s ease;
 }
 
 .result:active {
@@ -370,6 +359,24 @@ button:active {
     border-color: var(--primary-color);
     transform: scale(1.05);
     /* Gör att den "poppar" ut lite */
+}
+
+.nav-btn:active, .sub-btn:active, .reset-btn:active {
+    transform: scale(0.96);
+    filter: brightness(0.9);
+}
+
+.reset-btn {
+    background: var(--btn-secondary);
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    width: 100%;
+    font-size: 16px;
+    font-weight: 500;
+    margin-top: 20px;
+    display: block;
 }
 
 .back-btn {
@@ -606,7 +613,7 @@ input:checked + .slider:before {
     color: var(--primary-color);
     font-weight: 600;
 	
-	    min-height: 24px;
+	min-height: 24px;
     margin-bottom: 8px;
 }
 
@@ -692,7 +699,6 @@ input:checked + .slider:before {
     animation: fadeIn 0.2s ease-out forwards;
 }
 
-
 /* ==========================================================================
    14. SYSTEMKLASSER
    ========================================================================== */
@@ -701,40 +707,11 @@ input:checked + .slider:before {
     display: none !important;
 }
 
-
-
-
-
-
-
-/* ==========================================================================
-TODO: Var skall dessa vara?
-   ========================================================================== */
-
-.nav-btn:active, .sub-btn:active, .reset-btn:active {
-    transform: scale(0.96);
-    filter: brightness(0.9);
-}
-
-.reset-btn {
-    background: var(--btn-secondary);
-    color: white;
-    padding: 12px;
-    border: none;
-    border-radius: 10px;
-    width: 100%;
-    font-size: 16px;
-    font-weight: 500;
-    margin-top: 20px;
-    display: block;
-}
-
 .reset-btn:active {
     background: var(--btn-secondary);
     filter: brightness(0.8);
     transform: scale(0.98);
 }
-
 
 .result.copied {
     background-color: #d4edda;

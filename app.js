@@ -80,124 +80,24 @@ document.addEventListener("DOMContentLoaded", async () => {
 // Navigationsknappar
 // --------------------------------------------------
 
-    const navHome = document.getElementById("navHome");
-    const navFav = document.getElementById("navFav");
-    const navJobs = document.getElementById("navJobs");
-    const navRecent = document.getElementById("navRecent");
-    const navSearch = document.getElementById("navSearch");
-
-    if (navHome) navHome.addEventListener("click", () => {
-        setActiveNav("navHome");
-        showMainMenu();
-    });
-
-    if (navFav) navFav.addEventListener("click", () => {
-        setActiveNav("navFav");
-        state.container.innerHTML = "";
-        state.mainNav.classList.add("hidden");
-        state.subNav.classList.remove("hidden");
-        showSubMenu("favoriter");
-    });
-
-    if (navJobs) navJobs.addEventListener("click", () => {
-        setActiveNav("navJobs");
-        state.container.innerHTML = "";
-        state.mainNav.classList.add("hidden");
-        state.subNav.classList.remove("hidden");
-        showSubMenu("jobb");
-    });
-
-    if (navRecent) navRecent.addEventListener("click", () => {
-        setActiveNav("navRecent");
-        state.container.innerHTML = "";
-        state.mainNav.classList.add("hidden");
-        state.subNav.classList.remove("hidden");
-        showSubMenu("recent");
-    });
-
-    if (navSearch) navSearch.addEventListener("click", () => {
-        setActiveNav("navSearch");
-        showSearchModal();
-    });
-
+	setupNavigationButtons();
+	
 // --------------------------------------------------
 // Container events
 // --------------------------------------------------
 
-    state.container.addEventListener("click", (event) => {
-        const id = event.target.id;
-        const calcId = event.target.dataset.calcId;
+	setupContainerEvents(
+		debouncedRunCalc
+	);
 
-        if (!id) return;
-        triggerHaptic(20);
 
-        if (id === "clearDataBtn") {
-            showConfirmModal(
-				getCommonText("confirm_clear_saved_data"),
-				() => {
-					localStorage.clear();
-					location.reload();
-				}
-			);
-        }
 
-		if (id === "favoriteBtn") {
-			handleFavoriteClick(calcId);
-		}
 
-        if (id === "resetBtn") {
-            smartReset(calcId);
-        }
 
-		if (id === "saveJobBtn") {
-			const pageCalcId =
-				state.container.querySelector("[data-calc-id]")?.dataset.calcId;
 
-			showSaveJobModal(pageCalcId);
-		}
-    });
 
-    state.container.addEventListener("focus", (e) => {
-        if (e.target.tagName === "INPUT" && e.target.type === "number") {
-            setTimeout(() => { e.target.select(); }, 50);
-        }
-    }, true);
 
-state.container.addEventListener("input", (e) => {
 
-    if (e.target.matches("input, select")) {
-        const calcId =
-            state.container
-                .querySelector("[data-calc-id]")
-                ?.dataset.calcId;
-
-        if (!calcId) return;
-
-        if (calcId === "ohms_law") {
-            const page = state.container.querySelector(".calc-page");
-            const selector = page.querySelector( 'select[data-unit="calculationMode"]' );
-            const label1 = page.querySelector( 'label[for-id="value1"]' );
-            const label2 = page.querySelector( 'label[for-id="value2"]' );
-			
-            if (selector && label1 && label2) {
-                const val = selector.value;
-
-                if (val === "U") {
-                    label1.textContent = getCommonText("current_i_a");
-                    label2.textContent = getCommonText("resistance_r_ohm");
-                } else if (val === "I") {
-                    label1.textContent = getCommonText("voltage_u_v");
-                    label2.textContent = getCommonText("resistance_r_ohm");
-                } else if (val === "R") {
-                    label1.textContent = getCommonText("voltage_u_v");
-                    label2.textContent = getCommonText("current_i_a");
-                }
-            }
-        }
-
-        debouncedRunCalc(calcId);
-    }
-});
 
 // --------------------------------------------------
 // App-rubrik
@@ -795,22 +695,17 @@ async function renderCalc(category, calcId) {
 				? getCommonText(i.labelKey)
 				: i.label;
 
-		if (calcId === "ohms_law") {
-			const currentMode =
-				savedData["calculationMode_unit"] || "U";
+			if (calcId === "ohms_law") {
 
-			if (i.id === "value1") {
-				currentLabel =
-					currentMode === "U"
-						? getCommonText("current_i_a")
-						: getCommonText("voltage_u_v");
-			} else if (i.id === "value2") {
-				currentLabel =
-					currentMode === "R"
-						? getCommonText("current_i_a")
-						: getCommonText("resistance_r_ohm");
+				const currentMode =
+					savedData["calculationMode_unit"] || "U";
+
+				currentLabel = getOhmsLawLabel(
+					i.id,
+					currentMode,
+					currentLabel
+				);
 			}
-		}
 
         if (i.unit && i.unit.length > 1 && i.requiresInput === false) {
 
@@ -951,7 +846,7 @@ if (categoryCrumb) {
 }
 
 // ==========================================================================
-// 8. SETTINGS
+// 8. INSTÄLLNINGAR
 // ==========================================================================
 
 async function getAppInfo() {
@@ -1137,6 +1032,93 @@ function getFormulaDescription(calc) {
         : calc.info.formula.description || "";
 }
 
+
+function updateOhmsLawLabels() {
+
+    const page =
+        state.container.querySelector(".calc-page");
+
+    if (!page) return;
+
+    const selector =
+        page.querySelector(
+            'select[data-unit="calculationMode"]'
+        );
+
+    const label1 =
+        page.querySelector(
+            'label[for-id="value1"]'
+        );
+
+    const label2 =
+        page.querySelector(
+            'label[for-id="value2"]'
+        );
+
+    if (
+        !selector ||
+        !label1 ||
+        !label2
+    ) {
+        return;
+    }
+
+    const mode = selector.value;
+
+    if (mode === "U") {
+
+        label1.textContent =
+            getCommonText("current_i_a");
+
+        label2.textContent =
+            getCommonText("resistance_r_ohm");
+
+    } else if (mode === "I") {
+
+        label1.textContent =
+            getCommonText("voltage_u_v");
+
+        label2.textContent =
+            getCommonText("resistance_r_ohm");
+
+    } else if (mode === "R") {
+
+        label1.textContent =
+            getCommonText("voltage_u_v");
+
+        label2.textContent =
+            getCommonText("current_i_a");
+    }
+}
+
+function getOhmsLawLabel(
+    inputId,
+    currentMode,
+    defaultLabel
+) {
+
+    if (inputId === "value1") {
+
+        return currentMode === "U"
+            ? getCommonText("current_i_a")
+            : getCommonText("voltage_u_v");
+    }
+
+    if (inputId === "value2") {
+
+        return currentMode === "R"
+            ? getCommonText("current_i_a")
+            : getCommonText("resistance_r_ohm");
+    }
+
+    return defaultLabel;
+}
+
+
+
+
+
+
 function smartReset(calcId) {
 
     state.container
@@ -1237,6 +1219,148 @@ function setupHomeBreadcrumb() {
         showMainMenu();
         setActiveNav("navHome");
     };
+}
+
+function setupNavigationButtons() {
+	const navHome = document.getElementById("navHome");
+	const navFav = document.getElementById("navFav");
+	const navJobs = document.getElementById("navJobs");
+	const navRecent = document.getElementById("navRecent");
+	const navSearch = document.getElementById("navSearch");
+	
+	
+
+	if (navHome) navHome.addEventListener("click", () => {
+		setActiveNav("navHome");
+		showMainMenu();
+	});
+
+	if (navFav) navFav.addEventListener("click", () => {
+		setActiveNav("navFav");
+		state.container.innerHTML = "";
+		state.mainNav.classList.add("hidden");
+		state.subNav.classList.remove("hidden");
+		showSubMenu("favoriter");
+	});
+
+	if (navJobs) navJobs.addEventListener("click", () => {
+		setActiveNav("navJobs");
+		state.container.innerHTML = "";
+		state.mainNav.classList.add("hidden");
+		state.subNav.classList.remove("hidden");
+		showSubMenu("jobb");
+	});
+
+	if (navRecent) navRecent.addEventListener("click", () => {
+		setActiveNav("navRecent");
+		state.container.innerHTML = "";
+		state.mainNav.classList.add("hidden");
+		state.subNav.classList.remove("hidden");
+		showSubMenu("recent");
+	});
+
+	if (navSearch) navSearch.addEventListener("click", () => {
+		setActiveNav("navSearch");
+		showSearchModal();
+	});
+}
+
+
+function setupContainerEvents(
+    debouncedRunCalc
+) {
+
+    // --------------------------------------------------
+    // Click events
+    // --------------------------------------------------
+
+    state.container.addEventListener(
+        "click",
+        (event) => {
+
+            const id = event.target.id;
+            const calcId = event.target.dataset.calcId;
+
+            if (!id) return;
+
+            triggerHaptic(20);
+
+            if (id === "clearDataBtn") {
+                showConfirmModal(
+                    getCommonText("confirm_clear_saved_data"),
+                    () => {
+                        localStorage.clear();
+                        location.reload();
+                    }
+                );
+            }
+
+            if (id === "favoriteBtn") {
+                handleFavoriteClick(calcId);
+            }
+
+            if (id === "resetBtn") {
+                smartReset(calcId);
+            }
+
+            if (id === "saveJobBtn") {
+
+                const pageCalcId =
+                    state.container
+                        .querySelector("[data-calc-id]")
+                        ?.dataset.calcId;
+
+                showSaveJobModal(pageCalcId);
+            }
+        }
+    );
+
+    // --------------------------------------------------
+    // Focus events
+    // --------------------------------------------------
+
+    state.container.addEventListener(
+        "focus",
+        (event) => {
+
+            if (
+                event.target.tagName === "INPUT" &&
+                event.target.type === "number"
+            ) {
+                setTimeout(() => {
+                    event.target.select();
+                }, 50);
+            }
+        },
+        true
+    );
+
+    // --------------------------------------------------
+    // Input events
+    // --------------------------------------------------
+
+    state.container.addEventListener(
+        "input",
+        (event) => {
+
+            if (!event.target.matches("input, select")) {
+                return;
+            }
+
+            const calcId =
+                state.container
+                    .querySelector("[data-calc-id]")
+                    ?.dataset.calcId;
+
+            if (!calcId) return;
+
+			if (calcId === "ohms_law") {
+				updateOhmsLawLabels();
+			}
+
+            debouncedRunCalc(calcId);
+        }
+    );
 }
 
 function getRecent() { return JSON.parse(localStorage.getItem("recent") || "[]"); }
