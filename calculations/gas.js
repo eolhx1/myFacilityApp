@@ -1,54 +1,37 @@
-//
-// filenamne: ./calculations/gas.js
-//
-
 // =================================================================
 // GAS KALKYLER
 // =================================================================
-import { valid } from './config.js';
-import { getCommonText } from '../locales.js';
+import { valid } from './hjalpmedel.js';
 
-const calculateCylinderRuntime = (v) => {
-    if (!valid(v.cylinderVolume, v.pressure, v.flowRate) || v.flowRate === 0)
-        return getCommonText("error");
+const beraknaAnvandningstidGas = (v) => {
+    // Validera alla indata. Om minTryck inte anges kan det sättas till 0 som standard.
+    const minTryck = v.minTryck || 0;
 
-    const runtimeHours =
-        (v.cylinderVolume * v.pressure) /
-        (v.flowRate * 60);
+    if (!valid(v.volym, v.tryck, v.flode, minTryck) || v.flode === 0) return "Fel";
 
-    return `${getCommonText("cylinder_runtime_result")}: ${runtimeHours.toFixed(1)} h`;
+    // Det tillgängliga trycket som faktiskt kan användas
+    const tillgangligtTryck = v.tryck - minTryck;
+
+    // Om trycket i flaskan är lägre än eller lika med minimitrycket släpps ingen gas ut
+    if (tillgangligtTryck <= 0) return 0;
+
+    return (v.volym * tillgangligtTryck) / (v.flode * 60);
 };
 
-export const gasCalculations = [{
-    id: "cylinder_runtime",
-    nameKey: "cylinder_runtime",
-    categories: ["gas"],
+export const gasKalkyler = [{
+    id: "gas_anvandningstid",
+    namn: "Användningstid gasflaska",
+    kategorier: ["gas"],
     decimaler: 1,
-
     inputs: [
-        {
-            id: "cylinderVolume",
-            labelKey: "cylinder_volume"
-        },
-        {
-            id: "pressure",
-            labelKey: "pressure"
-        },
-        {
-            id: "flowRate",
-            labelKey: "prescribed_flow"
-        }
+        { id: "volym", label: "Flaskans volym", unit: ["L"] },
+        { id: "tryck", label: "Tryck i flaskan", unit: ["bar"] },
+        { id: "minTryck", label: "Regulatorns min. tryck (resttryck)", unit: ["bar"] },
+        { id: "flode", label: "Ordinerat flöde", unit: ["L/min"] }
     ],
-
-    calc: calculateCylinderRuntime,
-
+    calc: beraknaAnvandningstidGas,
     info: {
-        descriptionKey: "cylinder_runtime_desc",
-        detailsKey: "cylinder_runtime_details",
-
-        formula: {
-            nameKey: "cylinder_runtime_formula_name",
-            descriptionKey: "cylinder_runtime_formula_desc"
-        }
+        beskrivning: "Beräknar uppskattad räcker-tid för en gasflaska vid givet uttag med hänsyn till regulatorns minimitryck.",
+        detaljer: "Används för att beräkna hur länge en gasflaska räcker baserat på flaskans vattenvolym, aktuellt tryck, regulatorns lägsta driftstryck och det uttagna flödet."
     }
 }];
