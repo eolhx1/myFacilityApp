@@ -737,15 +737,36 @@ async function renderCalc(category, calcId) {
 
 				// AWG
 				if (
-					["22", "23", "24", "26", "28"]
-						.includes(u)
+					["22", "23", "24", "26", "28"].includes(u)
 				) {
 					return `AWG ${u}`;
 				}
 
 
+				// Fibertyp / våglängd
+				if (u === "os2_1310")
+					return "OS2 - 1310 nm";
+
+				if (u === "os2_1550")
+					return "OS2 - 1550 nm";
+
+				if (u === "om3_850")
+					return "OM3 - 850 nm";
+
+				if (u === "om3_1300")
+					return "OM3 - 1300 nm";
+
+				if (u === "om4_850")
+					return "OM4 - 850 nm";
+
+				if (u === "om4_1300")
+					return "OM4 - 1300 nm";
+
+
 				return UNIT_MAP[u] || u;
 			};
+			
+			
 
 			return `
 				<div class="input-group">
