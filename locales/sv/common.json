@@ -368,7 +368,7 @@
 
 	"voltage_drop_warning": "⚠️ Varning: Det beräknade spänningsfallet är för stort.",
 	
-	"poe_supply_impossible": "⚠️ Varning: Effektbehovet kan inte överföras med vald kabel och beräknad matningsspänning."	
+	"poe_supply_impossible": "⚠️ Varning: Effektbehovet kan inte överföras med vald kabel och beräknad matningsspänning.",
 
 	"poe_voltage_drop_desc": "Kontrollerar PoE-standard, effektbehov, ledardimension, kabellängd och spänningsfall.",
 
@@ -401,7 +401,6 @@
 	"voltage_drop": "Spänningsfall",
 
 	"voltage_ok": "OK - Spänningen räcker till enheten.",
-	"ethernet_length_warning": "Varning: Kabeln är längre än 100 m (Ethernet-gräns)!",
 	"voltage_drop_warning": "Varning: För stort spänningsfall! Enheten riskerar att inte starta.",
 	
 	"transmission_heat_loss": "Värmeförlust (Transmissionsförlust)",
