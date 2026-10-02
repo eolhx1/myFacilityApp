@@ -340,50 +340,49 @@
 	"current_result": "Ström (I)",
 	"resistance_result": "Resistans (R)",
 	
-	"fiber_loss_budget": "Dämpningsbudget för fiberlänk",
-	"fiber_loss_budget_desc": "Beräknar maximalt tillåten dämpning för en fiberlänk.",
-	"fiber_loss_budget_details": "Används för att säkerställa att optiska länkar klarar dämpningskraven baserat på standardvärden för fiberkablar, svetsar och anslutningskontakter.",
-	"fiber_loss_budget_formula_name": "Dämpningsbudget för fiberlänk",
-	"fiber_loss_budget_formula_desc": "Total dämpning = (Fiberlängd × 0,4 dB/km) + (Antal svetsar × 0,05 dB) + (Antal kontaktpar × 0,5 dB)",
-
+	"fiber_loss_budget": "Beräknad dämpning i fiberlänk",
+	"fiber_loss_budget_desc": "Beräknar uppskattad passiv dämpning i en fiberlänk utifrån fibertyp, våglängd, längd, svetsar och kontaktförbindelser.",
+	"fiber_loss_budget_details": "Används för att uppskatta den passiva dämpningen i en fiberlänk. Dämpningsvärdena är schablonvärden och verkligt resultat kan påverkas av kabeltyp, kontakter, svetsarnas kvalitet, böjradie och installation. Resultatet ska inte förväxlas med transceiverns optiska effektbudget.",
+	"fiber_loss_budget_formula_name": "Beräknad länkdämpning",
+	"fiber_loss_budget_formula_desc": "Total dämpning = (Fiberlängd × dämpning per km) + (Antal svetsar × svetsförlust) + (Antal kontaktförbindelser × kontaktförlust)",
+	"fiber_type_wavelength": "Fibertyp / våglängd",
+	"fiber_type": "Fibertyp",
+	"wavelength": "Våglängd",
+	"fiber_length_km": "Fiberlängd [km]",
+	"splice_count": "Antal svetsar",
+	"connector_connection_count": "Antal kontaktförbindelser",
+	"fiber_attenuation_factor": "Antagen fiberdämpning",
+	"fiber_length": "Fiberlängd",
+	"fiber_loss": "Fiberdämpning",
+	"splice_loss": "Svetsförlust",
+	"connector_loss": "Kontaktförlust",
+	"calculated_link_loss": "Beräknad länkdämpning",
 
 	"poe_voltage_drop": "PoE spänningsfall och Kabellängd",
-
 	"poe_standard": "PoE-standard",
 	"conductor_size": "Ledardimension",
 	"cable_length": "Kabellängd",
 	"device_power": "Enhetens effektbehov",
 	"poe_power_pairs": "Antagna effektpar",
-
 	"pse_voltage": "Antagen matningsspänning (PSE)",
 	"voltage_at_device": "Framme vid enhet",
 	"minimum_pd_voltage": "Minsta beräkningsspänning vid PD",
 	"voltage_drop": "Spänningsfall",
 	"calculated_current": "Beräknad ström",
-
 	"cable_resistance": "Beräknad loopresistans",
 	"cable_loss": "Effektförlust i kabel",
 	"estimated_pse_power": "Beräknad effekt från PSE",
 	"max_pd_power": "Max effekt vid PD för vald standard",
-
 	"poe_status_ok": "✅ OK - Kabellängd, effekt och beräknat spänningsfall ligger inom kalkylens gränsvärden.",
-
 	"poe_power_warning": "⚠️ Varning: Enhetens effektbehov överstiger vald PoE-standard.",
-
 	"ethernet_length_warning": "⚠️ Varning: Kabellängden överstiger 100 m Ethernet-kanal.",
-
 	"voltage_drop_warning": "⚠️ Varning: För stort beräknat spänningsfall. Enheten riskerar att inte fungera korrekt.",
-
 	"poe_supply_impossible": "⚠️ Varning: Effektbehovet kan inte överföras med vald kabel och antagen matningsspänning.",
-
 	"poe_voltage_drop_desc": "Kontrollerar PoE-standard, effektbehov, ledardimension, kabellängd och spänningsfall.",
-
-	"poe_voltage_drop_details": "Beräknar uppskattat spänningsfall och effektförlust i kopparkabel med hänsyn till vald PoE-standard, ledardimension och kabellängd. Kabelresistansen baseras på schablonvärden för kopparledare vid cirka 20 °C. Verkligt resultat kan påverkas av kabeltyp, temperatur, kontakter och installation.",
-
+	"poe_voltage_drop_details": "Beräknar uppskattat spänningsfall och effektförlust i kopparkabel med hänsyn till vld PoE-standard, ledardimension och kabellängd. Kabelresistansen baseras på schablonvärden för kopparledare vid cirka 20 °C. Verkligt resultat kan påverkas av kabeltyp, temperatur, kontakter och installation.",
 	"poe_voltage_drop_formula_name": "PoE spänningsfall och effektförlust",
-
 	"poe_voltage_drop_formula_desc": "U_fall = I × R och P_förlust = I² × R. Kabelresistansen beräknas från ledardimension, kabellängd och antaget antal par som används för PoE.",
-
+	
 	"fiber_length_km": "Fiberlängd [km]",
 	"splice_count": "Antal svetsar",
 	"connector_pair_count": "Antal kontaktpar (hane/hona)",
