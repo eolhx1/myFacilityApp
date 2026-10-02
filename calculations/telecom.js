@@ -60,7 +60,7 @@ const calculatePoEVoltageDrop = (v) => {
 		at: {
 			name: "IEEE 802.3at (PoE+)",
 			pseVoltage: 50,
-			minPdVoltage: 37,
+			minPdVoltage: 42.5,
 			maxPdPower: 25.5,
 			poweredPairs: 2
 		},
@@ -68,7 +68,7 @@ const calculatePoEVoltageDrop = (v) => {
 		bt3: {
 			name: "IEEE 802.3bt Type 3 (PoE++)",
 			pseVoltage: 50,
-			minPdVoltage: 41.1,
+			minPdVoltage: 42.5,
 			maxPdPower: 51,
 			poweredPairs: 4
 		},
@@ -81,7 +81,6 @@ const calculatePoEVoltageDrop = (v) => {
 			poweredPairs: 4
 		}
 	};
-
 
     // =============================================================
     // Ungefärlig DC-resistans för kopparledare vid 20 °C
@@ -193,83 +192,91 @@ const calculatePoEVoltageDrop = (v) => {
         cableLossW;
 
 
-	// =============================================================
-	// Status
-	// =============================================================
+// =============================================================
+// Status
+// =============================================================
 
-	let status =
-		getCommonText("poe_status_ok");
+const warnings = [];
 
-	// Ingen möjlig lösning med vald effekt, kabel och matningsspänning
-	if (discriminant < 0) {
+// Kontrollera Ethernet-kanalens längd
+if (lengthM > 100) {
+    warnings.push(
+        getCommonText("ethernet_length_warning")
+    );
+}
 
-		status =
-			getCommonText(
-				"poe_supply_impossible"
-			);
-	}
+// Kontrollera vald PoE-standards effektgräns
+if (powerW > poe.maxPdPower) {
+    warnings.push(
+        getCommonText("poe_power_warning")
+    );
+}
 
-	// Ethernet-kanalen får inte vara längre än 100 meter
-	else if (lengthM > 100) {
+// Kontrollera om elektrisk arbetspunkt kan beräknas
+if (discriminant < 0) {
+    warnings.push(
+        getCommonText("poe_supply_impossible")
+    );
+}
 
-		status =
-			getCommonText(
-				"ethernet_length_warning"
-			);
-	}
+// Kontrollera spänningen vid PD
+if (
+    discriminant >= 0 &&
+    deviceVoltageV < poe.minPdVoltage
+) {
+    warnings.push(
+        getCommonText("voltage_drop_warning")
+    );
+}
 
-	// Kontrollera vald PoE-standards effektgräns
-	else if (powerW > poe.maxPdPower) {
+const status =
+    warnings.length === 0
+        ? getCommonText("poe_status_ok")
+        : warnings.join("\n");
 
-		status =
-			getCommonText(
-				"poe_power_warning"
-			);
-	}
+// =============================================================
+// Presentera resultat
+// =============================================================
 
-	// Kontrollera minsta tillåtna spänning för vald PoE-standard
-	else if (deviceVoltageV < poe.minPdVoltage) {
-
-		status =
-			getCommonText(
-				"voltage_drop_warning"
-			);
-	}
-
-    // =============================================================
-    // Presentera resultat
-    // =============================================================
-
+// Om ingen stabil arbetspunkt kan beräknas,
+// visa inte missvisande värden för spänning och ström.
+if (discriminant < 0) {
     return (
         `${getCommonText("poe_standard")}: ${poe.name}\n` +
-
         `${getCommonText("conductor_size")}: AWG ${awgKey}\n` +
-
         `${getCommonText("cable_length")}: ${lengthM.toFixed(0)} m\n` +
-
         `${getCommonText("device_power")}: ${powerW.toFixed(1)} W\n` +
-
         `${getCommonText("poe_power_pairs")}: ${poe.poweredPairs}\n` +
-
+        `${getCommonText("cable_resistance")}: ${loopResistanceOhm.toFixed(2)} Ω\n` +
+        `${getCommonText("minimum_pd_voltage")}: ${poe.minPdVoltage.toFixed(1)} V\n` +
+        `${getCommonText("max_pd_power")}: ${poe.maxPdPower.toFixed(2)} W\n` +
         `\n` +
-
-        `${getCommonText("pse_voltage")}: ${poe.pseVoltage.toFixed(1)} V\n` +
-
-        `${getCommonText("voltage_at_device")}: ${deviceVoltageV.toFixed(1)} V\n` +
-
-        `${getCommonText("voltage_drop")}: ${voltageDropV.toFixed(2)} V\n` +
-
-        `${getCommonText("calculated_current")}: ${currentA.toFixed(2)} A\n` +
-
-        `${getCommonText("cable_loss")}: ${cableLossW.toFixed(2)} W\n` +
-
-        `${getCommonText("estimated_pse_power")}: ${estimatedPsePowerW.toFixed(1)} W\n` +
-
-        `\n` +
-
         `${getCommonText("status")}: ${status}`
     );
+}
+
+// Normal resultatutskrift
+return (
+    `${getCommonText("poe_standard")}: ${poe.name}\n` +
+    `${getCommonText("conductor_size")}: AWG ${awgKey}\n` +
+    `${getCommonText("cable_length")}: ${lengthM.toFixed(0)} m\n` +
+    `${getCommonText("device_power")}: ${powerW.toFixed(1)} W\n` +
+    `${getCommonText("poe_power_pairs")}: ${poe.poweredPairs}\n` +
+    `${getCommonText("cable_resistance")}: ${loopResistanceOhm.toFixed(2)} Ω\n` +
+    `${getCommonText("max_pd_power")}: ${poe.maxPdPower.toFixed(2)} W\n` +
+    `\n` +
+    `${getCommonText("pse_voltage")}: ${poe.pseVoltage.toFixed(1)} V\n` +
+    `${getCommonText("voltage_at_device")}: ${deviceVoltageV.toFixed(1)} V\n` +
+    `${getCommonText("minimum_pd_voltage")}: ${poe.minPdVoltage.toFixed(1)} V\n` +
+    `${getCommonText("voltage_drop")}: ${voltageDropV.toFixed(2)} V\n` +
+    `${getCommonText("calculated_current")}: ${currentA.toFixed(2)} A\n` +
+    `${getCommonText("cable_loss")}: ${cableLossW.toFixed(2)} W\n` +
+    `${getCommonText("estimated_pse_power")}: ${estimatedPsePowerW.toFixed(1)} W\n` +
+    `\n` +
+    `${getCommonText("status")}: ${status}`
+);
 };
+
 
 export const telecomCalculations = [
     {
