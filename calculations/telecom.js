@@ -10,18 +10,154 @@ import { getCommonText } from '../locales.js';
 
 
 const calculateFiberLossBudget = (v) => {
-    if (!valid(v.fiberLengthKm, v.spliceCount, v.connectorCount))
+    if (!valid(
+        v.fiberLengthKm,
+        v.spliceCount,
+        v.connectorCount
+    )) {
         return getCommonText("error");
+    }
 
-    const fiberLoss = v.fiberLengthKm * 0.4;
-    const spliceLoss = v.spliceCount * 0.05;
-    const connectorLoss = v.connectorCount * 0.5;
-    const totalLoss = fiberLoss + spliceLoss + connectorLoss;
+    const lengthKm = Number(v.fiberLengthKm);
+    const spliceCount = Number(v.spliceCount);
+    const connectorCount = Number(v.connectorCount);
 
-    return `${getCommonText("max_allowed_attenuation")}: ${totalLoss.toFixed(2)} dB\n` +
-           `- ${getCommonText("fiber")} (${v.fiberLengthKm} km): ${fiberLoss.toFixed(2)} dB\n` +
-           `- ${getCommonText("splices")} (${v.spliceCount} ${getCommonText("pieces")}): ${spliceLoss.toFixed(2)} dB\n` +
-           `- ${getCommonText("connectors")} (${v.connectorCount} ${getCommonText("pieces")}): ${connectorLoss.toFixed(2)} dB`;
+    // =============================================================
+    // Fibertyper och dämpningsvärden
+    // =============================================================
+    //
+    // attenuationDbKm = schablonvärde för fiberns dämpning i dB/km.
+    //
+    // OS2:
+    // 1310 nm = 0,35 dB/km
+    // 1550 nm = 0,22 dB/km
+    //
+    // OM3 / OM4:
+    // 850 nm  = 2,3 dB/km
+    // 1300 nm = 0,6 dB/km
+    //
+    // =============================================================
+
+    const fiberTypes = {
+        os2_1310: {
+            type: "OS2",
+            wavelengthNm: 1310,
+            attenuationDbKm: 0.35
+        },
+
+        os2_1550: {
+            type: "OS2",
+            wavelengthNm: 1550,
+            attenuationDbKm: 0.22
+        },
+
+        om3_850: {
+            type: "OM3",
+            wavelengthNm: 850,
+            attenuationDbKm: 2.3
+        },
+
+        om3_1300: {
+            type: "OM3",
+            wavelengthNm: 1300,
+            attenuationDbKm: 0.6
+        },
+
+        om4_850: {
+            type: "OM4",
+            wavelengthNm: 850,
+            attenuationDbKm: 2.3
+        },
+
+        om4_1300: {
+            type: "OM4",
+            wavelengthNm: 1300,
+            attenuationDbKm: 0.6
+        }
+    };
+
+    // =============================================================
+    // Schablonvärden för passiva komponenter
+    // =============================================================
+
+    const spliceLossDb = 0.05;
+    const connectorLossDb = 0.5;
+
+    // =============================================================
+    // Val från appen
+    // =============================================================
+
+    const fiberKey =
+        v.fiberType_unit || "os2_1310";
+
+    const fiber =
+        fiberTypes[fiberKey];
+
+    // =============================================================
+    // Validering
+    // =============================================================
+
+    if (!fiber) {
+        return getCommonText("invalid_values");
+    }
+
+    if (
+		lengthKm <= 0 ||
+		spliceCount < 0 ||
+		connectorCount < 0 ||
+		!Number.isInteger(spliceCount) ||
+		!Number.isInteger(connectorCount)
+	) {
+		return getCommonText("invalid_values");
+	}
+
+
+    // =============================================================
+    // Beräkning
+    // =============================================================
+
+    const fiberLoss =
+        lengthKm *
+        fiber.attenuationDbKm;
+
+    const spliceLoss =
+        spliceCount *
+        spliceLossDb;
+
+    const connectorLoss =
+        connectorCount *
+        connectorLossDb;
+
+    const totalLoss =
+        fiberLoss +
+        spliceLoss +
+        connectorLoss;
+
+    // =============================================================
+    // Resultat
+    // =============================================================
+
+    return (
+        `${getCommonText("fiber_type")}: ${fiber.type}\n` +
+
+        `${getCommonText("wavelength")}: ${fiber.wavelengthNm} nm\n` +
+
+        `${getCommonText("fiber_attenuation_factor")}: ${fiber.attenuationDbKm.toFixed(2)} dB/km\n` +
+
+        `${getCommonText("fiber_length")}: ${lengthKm.toFixed(3)} km\n` +
+
+        `\n` +
+
+        `${getCommonText("fiber_loss")}: ${fiberLoss.toFixed(2)} dB\n` +
+
+		`${getCommonText("splice_loss")} (${spliceCount} × ${spliceLossDb.toFixed(2)} dB): ${spliceLoss.toFixed(2)} dB\n` +
+
+		`${getCommonText("connector_loss")} (${connectorCount} × ${connectorLossDb.toFixed(2)} dB): ${connectorLoss.toFixed(2)} dB\n` +
+
+        `\n` +
+
+        `${getCommonText("calculated_link_loss")}: ${totalLoss.toFixed(2)} dB`
+    );
 };
 
 
@@ -285,20 +421,36 @@ export const telecomCalculations = [
         categories: ["telecom"],
         decimaler: 2,
 
-        inputs: [
-            {
-                id: "fiberLengthKm",
-                labelKey: "fiber_length_km"
-            },
-            {
-                id: "spliceCount",
-                labelKey: "splice_count"
-            },
-            {
-                id: "connectorCount",
-                labelKey: "connector_pair_count"
-            }
-        ],
+		inputs: [
+			{
+				id: "fiberType",
+				labelKey: "fiber_type_wavelength",
+				unit: [
+					"os2_1310",
+					"os2_1550",
+					"om3_850",
+					"om3_1300",
+					"om4_850",
+					"om4_1300"
+				],
+				requiresInput: false
+			},
+
+			{
+				id: "fiberLengthKm",
+				labelKey: "fiber_length_km"
+			},
+
+			{
+				id: "spliceCount",
+				labelKey: "splice_count"
+			},
+
+			{
+				id: "connectorCount",
+				labelKey: "connector_connection_count"
+			}
+		],
 
         calc: calculateFiberLossBudget,
 
