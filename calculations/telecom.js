@@ -29,26 +29,246 @@ const calculatePoEVoltageDrop = (v) => {
     if (!valid(v.cableLengthM, v.powerW))
         return getCommonText("error");
 
-    const voltageOutputV = 48;
-    const resistanceOhm = v.cableLengthM * 0.1;
-    const currentA = v.powerW / voltageOutputV;
-    const voltageDropV = resistanceOhm * currentA;
-    const deviceVoltageV = voltageOutputV - voltageDropV;
+    const lengthM = Number(v.cableLengthM);
+    const powerW = Number(v.powerW);
 
-    let status =
-        getCommonText("voltage_ok");
+    // =============================================================
+    // PoE-standarder
+    // =============================================================
+    //
+    // pseVoltage:
+    // Konservativ matningsspänning som används i beräkningen.
+    //
+    // maxPdPower:
+    // Maximal garanterad effekt till den matade enheten (PD).
+    //
+    // poweredPairs:
+    // Antal kabelpar som antas användas för effektöverföringen.
+	// Type 3 beräknas här som 4-pars PoE.
+    //
+    // =============================================================
 
-    if (v.cableLengthM > 100) {
-        status =
-            getCommonText("ethernet_length_warning");
-    } else if (deviceVoltageV < 37) {
-        status =
-            getCommonText("voltage_drop_warning");
-    }
+	const poeStandards = {
+		af: {
+			name: "IEEE 802.3af (PoE)",
+			pseVoltage: 44,
+			minPdVoltage: 37,
+			maxPdPower: 12.95,
+			poweredPairs: 2
+		},
 
-    return `${getCommonText("voltage_at_device")}: ${deviceVoltageV.toFixed(1)} V\n` +
-           `${getCommonText("voltage_drop")}: ${voltageDropV.toFixed(2)} V\n` +
-           `${getCommonText("status")}: ${status}`;
+		at: {
+			name: "IEEE 802.3at (PoE+)",
+			pseVoltage: 50,
+			minPdVoltage: 37,
+			maxPdPower: 25.5,
+			poweredPairs: 2
+		},
+
+		bt3: {
+			name: "IEEE 802.3bt Type 3 (PoE++)",
+			pseVoltage: 50,
+			minPdVoltage: 41.1,
+			maxPdPower: 51,
+			poweredPairs: 4
+		},
+
+		bt4: {
+			name: "IEEE 802.3bt Type 4 (PoE++)",
+			pseVoltage: 52,
+			minPdVoltage: 41.1,
+			maxPdPower: 71.3,
+			poweredPairs: 4
+		}
+	};
+
+
+    // =============================================================
+    // Ungefärlig DC-resistans för kopparledare vid 20 °C
+    // Anges i ohm per meter och ledare.
+    // =============================================================
+
+    const awgResistance = {
+        "22": 0.053,
+        "23": 0.067,
+        "24": 0.084,
+        "26": 0.134,
+        "28": 0.213
+    };
+
+
+    // Värden från appens select-fält
+    const poeKey = v.poeStandard_unit || "af";
+    const awgKey = v.awg_unit || "24";
+
+    const poe = poeStandards[poeKey];
+    const conductorResistance = awgResistance[awgKey];
+
+
+    // =============================================================
+    // Validering
+    // =============================================================
+
+    if (!poe || conductorResistance === undefined)
+        return getCommonText("invalid_values");
+
+    if (lengthM <= 0 || powerW <= 0)
+        return getCommonText("invalid_values");
+
+
+    // =============================================================
+    // Effektiv kabelresistans
+    // =============================================================
+    //
+    // PoE använder två ledare parallellt inom respektive polaritet.
+    //
+    // Vid 2-pars PoE motsvarar den effektiva loopresistansen ungefär
+    // resistansen hos en enskild ledare gånger kabellängden.
+    //
+    // Vid 4-pars PoE arbetar två matningsvägar parallellt vilket
+    // ungefär halverar den effektiva resistansen.
+    //
+    // =============================================================
+
+    const pairFactor =
+        poe.poweredPairs === 4
+            ? 0.5
+            : 1;
+
+    const loopResistanceOhm =
+        conductorResistance *
+        lengthM *
+        pairFactor;
+
+
+	// =============================================================
+	// Beräkna spänning och ström vid konstant effekt
+	// =============================================================
+	//
+	// Sambandet:
+	// U_PD = U_PSE - (P / U_PD) × R
+	//
+	// kan lösas som:
+	//
+	// U_PD² - U_PSE × U_PD + P × R = 0
+	//
+	// Den fysikaliskt relevanta lösningen är den högre roten.
+	// =============================================================
+
+	const discriminant =
+		Math.pow(poe.pseVoltage, 2) -
+		4 * powerW * loopResistanceOhm;
+
+	let deviceVoltageV = 0;
+	let currentA = 0;
+
+	if (discriminant >= 0) {
+
+		deviceVoltageV =
+			(
+				poe.pseVoltage +
+				Math.sqrt(discriminant)
+			) / 2;
+
+		currentA =
+			powerW / deviceVoltageV;
+	}
+
+
+    // =============================================================
+    // Resultat
+    // =============================================================
+
+    const voltageDropV =
+        poe.pseVoltage -
+        deviceVoltageV;
+
+    const cableLossW =
+        currentA *
+        currentA *
+        loopResistanceOhm;
+
+    const estimatedPsePowerW =
+        powerW +
+        cableLossW;
+
+
+	// =============================================================
+	// Status
+	// =============================================================
+
+	let status =
+		getCommonText("poe_status_ok");
+
+	// Ingen möjlig lösning med vald effekt, kabel och matningsspänning
+	if (discriminant < 0) {
+
+		status =
+			getCommonText(
+				"poe_supply_impossible"
+			);
+	}
+
+	// Ethernet-kanalen får inte vara längre än 100 meter
+	else if (lengthM > 100) {
+
+		status =
+			getCommonText(
+				"ethernet_length_warning"
+			);
+	}
+
+	// Kontrollera vald PoE-standards effektgräns
+	else if (powerW > poe.maxPdPower) {
+
+		status =
+			getCommonText(
+				"poe_power_warning"
+			);
+	}
+
+	// Kontrollera minsta tillåtna spänning för vald PoE-standard
+	else if (deviceVoltageV < poe.minPdVoltage) {
+
+		status =
+			getCommonText(
+				"voltage_drop_warning"
+			);
+	}
+
+    // =============================================================
+    // Presentera resultat
+    // =============================================================
+
+    return (
+        `${getCommonText("poe_standard")}: ${poe.name}\n` +
+
+        `${getCommonText("conductor_size")}: AWG ${awgKey}\n` +
+
+        `${getCommonText("cable_length")}: ${lengthM.toFixed(0)} m\n` +
+
+        `${getCommonText("device_power")}: ${powerW.toFixed(1)} W\n` +
+
+        `${getCommonText("poe_power_pairs")}: ${poe.poweredPairs}\n` +
+
+        `\n` +
+
+        `${getCommonText("pse_voltage")}: ${poe.pseVoltage.toFixed(1)} V\n` +
+
+        `${getCommonText("voltage_at_device")}: ${deviceVoltageV.toFixed(1)} V\n` +
+
+        `${getCommonText("voltage_drop")}: ${voltageDropV.toFixed(2)} V\n` +
+
+        `${getCommonText("calculated_current")}: ${currentA.toFixed(2)} A\n` +
+
+        `${getCommonText("cable_loss")}: ${cableLossW.toFixed(2)} W\n` +
+
+        `${getCommonText("estimated_pse_power")}: ${estimatedPsePowerW.toFixed(1)} W\n` +
+
+        `\n` +
+
+        `${getCommonText("status")}: ${status}`
+    );
 };
 
 export const telecomCalculations = [
@@ -92,16 +312,42 @@ export const telecomCalculations = [
         categories: ["telecom"],
         decimaler: 2,
 
-        inputs: [
-            {
-                id: "cableLengthM",
-                labelKey: "cable_length_m"
-            },
-            {
-                id: "powerW",
-                labelKey: "device_power_w"
-            }
-        ],
+		inputs: [
+			{
+				id: "poeStandard",
+				labelKey: "poe_standard",
+				unit: [
+					"af",
+					"at",
+					"bt3",
+					"bt4"
+				],
+				requiresInput: false
+			},
+
+			{
+				id: "awg",
+				labelKey: "conductor_size",
+				unit: [
+					"24",
+					"23",
+					"22",
+					"26",
+					"28"
+				],
+				requiresInput: false
+			},
+
+			{
+				id: "cableLengthM",
+				labelKey: "cable_length_m"
+			},
+
+			{
+				id: "powerW",
+				labelKey: "device_power_w"
+			}
+		],
 
         calc: calculatePoEVoltageDrop,
 
