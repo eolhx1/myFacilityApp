@@ -709,12 +709,43 @@ async function renderCalc(category, calcId) {
 
         if (i.unit && i.unit.length > 1 && i.requiresInput === false) {
 
-            const getDisplayNames = (u) => {
-                if (u === "U") return getCommonText("voltage_u");
-				if (u === "I") return getCommonText("current_i");
-				if (u === "R") return getCommonText("resistance_r");
-                return UNIT_MAP[u] || u;
-            };
+			const getDisplayNames = (u) => {
+
+				if (u === "U")
+					return getCommonText("voltage_u");
+
+				if (u === "I")
+					return getCommonText("current_i");
+
+				if (u === "R")
+					return getCommonText("resistance_r");
+
+
+				// PoE-standarder
+				if (u === "af")
+					return "IEEE 802.3af (PoE)";
+
+				if (u === "at")
+					return "IEEE 802.3at (PoE+)";
+
+				if (u === "bt3")
+					return "IEEE 802.3bt Type 3 (PoE++)";
+
+				if (u === "bt4")
+					return "IEEE 802.3bt Type 4 (PoE++)";
+
+
+				// AWG
+				if (
+					["22", "23", "24", "26", "28"]
+						.includes(u)
+				) {
+					return `AWG ${u}`;
+				}
+
+
+				return UNIT_MAP[u] || u;
+			};
 
 			return `
 				<div class="input-group">
