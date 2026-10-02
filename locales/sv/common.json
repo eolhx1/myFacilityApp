@@ -376,7 +376,7 @@
 
 	"poe_voltage_drop_formula_name": "PoE spänningsfall och effektförlust",
 
-	"poe_voltage_drop_formula_desc": "U_fall = I × R och P_förlust = I² × R. Kabelresistansen beräknas från ledardimension, kabellängd och antal par som används för PoE.".
+	"poe_voltage_drop_formula_desc": "U_fall = I × R och P_förlust = I² × R. Kabelresistansen beräknas från ledardimension, kabellängd och antal par som används för PoE.",
 	
 
 	
